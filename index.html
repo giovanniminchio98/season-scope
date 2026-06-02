@@ -375,17 +375,26 @@ const ASSETS = [
 ];
 
 /* ===========================================================================
-   >>> CORS PROXY CHAIN <<<  tried in order until one works.
-   If ALL of these ever die, add a new one here (a function returning a URL).
-   Known free proxies you can swap in: corsproxy.io, allorigins.win,
-   api.codetabs.com/v1/proxy, thingproxy, corsproxy.org.
+   >>> CORS PROXY CHAIN <<<  tried in order until one returns valid CSV.
+   Each entry: { url: fn(targetUrl) -> proxyUrl , json: bool }
+     - json:false -> proxy returns the raw CSV text directly
+     - json:true  -> proxy wraps it as {"contents":"...csv..."} (AllOrigins /get)
+
+   NOTE (why the old build failed): corsproxy.io's free tier now only works
+   from localhost / dev sandboxes, NOT from a real hosted domain. It has been
+   removed. The proxies below are the ones that currently work from any host.
+
+   If ALL of these ever die, add a new one here. Currently-working free proxies:
+     CodeTabs   https://api.codetabs.com/v1/proxy/?quest=<URL>   (raw)
+     AllOrigins https://api.allorigins.win/raw?url=<URL>         (raw)
+     AllOrigins https://api.allorigins.win/get?url=<URL>         (json: data.contents)
+     cors.x2u   https://cors.x2u.in/<URL>                        (raw, ~100/hr)
    =========================================================================== */
 const PROXIES = [
-  u => 'https://corsproxy.io/?url=' + encodeURIComponent(u),
-  u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
-  u => 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u),
-  u => 'https://thingproxy.freeboard.io/fetch/' + u,
-  u => 'https://corsproxy.org/?' + encodeURIComponent(u),
+  { json:false, url:u => 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u) },
+  { json:false, url:u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u) },
+  { json:true,  url:u => 'https://api.allorigins.win/get?url=' + encodeURIComponent(u) },
+  { json:false, url:u => 'https://cors.x2u.in/' + u },
 ];
 
 const $ = id => document.getElementById(id);
@@ -417,19 +426,28 @@ const NOW_YEAR = new Date().getFullYear();
 async function fetchMonthly(symbol){
   const url='https://stooq.com/q/d/l/?s='+symbol+'&i=m';
   let lastErr;
-  for(const make of PROXIES){
+  for(const p of PROXIES){
     try{
       const ctrl=new AbortController();
-      const to=setTimeout(()=>ctrl.abort(), 12000);
-      const r=await fetch(make(url),{cache:'no-store', signal:ctrl.signal});
+      const to=setTimeout(()=>ctrl.abort(), 14000);
+      const r=await fetch(p.url(url),{cache:'no-store', signal:ctrl.signal});
       clearTimeout(to);
       if(!r.ok) throw new Error('HTTP '+r.status);
-      const txt=await r.text();
-      if(!txt || /exceeded the daily hits limit/i.test(txt) || !/date/i.test(txt.slice(0,40)))
-        throw new Error('invalid payload');
+      let txt=await r.text();
+      // AllOrigins /get wraps the payload in JSON: {"contents":"...","status":{...}}
+      if(p.json){
+        try{ const j=JSON.parse(txt); txt = j.contents || ''; }catch(_){ /* leave as-is */ }
+      }
+      txt=(txt||'').trim();
+      // Reject empties, rate-limit messages, and HTML error pages (Stooq sometimes
+      // blocks proxy IPs and returns HTML instead of CSV).
+      if(!txt) throw new Error('empty response');
+      if(/exceeded the daily hits limit/i.test(txt)) throw new Error('Stooq daily limit hit');
+      if(/^\s*</.test(txt) || /<html|<!doctype/i.test(txt.slice(0,200))) throw new Error('got HTML, not CSV');
+      if(!/^date/i.test(txt)) throw new Error('not a CSV header');
       const rows=parseCSV(txt);
       if(rows.length>=12) return rows;
-      throw new Error('too few rows');
+      throw new Error('too few rows ('+rows.length+')');
     }catch(e){ lastErr=e; }
   }
   throw lastErr || new Error('all proxies failed');
