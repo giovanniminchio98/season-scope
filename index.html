@@ -300,7 +300,7 @@
         <svg viewBox="0 0 24 24"><path d="M24 5.46v13.08c0 .9-.74 1.64-1.64 1.64H21V8.16l-9 6.75-9-6.75v12.02H1.64C.74 20.18 0 19.44 0 18.54V5.46c0-.46.19-.87.49-1.17.3-.3.71-.49 1.15-.49H2.4L12 11.18l9.6-7.38h.76c.44 0 .85.19 1.15.49.3.3.49.71.49 1.17z"/></svg>
       </a>
     </div>
-    <div class="foot-text" id="footText">SeasonScope · Data: Stooq monthly history · Educational tool — not financial advice. Past seasonality does not predict future returns.</div>
+    <div class="foot-text" id="footText">SeasonScope · Data: Yahoo Finance · Educational tool — not financial advice. Past seasonality does not predict future returns.</div>
   </footer>
 
 </div>
@@ -309,7 +309,7 @@
 /* ============================================================================
    SeasonScope — single-file seasonal pattern dashboard
    ----------------------------------------------------------------------------
-   DATA SOURCE: Stooq free CSV monthly history (no API key).
+   DATA SOURCE: Yahoo Finance v8 chart API (free, no key).
    It is fetched THROUGH a CORS proxy because browsers block cross-origin
    requests to stooq.com directly.
 
@@ -324,65 +324,68 @@ const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov
 
 /* ===========================================================================
    >>> ADD / REMOVE TICKERS HERE <<<
-   Each entry: { g:'Group', t:'stooqSymbol', n:'Display Name' }
+   Each entry: { g:'Group', t:'yahooSymbol', n:'Display Name' }
 
-   STOOQ SYMBOL FORMAT (this is the part that matters):
-     - US stock   -> ticker + ".us"      e.g. aapl.us , msft.us , brk-b.us
-     - Index      -> "^" + code          e.g. ^spx (S&P500), ^ndq (Nasdaq100),
-                                               ^dji (Dow), ^vix (VIX)
-     - Forex pair -> 6 letters, no slash  e.g. eurusd , gbpusd , usdjpy
-     - Commodity  -> code + ".f"          e.g. gc.f (gold), si.f (silver),
-                                               cl.f (WTI oil), ng.f (nat gas)
-     - Crypto     -> coin + "usd"         e.g. btcusd , ethusd
+   DATA SOURCE = Yahoo Finance v8 chart API (free, no key). We switched away
+   from Stooq because Stooq started timing out / blocking proxy IPs.
 
-   To find a symbol: search it on stooq.com — the symbol appears in the URL.
-   'g' (group) is only the dropdown heading; use any label you like.
+   YAHOO SYMBOL FORMAT (this is the part that matters):
+     - US stock   -> plain ticker        e.g. AAPL , MSFT , BRK-B
+     - Index      -> "^" + code          e.g. ^GSPC (S&P500), ^NDX (Nasdaq100),
+                                               ^DJI (Dow), ^VIX (VIX)
+     - Forex pair -> 6 letters + "=X"     e.g. EURUSD=X , GBPUSD=X , USDJPY=X
+     - Commodity  -> futures code + "=F"  e.g. GC=F (gold), SI=F (silver),
+                                               CL=F (WTI oil), NG=F (nat gas)
+     - Crypto     -> coin + "-USD"        e.g. BTC-USD , ETH-USD
+
+   To find a symbol: search it on finance.yahoo.com — the symbol shows in the
+   page title / URL. 'g' (group) is only the dropdown heading; use any label.
    =========================================================================== */
 const ASSETS = [
   // ---- Mega-cap US stocks ----
-  {g:'Stocks',t:'aapl.us',n:'Apple'},{g:'Stocks',t:'msft.us',n:'Microsoft'},
-  {g:'Stocks',t:'nvda.us',n:'NVIDIA'},{g:'Stocks',t:'amzn.us',n:'Amazon'},
-  {g:'Stocks',t:'googl.us',n:'Alphabet'},{g:'Stocks',t:'meta.us',n:'Meta'},
-  {g:'Stocks',t:'tsla.us',n:'Tesla'},{g:'Stocks',t:'brk-b.us',n:'Berkshire H.'},
-  {g:'Stocks',t:'jpm.us',n:'JPMorgan'},{g:'Stocks',t:'v.us',n:'Visa'},
-  {g:'Stocks',t:'ma.us',n:'Mastercard'},{g:'Stocks',t:'unh.us',n:'UnitedHealth'},
-  {g:'Stocks',t:'hd.us',n:'Home Depot'},{g:'Stocks',t:'pg.us',n:'P&G'},
-  {g:'Stocks',t:'jnj.us',n:'Johnson & J.'},{g:'Stocks',t:'xom.us',n:'Exxon Mobil'},
-  {g:'Stocks',t:'cvx.us',n:'Chevron'},{g:'Stocks',t:'ko.us',n:'Coca-Cola'},
-  {g:'Stocks',t:'pep.us',n:'PepsiCo'},{g:'Stocks',t:'cost.us',n:'Costco'},
-  {g:'Stocks',t:'wmt.us',n:'Walmart'},{g:'Stocks',t:'mcd.us',n:"McDonald's"},
-  {g:'Stocks',t:'dis.us',n:'Disney'},{g:'Stocks',t:'nflx.us',n:'Netflix'},
-  {g:'Stocks',t:'adbe.us',n:'Adobe'},{g:'Stocks',t:'crm.us',n:'Salesforce'},
-  {g:'Stocks',t:'amd.us',n:'AMD'},{g:'Stocks',t:'intc.us',n:'Intel'},
-  {g:'Stocks',t:'csco.us',n:'Cisco'},{g:'Stocks',t:'orcl.us',n:'Oracle'},
-  {g:'Stocks',t:'bac.us',n:'Bank of Am.'},{g:'Stocks',t:'wfc.us',n:'Wells Fargo'},
-  {g:'Stocks',t:'pfe.us',n:'Pfizer'},{g:'Stocks',t:'abbv.us',n:'AbbVie'},
-  {g:'Stocks',t:'nke.us',n:'Nike'},{g:'Stocks',t:'t.us',n:'AT&T'},
-  {g:'Stocks',t:'qcom.us',n:'Qualcomm'},{g:'Stocks',t:'ibm.us',n:'IBM'},
-  {g:'Stocks',t:'ba.us',n:'Boeing'},{g:'Stocks',t:'cat.us',n:'Caterpillar'},
+  {g:'Stocks',t:'AAPL',n:'Apple'},{g:'Stocks',t:'MSFT',n:'Microsoft'},
+  {g:'Stocks',t:'NVDA',n:'NVIDIA'},{g:'Stocks',t:'AMZN',n:'Amazon'},
+  {g:'Stocks',t:'GOOGL',n:'Alphabet'},{g:'Stocks',t:'META',n:'Meta'},
+  {g:'Stocks',t:'TSLA',n:'Tesla'},{g:'Stocks',t:'BRK-B',n:'Berkshire H.'},
+  {g:'Stocks',t:'JPM',n:'JPMorgan'},{g:'Stocks',t:'V',n:'Visa'},
+  {g:'Stocks',t:'MA',n:'Mastercard'},{g:'Stocks',t:'UNH',n:'UnitedHealth'},
+  {g:'Stocks',t:'HD',n:'Home Depot'},{g:'Stocks',t:'PG',n:'P&G'},
+  {g:'Stocks',t:'JNJ',n:'Johnson & J.'},{g:'Stocks',t:'XOM',n:'Exxon Mobil'},
+  {g:'Stocks',t:'CVX',n:'Chevron'},{g:'Stocks',t:'KO',n:'Coca-Cola'},
+  {g:'Stocks',t:'PEP',n:'PepsiCo'},{g:'Stocks',t:'COST',n:'Costco'},
+  {g:'Stocks',t:'WMT',n:'Walmart'},{g:'Stocks',t:'MCD',n:"McDonald's"},
+  {g:'Stocks',t:'DIS',n:'Disney'},{g:'Stocks',t:'NFLX',n:'Netflix'},
+  {g:'Stocks',t:'ADBE',n:'Adobe'},{g:'Stocks',t:'CRM',n:'Salesforce'},
+  {g:'Stocks',t:'AMD',n:'AMD'},{g:'Stocks',t:'INTC',n:'Intel'},
+  {g:'Stocks',t:'CSCO',n:'Cisco'},{g:'Stocks',t:'ORCL',n:'Oracle'},
+  {g:'Stocks',t:'BAC',n:'Bank of Am.'},{g:'Stocks',t:'WFC',n:'Wells Fargo'},
+  {g:'Stocks',t:'PFE',n:'Pfizer'},{g:'Stocks',t:'ABBV',n:'AbbVie'},
+  {g:'Stocks',t:'NKE',n:'Nike'},{g:'Stocks',t:'T',n:'AT&T'},
+  {g:'Stocks',t:'QCOM',n:'Qualcomm'},{g:'Stocks',t:'IBM',n:'IBM'},
+  {g:'Stocks',t:'BA',n:'Boeing'},{g:'Stocks',t:'CAT',n:'Caterpillar'},
   // ---- Indices ----
-  {g:'Indices',t:'^spx',n:'S&P 500'},{g:'Indices',t:'^ndq',n:'Nasdaq 100'},
-  {g:'Indices',t:'^dji',n:'Dow Jones'},{g:'Indices',t:'^vix',n:'VIX Volatility'},
+  {g:'Indices',t:'^GSPC',n:'S&P 500'},{g:'Indices',t:'^NDX',n:'Nasdaq 100'},
+  {g:'Indices',t:'^DJI',n:'Dow Jones'},{g:'Indices',t:'^VIX',n:'VIX Volatility'},
   // ---- Major forex pairs ----
-  {g:'Forex',t:'eurusd',n:'EUR / USD'},{g:'Forex',t:'gbpusd',n:'GBP / USD'},
-  {g:'Forex',t:'usdjpy',n:'USD / JPY'},{g:'Forex',t:'usdchf',n:'USD / CHF'},
-  {g:'Forex',t:'audusd',n:'AUD / USD'},{g:'Forex',t:'usdcad',n:'USD / CAD'},
-  {g:'Forex',t:'eurgbp',n:'EUR / GBP'},{g:'Forex',t:'eurjpy',n:'EUR / JPY'},
+  {g:'Forex',t:'EURUSD=X',n:'EUR / USD'},{g:'Forex',t:'GBPUSD=X',n:'GBP / USD'},
+  {g:'Forex',t:'USDJPY=X',n:'USD / JPY'},{g:'Forex',t:'USDCHF=X',n:'USD / CHF'},
+  {g:'Forex',t:'AUDUSD=X',n:'AUD / USD'},{g:'Forex',t:'USDCAD=X',n:'USD / CAD'},
+  {g:'Forex',t:'EURGBP=X',n:'EUR / GBP'},{g:'Forex',t:'EURJPY=X',n:'EUR / JPY'},
   // ---- Commodities & crypto ----
-  {g:'Commodities',t:'gc.f',n:'Gold'},{g:'Commodities',t:'si.f',n:'Silver'},
-  {g:'Commodities',t:'cl.f',n:'Crude Oil WTI'},{g:'Commodities',t:'ng.f',n:'Natural Gas'},
-  {g:'Commodities',t:'hg.f',n:'Copper'},{g:'Commodities',t:'btcusd',n:'Bitcoin'},
+  {g:'Commodities',t:'GC=F',n:'Gold'},{g:'Commodities',t:'SI=F',n:'Silver'},
+  {g:'Commodities',t:'CL=F',n:'Crude Oil WTI'},{g:'Commodities',t:'NG=F',n:'Natural Gas'},
+  {g:'Commodities',t:'HG=F',n:'Copper'},{g:'Commodities',t:'BTC-USD',n:'Bitcoin'},
 ];
 
 /* ===========================================================================
-   >>> CORS PROXY CHAIN <<<  tried in order until one returns valid CSV.
+   >>> CORS PROXY CHAIN <<<  tried in order until one returns valid JSON.
    Each entry: { url: fn(targetUrl) -> proxyUrl , json: bool }
-     - json:false -> proxy returns the raw CSV text directly
-     - json:true  -> proxy wraps it as {"contents":"...csv..."} (AllOrigins /get)
+     - json:false -> proxy returns the raw Yahoo JSON directly
+     - json:true  -> proxy wraps it as {"contents":"...json..."} (AllOrigins /get)
 
-   NOTE (why the old build failed): corsproxy.io's free tier now only works
-   from localhost / dev sandboxes, NOT from a real hosted domain. It has been
-   removed. The proxies below are the ones that currently work from any host.
+   We call the Yahoo Finance v8 chart API through these because browsers block
+   the cross-origin request directly. corsproxy.io was removed (its free tier
+   now only works from localhost / dev sandboxes, not a real hosted domain).
 
    If ALL of these ever die, add a new one here. Currently-working free proxies:
      CodeTabs   https://api.codetabs.com/v1/proxy/?quest=<URL>   (raw)
@@ -424,7 +427,8 @@ const NOW_YEAR = new Date().getFullYear();
 })();
 
 async function fetchMonthly(symbol){
-  const url='https://stooq.com/q/d/l/?s='+symbol+'&i=m';
+  // Yahoo Finance v8 chart endpoint: monthly candles, full available history.
+  const url='https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(symbol)+'?range=max&interval=1mo';
   const log=[];                       // collects what happened at each proxy
   const hostOf=u=>{ try{return new URL(u).host;}catch(_){return u;} };
   for(let i=0;i<PROXIES.length;i++){
@@ -440,20 +444,22 @@ async function fetchMonthly(symbol){
       clearTimeout(to);
       if(!r.ok){ log.push(`#${i+1} ${host} → HTTP ${r.status} (${ms}ms)`); continue; }
       let txt=await r.text();
+      // AllOrigins /get wraps the JSON payload as {"contents":"...","status":{}}
       if(p.json){
-        try{ const j=JSON.parse(txt); txt = j.contents || ''; }
-        catch(_){ log.push(`#${i+1} ${host} → JSON parse failed (${ms}ms)`); continue; }
+        try{ const w=JSON.parse(txt); txt = w.contents || ''; }
+        catch(_){ log.push(`#${i+1} ${host} → wrapper parse failed (${ms}ms)`); continue; }
       }
       txt=(txt||'').trim();
-      const snippet=txt.slice(0,80).replace(/\s+/g,' ');
       if(!txt){ log.push(`#${i+1} ${host} → empty response (${ms}ms)`); continue; }
-      if(/exceeded the daily hits limit/i.test(txt)){ log.push(`#${i+1} ${host} → Stooq daily-limit message (${ms}ms)`); continue; }
-      if(/api ?key/i.test(snippet) && !/^date/i.test(txt)){ log.push(`#${i+1} ${host} → Stooq asks for apikey: "${snippet}"`); continue; }
-      if(/^\s*</.test(txt) || /<html|<!doctype/i.test(txt.slice(0,200))){ log.push(`#${i+1} ${host} → got HTML not CSV: "${snippet}"`); continue; }
-      if(!/^date/i.test(txt)){ log.push(`#${i+1} ${host} → not CSV: "${snippet}"`); continue; }
-      const rows=parseCSV(txt);
+      const snippet=txt.slice(0,90).replace(/\s+/g,' ');
+      if(/^\s*</.test(txt) || /<html|<!doctype/i.test(txt.slice(0,200))){ log.push(`#${i+1} ${host} → got HTML not JSON: "${snippet}"`); continue; }
+      let data;
+      try{ data=JSON.parse(txt); }
+      catch(_){ log.push(`#${i+1} ${host} → invalid JSON: "${snippet}"`); continue; }
+      const rows=parseYahoo(data);
+      if(rows===null){ log.push(`#${i+1} ${host} → no chart data in JSON: "${snippet}"`); continue; }
       if(rows.length>=12) return rows;
-      log.push(`#${i+1} ${host} → only ${rows.length} rows parsed`);
+      log.push(`#${i+1} ${host} → only ${rows.length} months parsed`);
     }catch(e){
       const reason = (e && e.name==='AbortError') ? 'timeout (14s)' : (e && e.message) || 'network/CORS error';
       log.push(`#${i+1} ${host} → ${reason}`);
@@ -464,19 +470,23 @@ async function fetchMonthly(symbol){
   err.diag=log;
   throw err;
 }
-function parseCSV(txt){
-  const lines=txt.trim().split(/\r?\n/);
-  const head=lines[0].split(',').map(s=>s.trim().toLowerCase());
-  const di=head.indexOf('date'), ci=head.indexOf('close');
-  if(di<0||ci<0) return [];
+
+/* Parse Yahoo v8 chart JSON into [{y,m,close}] monthly rows.
+   Uses adjusted close when available (accounts for splits/dividends). */
+function parseYahoo(data){
+  const res = data && data.chart && data.chart.result && data.chart.result[0];
+  if(!res || !res.timestamp) return null;
+  const ts = res.timestamp;
+  const quote = res.indicators && res.indicators.quote && res.indicators.quote[0];
+  const adj = res.indicators && res.indicators.adjclose && res.indicators.adjclose[0] && res.indicators.adjclose[0].adjclose;
+  const closeArr = (adj && adj.length===ts.length) ? adj : (quote && quote.close);
+  if(!closeArr) return null;
   const out=[];
-  for(let i=1;i<lines.length;i++){
-    const c=lines[i].split(',');
-    const d=c[di], close=parseFloat(c[ci]);
-    if(!d||isNaN(close)) continue;
-    const parts=d.split('-').map(Number); const y=parts[0], m=parts[1];
-    if(!y||!m) continue;
-    out.push({y,m,close});
+  for(let i=0;i<ts.length;i++){
+    const close=closeArr[i];
+    if(close==null || isNaN(close)) continue;
+    const d=new Date(ts[i]*1000);          // Yahoo timestamps are seconds (UTC)
+    out.push({ y:d.getUTCFullYear(), m:d.getUTCMonth()+1, close:close });
   }
   return out;
 }
@@ -693,7 +703,7 @@ async function run(){
         e.diag.map(l=>l.replace(/&/g,'&amp;').replace(/</g,'&lt;')).join('<br>')+'</div>';
     }
     $('errTxt').innerHTML='Could not load <strong>'+asset.n+'</strong>. '+(e&&e.message?e.message:'unknown error')+diagHtml+
-      '<br><br>Common causes: (1) opened via <code>file://</code> — it must be <strong>hosted</strong>; (2) a proxy is down — hit Retry; (3) Stooq now requires an apikey or blocks the proxy IP (look for "apikey"/"HTML" above); (4) Stooq doesn\'t carry that symbol.';
+      '<br><br>Common causes: (1) opened via <code>file://</code> — it must be <strong>hosted</strong>; (2) a proxy is down or rate-limited — hit Retry; (3) Yahoo blocked the proxy IP (look for "HTML"/"HTTP 429" above); (4) Yahoo doesn\'t carry that symbol.';
   }
 }
 function retoggle(){ if(CURRENT) renderMatrix(CURRENT.data, $('mWin').checked?'win':'ret'); }
