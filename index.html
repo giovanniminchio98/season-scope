@@ -307,18 +307,18 @@
 
 <script>
 /* ============================================================================
-   SeasonScope — single-file seasonal pattern dashboard
+   SeasonScope — single-file seasonal pattern dashboard   [BUILD v4 · Yahoo]
    ----------------------------------------------------------------------------
-   DATA SOURCE: Yahoo Finance v8 chart API (free, no key).
-   It is fetched THROUGH a CORS proxy because browsers block cross-origin
-   requests to stooq.com directly.
+   DATA SOURCE: Yahoo Finance v8 chart API (free, no key), reached via your
+   Cloudflare Worker (preferred) or public CORS proxies (fallback), because
+   browsers block the cross-origin request to Yahoo directly.
 
    !!! IMPORTANT — WHY IT WON'T WORK BY DOUBLE-CLICKING THE FILE:
-   CORS proxies refuse requests coming from "file://" pages. You MUST host
-   this file (Altervista / Netlify Drop / any web server) for fetching to work.
-   The "Famous Patterns" and "Tips" cards render with NO data, so the page
-   never looks empty even before any fetch succeeds.
+   The fetch needs a real host. You MUST host this file (Altervista / Netlify
+   Drop / any web server). The "Famous Patterns" and "Tips" cards render with
+   NO data, so the page never looks empty even before any fetch succeeds.
    ============================================================================ */
+const BUILD = 'v4 · Yahoo';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -378,20 +378,21 @@ const ASSETS = [
 ];
 
 /* ===========================================================================
-   >>> CORS PROXY CHAIN <<<  tried in order until one returns valid JSON.
-   Each entry: { url: fn(targetUrl) -> proxyUrl , json: bool }
+   >>> YOUR CLOUDFLARE WORKER URL — PASTE IT HERE <<<
+   This is the reliable primary data path. Deploy seasonscope-worker.js at
+   dash.cloudflare.com, then paste your worker URL below (NO trailing slash),
+   e.g.  'https://seasonscope-proxy.giovanni.workers.dev'
+   The app calls:  WORKER_URL + '/?s=' + symbol
+   Leave it as '' to skip the worker and use only the public proxies below.
+   =========================================================================== */
+const WORKER_URL = 'https://seasonscope-proxy.YOURNAME.workers.dev';
+
+/* ===========================================================================
+   >>> CORS PROXY CHAIN <<<  FALLBACK ONLY (used if the worker is unset/fails).
+   These are free public proxies and are unreliable — the worker above is the
+   real solution. Each entry: { url: fn(targetUrl) -> proxyUrl , json: bool }
      - json:false -> proxy returns the raw Yahoo JSON directly
      - json:true  -> proxy wraps it as {"contents":"...json..."} (AllOrigins /get)
-
-   We call the Yahoo Finance v8 chart API through these because browsers block
-   the cross-origin request directly. corsproxy.io was removed (its free tier
-   now only works from localhost / dev sandboxes, not a real hosted domain).
-
-   If ALL of these ever die, add a new one here. Currently-working free proxies:
-     CodeTabs   https://api.codetabs.com/v1/proxy/?quest=<URL>   (raw)
-     AllOrigins https://api.allorigins.win/raw?url=<URL>         (raw)
-     AllOrigins https://api.allorigins.win/get?url=<URL>         (json: data.contents)
-     cors.x2u   https://cors.x2u.in/<URL>                        (raw, ~100/hr)
    =========================================================================== */
 const PROXIES = [
   { json:false, url:u => 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u) },
@@ -429,12 +430,21 @@ const NOW_YEAR = new Date().getFullYear();
 async function fetchMonthly(symbol){
   // Yahoo Finance v8 chart endpoint: monthly candles, full available history.
   const url='https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(symbol)+'?range=max&interval=1mo';
-  const log=[];                       // collects what happened at each proxy
+  const log=[];                       // collects what happened at each attempt
   const hostOf=u=>{ try{return new URL(u).host;}catch(_){return u;} };
-  for(let i=0;i<PROXIES.length;i++){
-    const p=PROXIES[i];
+
+  // Build the attempt list: WORKER first (if set), then public proxies.
+  const attempts=[];
+  if(WORKER_URL && !/YOURNAME/.test(WORKER_URL)){
+    attempts.push({ json:false, direct:true,
+      url:()=> WORKER_URL.replace(/\/$/,'') + '/?s=' + encodeURIComponent(symbol) });
+  }
+  PROXIES.forEach(p=>attempts.push(p));
+
+  for(let i=0;i<attempts.length;i++){
+    const p=attempts[i];
     const pUrl=p.url(url);
-    const host=hostOf(pUrl);
+    const host=hostOf(pUrl)+(p.direct?' (worker)':'');
     try{
       const ctrl=new AbortController();
       const to=setTimeout(()=>ctrl.abort(), 14000);
@@ -465,8 +475,8 @@ async function fetchMonthly(symbol){
       log.push(`#${i+1} ${host} → ${reason}`);
     }
   }
-  // No proxy succeeded — surface the full diagnostic.
-  const err=new Error('all proxies failed');
+  // Nothing worked — surface the full diagnostic.
+  const err=new Error(WORKER_URL && !/YOURNAME/.test(WORKER_URL) ? 'worker + all fallback proxies failed' : 'all fallback proxies failed (set WORKER_URL for reliability)');
   err.diag=log;
   throw err;
 }
@@ -714,6 +724,9 @@ endSel.addEventListener('change', run);
 $('mRet').addEventListener('change', retoggle);
 $('mWin').addEventListener('change', retoggle);
 $('retryBtn').addEventListener('click', run);
+
+// Stamp the build into the footer so you can confirm which file is live.
+$('footText').textContent = 'SeasonScope ['+BUILD+'] · Data: Yahoo Finance · Educational tool — not financial advice. Past seasonality does not predict future returns.';
 
 assetSel.value=0;
 run();
