@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>SeasonScope — Seasonal Pattern Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e0e0e; --surface:#161616; --card:#1c1c1c; --border:#2a2a2a;
+    --accent:#c8f060; --accent2:#f0b860; --accent3:#60c8f0;
+    --text:#f0ede8; --muted:#888; --bull:#c8f060; --bear:#ff6b6b; --radius:16px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    background:var(--bg); color:var(--text);
+    font-family:'DM Mono',monospace; font-weight:300;
+    min-height:100vh; position:relative; overflow-x:hidden;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  body::before{
+    content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 80% 10%, rgba(200,240,96,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 50% at 10% 90%, rgba(96,200,240,0.04) 0%, transparent 60%);
+  }
+  .wrap{max-width:1200px; margin:0 auto; padding:40px 20px 80px; position:relative; z-index:1}
+
+  header{animation:fadeDown 0.6s ease both; margin-bottom:28px}
+  .brandrow{display:flex; align-items:center; gap:14px; margin-bottom:14px}
+  .logo{
+    width:46px; height:46px; border-radius:12px; flex-shrink:0;
+    background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'DM Serif Display',serif; font-style:italic; font-size:26px; color:#0e0e0e;
+    box-shadow:0 0 24px rgba(200,240,96,0.25);
+  }
+  .eyebrow{font-size:11px; text-transform:uppercase; letter-spacing:0.2em; color:var(--accent)}
+  h1{font-family:'DM Serif Display',serif; font-style:italic; font-size:clamp(32px,7vw,52px); line-height:1.05}
+  h1 span{color:var(--accent); font-style:normal}
+  .subtitle{font-size:12px; color:var(--muted); line-height:1.6; margin-top:10px; max-width:680px}
+
+  .controls{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:20px; animation:fadeUp 0.5s ease both; animation-delay:0.05s}
+  .ctrl-group{display:flex; flex-direction:column; gap:6px}
+  .ctrl-label{font-size:10px; text-transform:uppercase; letter-spacing:0.15em; color:var(--muted)}
+  select{
+    background:var(--card); border:1px solid var(--border); border-radius:10px;
+    font-family:'DM Mono',monospace; font-size:16px; color:var(--text);
+    padding:12px 14px; outline:none; transition:border-color .2s;
+  }
+  .select-wrap{position:relative}
+  .select-wrap select{appearance:none; -webkit-appearance:none; padding-right:38px; width:100%}
+  .select-wrap::after{content:'▾'; position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--accent); pointer-events:none; font-size:12px}
+  select:focus{border-color:var(--accent)}
+
+  .tabs{display:flex; background:var(--card); border:1px solid var(--border); border-radius:10px; overflow:hidden}
+  .tabs label{
+    flex:1; padding:12px 18px; font-size:11px; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--muted); text-align:center; cursor:pointer; transition:all .2s; border-right:1px solid var(--border); white-space:nowrap;
+  }
+  .tabs label:last-child{border-right:none}
+  .tabs label:hover{color:var(--text)}
+  .tabs input{display:none}
+  .tabs input:checked + label{background:var(--accent); color:#0e0e0e; font-weight:500}
+
+  .btn{
+    background:var(--accent); color:#0e0e0e; border:none; border-radius:10px;
+    font-family:'DM Mono',monospace; font-size:12px; font-weight:500; text-transform:uppercase; letter-spacing:0.1em;
+    padding:12px 22px; cursor:pointer; transition:transform .15s, box-shadow .2s;
+  }
+  .btn:hover{transform:translateY(-1px); box-shadow:0 4px 16px rgba(200,240,96,0.25)}
+
+  .statusbar{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:18px 24px; margin-bottom:20px; display:flex; flex-wrap:wrap; align-items:center;
+    gap:18px 22px; animation:fadeUp 0.5s ease both; animation-delay:0.1s; transition:border-color .3s;
+  }
+  .statusbar.fetching{border-color:rgba(200,240,96,0.3)}
+  .sb-name{font-family:'DM Serif Display',serif; font-style:italic; font-size:22px; display:flex; align-items:center; gap:12px}
+  .sb-icon{width:30px; height:30px; border-radius:50%; background:var(--surface); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-style:normal; font-size:11px; color:var(--accent)}
+  .sb-stat{display:flex; flex-direction:column; gap:2px}
+  .sb-stat .l{font-size:11px; color:var(--muted)}
+  .sb-stat .v{font-size:13px; color:var(--text); font-weight:500}
+  .sb-status{margin-left:auto; font-size:11px; color:var(--muted); display:flex; align-items:center; gap:8px}
+  .dot{width:7px; height:7px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite}
+
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px}
+  .grid-full{margin-bottom:16px}
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+    padding:22px; animation:fadeUp 0.5s ease both;
+  }
+  .card-title{font-size:10px; text-transform:uppercase; letter-spacing:0.15em; margin-bottom:16px; color:var(--text); display:flex; align-items:center; gap:10px}
+  .card-title::after{content:''; flex:1; height:1px; background:var(--border)}
+  .card-title.accent{color:var(--accent)} .card-title.accent2{color:var(--accent2)} .card-title.accent3{color:var(--accent3)}
+
+  .row{display:flex; justify-content:space-between; align-items:center; gap:14px; padding:9px 0; border-bottom:1px solid var(--border); font-size:13px}
+  .row:last-child{border-bottom:none}
+  .row .label{color:var(--muted)}
+  .row .value{color:var(--text); font-weight:500; text-align:right}
+  .value.bull{color:var(--bull)} .value.bear{color:var(--bear)} .value.accent2{color:var(--accent2)} .value.accent3{color:var(--accent3)}
+
+  .matrix-wrap{overflow-x:auto; -webkit-overflow-scrolling:touch; border-radius:10px; border:1px solid var(--border); background:var(--surface)}
+  table.matrix{border-collapse:collapse; width:100%; min-width:780px; font-size:12px}
+  table.matrix th, table.matrix td{padding:9px 4px; text-align:center; border:1px solid var(--border)}
+  table.matrix thead th{color:var(--muted); font-size:10px; text-transform:uppercase; letter-spacing:0.06em; font-weight:400; background:var(--surface); position:sticky; top:0; z-index:3}
+  table.matrix td.yr, table.matrix thead th.yr{color:var(--accent2); font-weight:500; background:var(--surface); position:sticky; left:0; z-index:2}
+  table.matrix thead th.yr{z-index:4}
+  table.matrix td.cell{font-weight:500; color:var(--text)}
+  table.matrix tfoot td{font-weight:500; background:var(--surface); border-top:2px solid var(--accent)}
+  table.matrix tfoot td.flbl{color:var(--accent); text-align:left; padding-left:10px; white-space:nowrap}
+
+  .chips{display:flex; flex-wrap:wrap; gap:8px}
+  .chip{font-size:10px; text-transform:uppercase; letter-spacing:0.08em; padding:5px 12px; border-radius:99px; border:1px solid}
+  .chip.bull{border-color:rgba(200,240,96,0.4); color:var(--bull); background:rgba(200,240,96,0.08)}
+  .chip.bear{border-color:rgba(255,107,107,0.4); color:var(--bear); background:rgba(255,107,107,0.08)}
+  .chip.neutral{border-color:rgba(240,184,96,0.4); color:var(--accent2); background:rgba(240,184,96,0.08)}
+  .chip.info{border-color:rgba(96,200,240,0.4); color:var(--accent3); background:rgba(96,200,240,0.08)}
+
+  .bar-block{margin-bottom:14px}
+  .bar-block:last-child{margin-bottom:0}
+  .bar-label{display:flex; justify-content:space-between; font-size:11px; margin-bottom:6px; gap:10px}
+  .bar-label .l{color:var(--muted)} .bar-label .r{color:var(--text); white-space:nowrap}
+  .track{height:6px; background:var(--border); border-radius:99px; overflow:hidden}
+  .fill{height:100%; border-radius:99px; width:0; transition:width .8s cubic-bezier(.4,0,.2,1)}
+  .fill.bull{background:var(--bull); box-shadow:0 0 8px rgba(200,240,96,0.4)}
+  .fill.bear{background:var(--bear); box-shadow:0 0 8px rgba(255,107,107,0.4)}
+  .fill.neutral{background:var(--accent2)}
+  .fill.accent3{background:var(--accent3)}
+
+  .rating-big{font-family:'DM Serif Display',serif; font-style:italic; font-size:54px; line-height:1; color:var(--accent)}
+  .rating-sub{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.12em; margin-top:4px}
+
+  .sugg{font-size:13px; line-height:1.7; color:var(--text); list-style:none}
+  .sugg li{margin:0 0 12px 0; padding-left:20px; position:relative}
+  .sugg li::before{content:'▸'; position:absolute; left:0; color:var(--accent)}
+  .note{font-size:11px; color:var(--muted); line-height:1.6; margin-top:14px; padding-top:14px; border-top:1px solid var(--border)}
+
+  .famous-row{display:flex; gap:14px; padding:11px 0; border-bottom:1px solid var(--border); font-size:13px}
+  .famous-row:last-child{border-bottom:none}
+  .famous-row .nm{flex:0 0 190px; color:var(--accent2); font-weight:500}
+  .famous-row .ds{flex:1; color:var(--text); line-height:1.6}
+  @media(max-width:560px){ .famous-row{flex-direction:column; gap:4px} .famous-row .nm{flex:none} }
+
+  .loader{display:flex; flex-direction:column; align-items:center; gap:18px; padding:50px 0}
+  .ring{width:48px; height:48px; position:relative}
+  .ring::before, .ring::after{content:''; position:absolute; border-radius:50%; border:3px solid transparent}
+  .ring::before{inset:0; border-top-color:var(--accent); animation:spin .9s linear infinite}
+  .ring::after{inset:6px; border-bottom-color:rgba(200,240,96,0.25); animation:spin .9s linear infinite reverse}
+  .loader-txt{font-size:12px; color:var(--muted); letter-spacing:0.05em; text-align:center; line-height:1.6}
+
+  .hidden{display:none !important}
+  .err{color:var(--bear); font-size:12px; line-height:1.8}
+  .err strong{color:var(--text)}
+
+  footer{margin-top:40px; text-align:center}
+  .socials{display:flex; justify-content:center; gap:18px; margin-bottom:18px}
+  .socials a{
+    width:40px; height:40px; border-radius:10px; background:var(--card); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; transition:all .2s; color:var(--muted);
+  }
+  .socials a:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-2px)}
+  .socials svg{width:18px; height:18px; fill:currentColor}
+  .foot-text{font-size:11px; color:#3a3a3a; letter-spacing:0.1em; line-height:1.8}
+
+  @keyframes fadeDown{from{opacity:0; transform:translateY(-14px)} to{opacity:1; transform:none}}
+  @keyframes fadeUp{from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none}}
+  @keyframes pulse{0%,100%{opacity:1} 50%{opacity:.45}}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  @media(max-width:700px){
+    .grid-2{grid-template-columns:1fr}
+    .wrap{padding:28px 14px 60px}
+    .statusbar{padding:16px}
+    .sb-status{margin-left:0}
+    .controls .ctrl-group{flex:1; min-width:140px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brandrow">
+      <div class="logo">S</div>
+      <div>
+        <div class="eyebrow">● Seasonal Analytics</div>
+        <h1>Season<span>Scope</span></h1>
+      </div>
+    </div>
+    <p class="subtitle">Monthly seasonality dashboard. Years in rows, months in columns — spot the months an asset consistently gains or bleeds. Stocks, forex, commodities &amp; indices. Data computed live from monthly price history; rebuilds every time you load.</p>
+  </header>
+
+  <div class="controls">
+    <div class="ctrl-group" style="flex:2; min-width:200px">
+      <span class="ctrl-label">Asset</span>
+      <div class="select-wrap"><select id="assetSel"></select></div>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Start year</span>
+      <div class="select-wrap"><select id="startYr"></select></div>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">End year</span>
+      <div class="select-wrap"><select id="endYr"></select></div>
+    </div>
+    <div class="ctrl-group" style="justify-content:flex-end; flex:1.4; min-width:200px">
+      <span class="ctrl-label">Cell metric</span>
+      <div class="tabs">
+        <input type="radio" name="metric" id="mRet" checked><label for="mRet">% Return</label>
+        <input type="radio" name="metric" id="mWin"><label for="mWin">Win-rate</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="statusbar" id="statusbar">
+    <div class="sb-name"><span class="sb-icon" id="sbIcon">—</span><span id="sbName">Select an asset</span></div>
+    <div class="sb-stat"><span class="l">Type</span><span class="v" id="sbType">—</span></div>
+    <div class="sb-stat"><span class="l">Coverage</span><span class="v" id="sbCov">—</span></div>
+    <div class="sb-stat"><span class="l">Best month</span><span class="v accent2" id="sbBest">—</span></div>
+    <div class="sb-stat"><span class="l">Worst month</span><span class="v bear" id="sbWorst">—</span></div>
+    <div class="sb-status" id="sbStatus"><span class="dot"></span><span id="sbStatusTxt">Ready</span></div>
+  </div>
+
+  <div id="loader" class="loader hidden">
+    <div class="ring"></div>
+    <div class="loader-txt" id="loaderTxt">Fetching monthly history…</div>
+  </div>
+
+  <div id="errBox" class="card hidden" style="margin-bottom:16px">
+    <div class="err" id="errTxt"></div>
+    <div style="margin-top:14px"><button class="btn" id="retryBtn">↻ Retry</button></div>
+  </div>
+
+  <div id="results" class="hidden">
+
+    <div class="grid-full">
+      <div class="card" style="animation-delay:.05s">
+        <div class="card-title accent">Monthly Seasonality Matrix</div>
+        <div class="matrix-wrap"><table class="matrix" id="matrix"></table></div>
+        <div class="note" id="matrixNote"></div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card" style="animation-delay:.1s">
+        <div class="card-title accent2">Month Strength · Avg Return</div>
+        <div id="strengthBars"></div>
+      </div>
+      <div class="card" style="animation-delay:.15s">
+        <div class="card-title accent3">Asset Rating</div>
+        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:18px">
+          <div><div class="rating-big" id="ratingGrade">—</div><div class="rating-sub" id="ratingScore">computed score</div></div>
+        </div>
+        <div id="ratingRows"></div>
+        <div class="note">Composite score from historical price behaviour — momentum, trend consistency, drawdown control, volatility &amp; seasonal reliability. This is SeasonScope's own metric, <strong>not</strong> a Morningstar rating, and is not investment advice.</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card" style="animation-delay:.2s">
+        <div class="card-title accent">Detected Signals</div>
+        <div class="chips" id="signalChips"></div>
+        <div style="margin-top:18px" id="extraStats"></div>
+      </div>
+      <div class="card" style="animation-delay:.25s">
+        <div class="card-title accent2">Pattern Suggestions</div>
+        <ul class="sugg" id="suggList"></ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="grid-full">
+    <div class="card" style="animation-delay:.3s">
+      <div class="card-title accent3">Famous Seasonal Patterns · Reference</div>
+      <div id="famousList"></div>
+    </div>
+  </div>
+
+  <div class="grid-full">
+    <div class="card" style="animation-delay:.35s">
+      <div class="card-title accent">How To Use · Tips</div>
+      <ul class="sugg" id="tipsList"></ul>
+    </div>
+  </div>
+
+  <footer>
+    <div class="socials">
+      <a href="https://www.linkedin.com/in/giovanni-minchio-6958a61b2" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+      </a>
+      <a href="https://x.com/giovanniminc?s=21" target="_blank" rel="noopener" aria-label="X">
+        <svg viewBox="0 0 24 24"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.65l-5.21-6.82-5.97 6.82H1.68l7.73-8.84L1.25 2.25h6.82l4.71 6.23 5.46-6.23zm-1.16 17.52h1.83L7.01 4.13H5.04l12.04 15.64z"/></svg>
+      </a>
+      <a href="mailto:gminchiogm@gmail.com" aria-label="Email">
+        <svg viewBox="0 0 24 24"><path d="M24 5.46v13.08c0 .9-.74 1.64-1.64 1.64H21V8.16l-9 6.75-9-6.75v12.02H1.64C.74 20.18 0 19.44 0 18.54V5.46c0-.46.19-.87.49-1.17.3-.3.71-.49 1.15-.49H2.4L12 11.18l9.6-7.38h.76c.44 0 .85.19 1.15.49.3.3.49.71.49 1.17z"/></svg>
+      </a>
+    </div>
+    <div class="foot-text" id="footText">SeasonScope · Data: Stooq monthly history · Educational tool — not financial advice. Past seasonality does not predict future returns.</div>
+  </footer>
+
+</div>
+
+<script>
+/* ============================================================================
+   SeasonScope — single-file seasonal pattern dashboard
+   ----------------------------------------------------------------------------
+   DATA SOURCE: Stooq free CSV monthly history (no API key).
+   It is fetched THROUGH a CORS proxy because browsers block cross-origin
+   requests to stooq.com directly.
+
+   !!! IMPORTANT — WHY IT WON'T WORK BY DOUBLE-CLICKING THE FILE:
+   CORS proxies refuse requests coming from "file://" pages. You MUST host
+   this file (Altervista / Netlify Drop / any web server) for fetching to work.
+   The "Famous Patterns" and "Tips" cards render with NO data, so the page
+   never looks empty even before any fetch succeeds.
+   ============================================================================ */
+
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+/* ===========================================================================
+   >>> ADD / REMOVE TICKERS HERE <<<
+   Each entry: { g:'Group', t:'stooqSymbol', n:'Display Name' }
+
+   STOOQ SYMBOL FORMAT (this is the part that matters):
+     - US stock   -> ticker + ".us"      e.g. aapl.us , msft.us , brk-b.us
+     - Index      -> "^" + code          e.g. ^spx (S&P500), ^ndq (Nasdaq100),
+                                               ^dji (Dow), ^vix (VIX)
+     - Forex pair -> 6 letters, no slash  e.g. eurusd , gbpusd , usdjpy
+     - Commodity  -> code + ".f"          e.g. gc.f (gold), si.f (silver),
+                                               cl.f (WTI oil), ng.f (nat gas)
+     - Crypto     -> coin + "usd"         e.g. btcusd , ethusd
+
+   To find a symbol: search it on stooq.com — the symbol appears in the URL.
+   'g' (group) is only the dropdown heading; use any label you like.
+   =========================================================================== */
+const ASSETS = [
+  // ---- Mega-cap US stocks ----
+  {g:'Stocks',t:'aapl.us',n:'Apple'},{g:'Stocks',t:'msft.us',n:'Microsoft'},
+  {g:'Stocks',t:'nvda.us',n:'NVIDIA'},{g:'Stocks',t:'amzn.us',n:'Amazon'},
+  {g:'Stocks',t:'googl.us',n:'Alphabet'},{g:'Stocks',t:'meta.us',n:'Meta'},
+  {g:'Stocks',t:'tsla.us',n:'Tesla'},{g:'Stocks',t:'brk-b.us',n:'Berkshire H.'},
+  {g:'Stocks',t:'jpm.us',n:'JPMorgan'},{g:'Stocks',t:'v.us',n:'Visa'},
+  {g:'Stocks',t:'ma.us',n:'Mastercard'},{g:'Stocks',t:'unh.us',n:'UnitedHealth'},
+  {g:'Stocks',t:'hd.us',n:'Home Depot'},{g:'Stocks',t:'pg.us',n:'P&G'},
+  {g:'Stocks',t:'jnj.us',n:'Johnson & J.'},{g:'Stocks',t:'xom.us',n:'Exxon Mobil'},
+  {g:'Stocks',t:'cvx.us',n:'Chevron'},{g:'Stocks',t:'ko.us',n:'Coca-Cola'},
+  {g:'Stocks',t:'pep.us',n:'PepsiCo'},{g:'Stocks',t:'cost.us',n:'Costco'},
+  {g:'Stocks',t:'wmt.us',n:'Walmart'},{g:'Stocks',t:'mcd.us',n:"McDonald's"},
+  {g:'Stocks',t:'dis.us',n:'Disney'},{g:'Stocks',t:'nflx.us',n:'Netflix'},
+  {g:'Stocks',t:'adbe.us',n:'Adobe'},{g:'Stocks',t:'crm.us',n:'Salesforce'},
+  {g:'Stocks',t:'amd.us',n:'AMD'},{g:'Stocks',t:'intc.us',n:'Intel'},
+  {g:'Stocks',t:'csco.us',n:'Cisco'},{g:'Stocks',t:'orcl.us',n:'Oracle'},
+  {g:'Stocks',t:'bac.us',n:'Bank of Am.'},{g:'Stocks',t:'wfc.us',n:'Wells Fargo'},
+  {g:'Stocks',t:'pfe.us',n:'Pfizer'},{g:'Stocks',t:'abbv.us',n:'AbbVie'},
+  {g:'Stocks',t:'nke.us',n:'Nike'},{g:'Stocks',t:'t.us',n:'AT&T'},
+  {g:'Stocks',t:'qcom.us',n:'Qualcomm'},{g:'Stocks',t:'ibm.us',n:'IBM'},
+  {g:'Stocks',t:'ba.us',n:'Boeing'},{g:'Stocks',t:'cat.us',n:'Caterpillar'},
+  // ---- Indices ----
+  {g:'Indices',t:'^spx',n:'S&P 500'},{g:'Indices',t:'^ndq',n:'Nasdaq 100'},
+  {g:'Indices',t:'^dji',n:'Dow Jones'},{g:'Indices',t:'^vix',n:'VIX Volatility'},
+  // ---- Major forex pairs ----
+  {g:'Forex',t:'eurusd',n:'EUR / USD'},{g:'Forex',t:'gbpusd',n:'GBP / USD'},
+  {g:'Forex',t:'usdjpy',n:'USD / JPY'},{g:'Forex',t:'usdchf',n:'USD / CHF'},
+  {g:'Forex',t:'audusd',n:'AUD / USD'},{g:'Forex',t:'usdcad',n:'USD / CAD'},
+  {g:'Forex',t:'eurgbp',n:'EUR / GBP'},{g:'Forex',t:'eurjpy',n:'EUR / JPY'},
+  // ---- Commodities & crypto ----
+  {g:'Commodities',t:'gc.f',n:'Gold'},{g:'Commodities',t:'si.f',n:'Silver'},
+  {g:'Commodities',t:'cl.f',n:'Crude Oil WTI'},{g:'Commodities',t:'ng.f',n:'Natural Gas'},
+  {g:'Commodities',t:'hg.f',n:'Copper'},{g:'Commodities',t:'btcusd',n:'Bitcoin'},
+];
+
+/* ===========================================================================
+   >>> CORS PROXY CHAIN <<<  tried in order until one works.
+   If ALL of these ever die, add a new one here (a function returning a URL).
+   Known free proxies you can swap in: corsproxy.io, allorigins.win,
+   api.codetabs.com/v1/proxy, thingproxy, corsproxy.org.
+   =========================================================================== */
+const PROXIES = [
+  u => 'https://corsproxy.io/?url=' + encodeURIComponent(u),
+  u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u),
+  u => 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u),
+  u => 'https://thingproxy.freeboard.io/fetch/' + u,
+  u => 'https://corsproxy.org/?' + encodeURIComponent(u),
+];
+
+const $ = id => document.getElementById(id);
+const assetSel=$('assetSel'), startSel=$('startYr'), endSel=$('endYr'),
+      statusbar=$('statusbar'), loader=$('loader'), results=$('results'), errBox=$('errBox');
+const NOW_YEAR = new Date().getFullYear();
+
+/* Build year dropdowns: 1980 -> current year */
+(function buildYears(){
+  for(let y=NOW_YEAR; y>=1980; y--){
+    startSel.add(new Option(y, y));
+    endSel.add(new Option(y, y));
+  }
+  startSel.value = Math.max(1980, NOW_YEAR-15);
+  endSel.value = NOW_YEAR;
+})();
+
+/* Populate asset dropdown grouped */
+(function buildAssets(){
+  const groups={};
+  ASSETS.forEach((a,i)=>{(groups[a.g]=groups[a.g]||[]).push({...a,i});});
+  Object.keys(groups).forEach(g=>{
+    const og=document.createElement('optgroup'); og.label=g;
+    groups[g].forEach(a=>{ og.appendChild(new Option(a.n, a.i)); });
+    assetSel.appendChild(og);
+  });
+})();
+
+async function fetchMonthly(symbol){
+  const url='https://stooq.com/q/d/l/?s='+symbol+'&i=m';
+  let lastErr;
+  for(const make of PROXIES){
+    try{
+      const ctrl=new AbortController();
+      const to=setTimeout(()=>ctrl.abort(), 12000);
+      const r=await fetch(make(url),{cache:'no-store', signal:ctrl.signal});
+      clearTimeout(to);
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      const txt=await r.text();
+      if(!txt || /exceeded the daily hits limit/i.test(txt) || !/date/i.test(txt.slice(0,40)))
+        throw new Error('invalid payload');
+      const rows=parseCSV(txt);
+      if(rows.length>=12) return rows;
+      throw new Error('too few rows');
+    }catch(e){ lastErr=e; }
+  }
+  throw lastErr || new Error('all proxies failed');
+}
+function parseCSV(txt){
+  const lines=txt.trim().split(/\r?\n/);
+  const head=lines[0].split(',').map(s=>s.trim().toLowerCase());
+  const di=head.indexOf('date'), ci=head.indexOf('close');
+  if(di<0||ci<0) return [];
+  const out=[];
+  for(let i=1;i<lines.length;i++){
+    const c=lines[i].split(',');
+    const d=c[di], close=parseFloat(c[ci]);
+    if(!d||isNaN(close)) continue;
+    const parts=d.split('-').map(Number); const y=parts[0], m=parts[1];
+    if(!y||!m) continue;
+    out.push({y,m,close});
+  }
+  return out;
+}
+
+function compute(rows, startYr, endYr){
+  rows.sort((a,b)=> a.y-b.y || a.m-b.m);
+  const ret={};
+  for(let i=1;i<rows.length;i++){
+    const prev=rows[i-1], cur=rows[i];
+    const pct=((cur.close-prev.close)/prev.close)*100;
+    (ret[cur.y]=ret[cur.y]||{})[cur.m]=pct;
+  }
+  const years=[];
+  for(let y=startYr;y<=endYr;y++) if(ret[y]) years.push(y);
+  const agg=MONTHS.map((_,mi)=>{
+    const m=mi+1; const vals=[];
+    years.forEach(y=>{ if(ret[y] && ret[y][m]!=null) vals.push(ret[y][m]); });
+    const n=vals.length;
+    const avg=n? vals.reduce((a,b)=>a+b,0)/n : null;
+    const wins=vals.filter(v=>v>0).length;
+    const winRate=n? (wins/n)*100 : null;
+    return {avg,winRate,n};
+  });
+  return {ret,years,agg};
+}
+
+function cellColor(v, mode){
+  if(v==null) return {bg:'transparent', fg:'#555'};
+  if(mode==='win'){
+    const t=Math.max(0,Math.min(1,(v-30)/40));
+    return {bg:'rgba(200,240,96,'+(0.05+t*0.34)+')', fg: t>0.55?'#0e0e0e':'#f0ede8'};
+  }
+  const cap=8, t=Math.max(-1,Math.min(1,v/cap));
+  if(t>=0) return {bg:'rgba(200,240,96,'+(0.05+t*0.4)+')', fg: t>0.55?'#0e0e0e':'#f0ede8'};
+  return {bg:'rgba(255,107,107,'+(0.05+(-t)*0.4)+')', fg: t<-0.55?'#0e0e0e':'#f0ede8'};
+}
+
+function renderMatrix(data, mode){
+  const ret=data.ret, years=data.years, agg=data.agg;
+  let h='<thead><tr><th class="yr">Year</th>'+MONTHS.map(m=>'<th>'+m+'</th>').join('')+'<th>FY</th></tr></thead><tbody>';
+  years.forEach(y=>{
+    h+='<tr><td class="yr">'+y+'</td>';
+    let fy=1, hasFy=false;
+    MONTHS.forEach((_,mi)=>{
+      const v=ret[y]?ret[y][mi+1]:null;
+      if(v!=null){ fy*=(1+v/100); hasFy=true; }
+      if(mode==='win'){
+        h += v==null
+          ? '<td class="cell" style="color:#555">·</td>'
+          : '<td class="cell" style="background:'+(v>0?'rgba(200,240,96,0.22)':'rgba(255,107,107,0.20)')+'">'+(v>0?'▲':'▼')+'</td>';
+      }else{
+        const c=cellColor(v,'ret');
+        h += '<td class="cell" style="background:'+c.bg+';color:'+c.fg+'">'+(v==null?'·':(v>0?'+':'')+v.toFixed(1))+'</td>';
+      }
+    });
+    const fyPct=(fy-1)*100;
+    h+='<td class="cell" style="color:'+(!hasFy?'#555':fyPct>=0?'var(--bull)':'var(--bear)')+'">'+(!hasFy?'·':(fyPct>=0?'+':'')+fyPct.toFixed(1))+'</td></tr>';
+  });
+  h+='</tbody><tfoot><tr><td class="flbl">'+(mode==='win'?'WIN %':'AVG %')+'</td>';
+  agg.forEach(a=>{
+    const v = mode==='win'? a.winRate : a.avg;
+    const c = cellColor(v, mode==='win'?'win':'ret');
+    h+='<td style="background:'+c.bg+';color:'+c.fg+'">'+(v==null?'·':(mode==='win'?v.toFixed(0)+'%':(v>0?'+':'')+v.toFixed(1)))+'</td>';
+  });
+  h+='<td style="color:var(--muted)">—</td></tr></tfoot>';
+  $('matrix').innerHTML=h;
+  $('matrixNote').textContent = mode==='win'
+    ? 'Each cell ▲ = month closed up that year, ▼ = down. Bottom row = % of years that month was positive. Higher win-rate = more reliable seasonal bias. FY column compounds the 12 months.'
+    : "Each cell = that month's % price change. Green = gain, red = loss, intensity = magnitude (colour capped ±8%). FY column compounds the 12 months into the full-year return. Bottom row = average across all shown years.";
+}
+
+function renderStrength(agg){
+  const max=Math.max.apply(null, agg.map(a=>Math.abs(a.avg||0)).concat(0.1));
+  let h='';
+  agg.forEach((a,i)=>{
+    if(a.avg==null){ h+='<div class="bar-block"><div class="bar-label"><span class="l">'+MONTHS[i]+'</span><span class="r" style="color:var(--muted)">no data</span></div><div class="track"></div></div>'; return; }
+    const pct=Math.min(100,Math.abs(a.avg)/max*100);
+    const cls=a.avg>=0?'bull':'bear';
+    h+='<div class="bar-block"><div class="bar-label"><span class="l">'+MONTHS[i]+'</span><span class="r">'+(a.avg>0?'+':'')+a.avg.toFixed(2)+'% · '+a.winRate.toFixed(0)+'% win</span></div><div class="track"><div class="fill '+cls+'" data-w="'+pct+'"></div></div></div>';
+  });
+  $('strengthBars').innerHTML=h;
+  requestAnimationFrame(()=>document.querySelectorAll('#strengthBars .fill').forEach(f=>f.style.width=f.dataset.w+'%'));
+}
+
+function renderRating(rows, data){
+  const closes=rows.map(r=>r.close);
+  const first=closes[0], last=closes[closes.length-1];
+  const yrs=Math.max(1,(rows[rows.length-1].y-rows[0].y));
+  const cagr=(Math.pow(last/first,1/yrs)-1)*100;
+  const mret=[]; for(let i=1;i<closes.length;i++) mret.push((closes[i]-closes[i-1])/closes[i-1]*100);
+  const mean=mret.reduce((a,b)=>a+b,0)/mret.length;
+  const vol=Math.sqrt(mret.reduce((a,b)=>a+Math.pow(b-mean,2),0)/mret.length);
+  let peak=closes[0], mdd=0; closes.forEach(c=>{ if(c>peak)peak=c; const dd=(c-peak)/peak*100; if(dd<mdd)mdd=dd; });
+  const posMonths=mret.filter(v=>v>0).length/mret.length*100;
+  const strong=data.agg.filter(a=>a.winRate!=null && (a.winRate>=62||a.winRate<=38)).length;
+  const seasonScore=Math.min(100,strong/12*180);
+  const sc=(v,lo,hi)=>Math.max(0,Math.min(100,(v-lo)/(hi-lo)*100));
+  const sMom=sc(cagr,-5,25), sVol=100-sc(vol,3,14), sDD=100-sc(-mdd,15,70), sTrend=sc(posMonths,42,62);
+  const overall=(sMom*0.3+sVol*0.2+sDD*0.2+sTrend*0.15+seasonScore*0.15);
+  const grade = overall>=85?'A+':overall>=75?'A':overall>=65?'B+':overall>=55?'B':overall>=45?'C+':overall>=35?'C':'D';
+  $('ratingGrade').textContent=grade;
+  $('ratingScore').textContent=overall.toFixed(0)+' / 100';
+  const metrics=[
+    {l:'Momentum · CAGR '+cagr.toFixed(1)+'%',v:sMom,c:'bull'},
+    {l:'Volatility control · '+vol.toFixed(1)+'% σ/mo',v:sVol,c:'accent3'},
+    {l:'Drawdown control · '+mdd.toFixed(0)+'% max',v:sDD,c:'neutral'},
+    {l:'Trend consistency · '+posMonths.toFixed(0)+'% up',v:sTrend,c:'bull'},
+    {l:'Seasonal reliability',v:seasonScore,c:'accent3'},
+  ];
+  $('ratingRows').innerHTML=metrics.map(m=>
+    '<div class="bar-block"><div class="bar-label"><span class="l">'+m.l+'</span><span class="r">'+m.v.toFixed(0)+'</span></div><div class="track"><div class="fill '+m.c+'" data-w="'+m.v.toFixed(0)+'"></div></div></div>'
+  ).join('');
+  requestAnimationFrame(()=>document.querySelectorAll('#ratingRows .fill').forEach(f=>f.style.width=f.dataset.w+'%'));
+  return {cagr,vol,mdd,posMonths};
+}
+
+function renderSignals(data, extra){
+  const agg=data.agg;
+  const ranked=agg.map((a,i)=>Object.assign({},a,{i})).filter(a=>a.avg!=null).sort((a,b)=>b.avg-a.avg);
+  if(!ranked.length){ $('signalChips').innerHTML='<span class="chip neutral">No data in this window</span>'; $('extraStats').innerHTML=''; $('suggList').innerHTML=''; return; }
+  const best=ranked[0], worst=ranked[ranked.length-1];
+  const up=ranked.filter(a=>a.winRate>=65), down=ranked.filter(a=>a.winRate<=35);
+  let chips='';
+  up.slice(0,3).forEach(a=>chips+='<span class="chip bull">'+MONTHS[a.i]+' ↑ '+a.winRate.toFixed(0)+'%</span>');
+  down.slice(0,3).forEach(a=>chips+='<span class="chip bear">'+MONTHS[a.i]+' ↓ '+a.winRate.toFixed(0)+'%</span>');
+  if(!up.length&&!down.length) chips='<span class="chip neutral">No strong monthly bias detected</span>';
+  const cm=new Date().getMonth();
+  if(agg[cm].avg!=null) chips+='<span class="chip '+(agg[cm].avg>0?'info':'neutral')+'">Now · '+MONTHS[cm]+' avg '+(agg[cm].avg>0?'+':'')+agg[cm].avg.toFixed(1)+'%</span>';
+  $('signalChips').innerHTML=chips;
+
+  $('extraStats').innerHTML=
+    '<div class="row"><span class="label">Strongest month</span><span class="value bull">'+MONTHS[best.i]+' · '+(best.avg>0?'+':'')+best.avg.toFixed(2)+'% · '+best.winRate.toFixed(0)+'% win</span></div>'+
+    '<div class="row"><span class="label">Weakest month</span><span class="value bear">'+MONTHS[worst.i]+' · '+worst.avg.toFixed(2)+'% · '+worst.winRate.toFixed(0)+'% win</span></div>'+
+    '<div class="row"><span class="label">Reliable up-months ≥65%</span><span class="value accent2">'+(up.length? up.map(a=>MONTHS[a.i]).join(', '):'none')+'</span></div>'+
+    '<div class="row"><span class="label">Reliable down-months ≤35%</span><span class="value accent3">'+(down.length? down.map(a=>MONTHS[a.i]).join(', '):'none')+'</span></div>'+
+    '<div class="row"><span class="label">Annualised return (CAGR)</span><span class="value '+(extra.cagr>=0?'bull':'bear')+'">'+(extra.cagr>0?'+':'')+extra.cagr.toFixed(1)+'%</span></div>';
+
+  const s=[];
+  if(up.length) s.push('<li><strong>'+up.map(a=>MONTHS[a.i]).join(', ')+'</strong> show a consistent upward bias (positive in ≥65% of years) — historically the more favourable window to hold.</li>');
+  if(down.length) s.push('<li><strong>'+down.map(a=>MONTHS[a.i]).join(', ')+'</strong> are historically weak (down in ≥65% of years) — worth scrutinising before holding through them.</li>');
+  const h1=agg.slice(0,6).reduce((s,a)=>s+(a.avg||0),0), h2=agg.slice(6).reduce((s,a)=>s+(a.avg||0),0);
+  s.push('<li>First-half avg (Jan–Jun) <strong>'+(h1>0?'+':'')+h1.toFixed(1)+'%</strong> vs second-half (Jul–Dec) <strong>'+(h2>0?'+':'')+h2.toFixed(1)+'%</strong> — '+(Math.abs(h1-h2)>3?'a meaningful half-year skew.':'fairly balanced across halves.')+'</li>');
+  if(extra.mdd<-40) s.push('<li>Deep historical drawdown ('+extra.mdd.toFixed(0)+'%) — high-volatility asset; size positions accordingly.</li>');
+  if(agg[cm].avg!=null) s.push('<li>We\'re in <strong>'+MONTHS[cm]+'</strong>: averaged '+(agg[cm].avg>0?'+':'')+agg[cm].avg.toFixed(2)+'% with a '+agg[cm].winRate.toFixed(0)+'% win-rate in this sample.</li>');
+  s.push('<li>Sample size matters — months with few years are noisier. Widen the year range for sturdier signals.</li>');
+  $('suggList').innerHTML=s.join('');
+}
+
+/* Famous patterns (STATIC — no API needed) */
+const FAMOUS=[
+  ['Sell in May & Go Away','Equities historically underperform May–Oct vs Nov–Apr. The "Halloween indicator" is the inverse: stay invested Nov–Apr.'],
+  ['Santa Claus Rally','The last 5 trading days of December + first 2 of January tend to be positive for US indices.'],
+  ['January Effect','Small-caps historically outperform in January, partly a rebound from December tax-loss selling.'],
+  ['September Weakness','Statistically the worst calendar month for the S&P 500 over the long run.'],
+  ['Turn-of-the-Month','Last day + first few days of a month tend to be stronger (fund inflows, paycheck cycles).'],
+  ['Gold · autumn strength','Gold often firms Aug–Sep / late year on Indian festival & wedding demand and safe-haven flows.'],
+  ['Crude Oil · summer driving','WTI frequently strengthens spring→summer on US driving-season demand.'],
+  ['Natural Gas · winter','Gas tends to rally into the Oct–Jan heating season.'],
+  ['Forex · JPY fiscal year',"USD/JPY flows around Japan's March fiscal year-end repatriation."],
+  ['Presidential Cycle','US markets historically strongest in the pre-election (3rd) year of the 4-year cycle.'],
+];
+$('famousList').innerHTML=FAMOUS.map(f=>'<div class="famous-row"><span class="nm">'+f[0]+'</span><span class="ds">'+f[1]+'</span></div>').join('');
+
+/* Tips (STATIC — no API needed) */
+const TIPS=[
+  'Pick an asset, set a year range (1980 → today), then read the bottom AVG / WIN row of the matrix — that\'s where the seasonal pattern lives.',
+  'Toggle <strong>% Return ↔ Win-rate</strong>: % shows magnitude, win-rate shows reliability. A month can have a big average but a coin-flip win-rate (one outlier year) — trust win-rate for consistency.',
+  'Compare an individual stock against its index (e.g. Apple vs S&P 500) to see if a pattern is stock-specific or just market-wide.',
+  'Longer year ranges = more robust signals but blend different market regimes; shorter ranges capture the current regime but are noisier.',
+  'The FY column compounds all 12 months — handy to sanity-check that monthly seasonality actually added up to a good year.',
+];
+$('tipsList').innerHTML=TIPS.map(t=>'<li>'+t+'</li>').join('');
+
+let CURRENT=null;
+async function run(){
+  const asset=ASSETS[+assetSel.value];
+  let startYr=+startSel.value, endYr=+endSel.value;
+  if(startYr>endYr){ const tmp=startYr; startYr=endYr; endYr=tmp; startSel.value=startYr; endSel.value=endYr; }
+
+  results.classList.add('hidden'); errBox.classList.add('hidden');
+  loader.classList.remove('hidden'); statusbar.classList.add('fetching');
+  $('sbStatusTxt').textContent='Fetching…';
+  $('loaderTxt').innerHTML='Fetching <strong>'+asset.n+'</strong> monthly history…<br><span style="font-size:11px">trying proxy chain</span>';
+  $('sbName').textContent=asset.n;
+  $('sbIcon').textContent=(asset.n.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase())||'?';
+  $('sbType').textContent=asset.g;
+
+  try{
+    const rows=await fetchMonthly(asset.t);
+    if(rows.length<24) throw new Error('Not enough monthly history returned for this symbol.');
+    const data=compute(rows, startYr, endYr);
+    if(!data.years.length) throw new Error('No data in the selected year window. Try an earlier start year.');
+    const mode = $('mWin').checked ? 'win' : 'ret';
+    renderMatrix(data, mode);
+    renderStrength(data.agg);
+    const extra=renderRating(rows, data);
+    renderSignals(data, extra);
+    CURRENT={data:data};
+    const ranked=data.agg.map((a,i)=>Object.assign({},a,{i})).filter(a=>a.avg!=null).sort((a,b)=>b.avg-a.avg);
+    $('sbCov').textContent=data.years[0]+'–'+data.years[data.years.length-1]+' ('+data.years.length+'y)';
+    if(ranked.length){
+      $('sbBest').textContent=MONTHS[ranked[0].i]+' '+(ranked[0].avg>0?'+':'')+ranked[0].avg.toFixed(1)+'%';
+      $('sbWorst').textContent=MONTHS[ranked[ranked.length-1].i]+' '+ranked[ranked.length-1].avg.toFixed(1)+'%';
+    }
+    loader.classList.add('hidden'); results.classList.remove('hidden');
+    statusbar.classList.remove('fetching'); $('sbStatusTxt').textContent='Live';
+  }catch(e){
+    loader.classList.add('hidden'); statusbar.classList.remove('fetching'); $('sbStatusTxt').textContent='Error';
+    errBox.classList.remove('hidden');
+    $('errTxt').innerHTML='Could not load <strong>'+asset.n+'</strong>. '+e.message+
+      '<br><br>Common causes: (1) you opened the file directly with <code>file://</code> — it must be <strong>hosted</strong> for the proxies to work; (2) a CORS proxy is temporarily down — hit Retry; (3) Stooq doesn\'t carry that symbol.';
+  }
+}
+function retoggle(){ if(CURRENT) renderMatrix(CURRENT.data, $('mWin').checked?'win':'ret'); }
+
+assetSel.addEventListener('change', run);
+startSel.addEventListener('change', run);
+endSel.addEventListener('change', run);
+$('mRet').addEventListener('change', retoggle);
+$('mWin').addEventListener('change', retoggle);
+$('retryBtn').addEventListener('click', run);
+
+assetSel.value=0;
+run();
+</script>
+</body>
+</html>
