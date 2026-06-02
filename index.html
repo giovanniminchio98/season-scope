@@ -425,32 +425,44 @@ const NOW_YEAR = new Date().getFullYear();
 
 async function fetchMonthly(symbol){
   const url='https://stooq.com/q/d/l/?s='+symbol+'&i=m';
-  let lastErr;
-  for(const p of PROXIES){
+  const log=[];                       // collects what happened at each proxy
+  const hostOf=u=>{ try{return new URL(u).host;}catch(_){return u;} };
+  for(let i=0;i<PROXIES.length;i++){
+    const p=PROXIES[i];
+    const pUrl=p.url(url);
+    const host=hostOf(pUrl);
     try{
       const ctrl=new AbortController();
       const to=setTimeout(()=>ctrl.abort(), 14000);
-      const r=await fetch(p.url(url),{cache:'no-store', signal:ctrl.signal});
+      const t0=Date.now();
+      const r=await fetch(pUrl,{cache:'no-store', signal:ctrl.signal});
+      const ms=Date.now()-t0;
       clearTimeout(to);
-      if(!r.ok) throw new Error('HTTP '+r.status);
+      if(!r.ok){ log.push(`#${i+1} ${host} → HTTP ${r.status} (${ms}ms)`); continue; }
       let txt=await r.text();
-      // AllOrigins /get wraps the payload in JSON: {"contents":"...","status":{...}}
       if(p.json){
-        try{ const j=JSON.parse(txt); txt = j.contents || ''; }catch(_){ /* leave as-is */ }
+        try{ const j=JSON.parse(txt); txt = j.contents || ''; }
+        catch(_){ log.push(`#${i+1} ${host} → JSON parse failed (${ms}ms)`); continue; }
       }
       txt=(txt||'').trim();
-      // Reject empties, rate-limit messages, and HTML error pages (Stooq sometimes
-      // blocks proxy IPs and returns HTML instead of CSV).
-      if(!txt) throw new Error('empty response');
-      if(/exceeded the daily hits limit/i.test(txt)) throw new Error('Stooq daily limit hit');
-      if(/^\s*</.test(txt) || /<html|<!doctype/i.test(txt.slice(0,200))) throw new Error('got HTML, not CSV');
-      if(!/^date/i.test(txt)) throw new Error('not a CSV header');
+      const snippet=txt.slice(0,80).replace(/\s+/g,' ');
+      if(!txt){ log.push(`#${i+1} ${host} → empty response (${ms}ms)`); continue; }
+      if(/exceeded the daily hits limit/i.test(txt)){ log.push(`#${i+1} ${host} → Stooq daily-limit message (${ms}ms)`); continue; }
+      if(/api ?key/i.test(snippet) && !/^date/i.test(txt)){ log.push(`#${i+1} ${host} → Stooq asks for apikey: "${snippet}"`); continue; }
+      if(/^\s*</.test(txt) || /<html|<!doctype/i.test(txt.slice(0,200))){ log.push(`#${i+1} ${host} → got HTML not CSV: "${snippet}"`); continue; }
+      if(!/^date/i.test(txt)){ log.push(`#${i+1} ${host} → not CSV: "${snippet}"`); continue; }
       const rows=parseCSV(txt);
       if(rows.length>=12) return rows;
-      throw new Error('too few rows ('+rows.length+')');
-    }catch(e){ lastErr=e; }
+      log.push(`#${i+1} ${host} → only ${rows.length} rows parsed`);
+    }catch(e){
+      const reason = (e && e.name==='AbortError') ? 'timeout (14s)' : (e && e.message) || 'network/CORS error';
+      log.push(`#${i+1} ${host} → ${reason}`);
+    }
   }
-  throw lastErr || new Error('all proxies failed');
+  // No proxy succeeded — surface the full diagnostic.
+  const err=new Error('all proxies failed');
+  err.diag=log;
+  throw err;
 }
 function parseCSV(txt){
   const lines=txt.trim().split(/\r?\n/);
@@ -674,8 +686,14 @@ async function run(){
   }catch(e){
     loader.classList.add('hidden'); statusbar.classList.remove('fetching'); $('sbStatusTxt').textContent='Error';
     errBox.classList.remove('hidden');
-    $('errTxt').innerHTML='Could not load <strong>'+asset.n+'</strong>. '+e.message+
-      '<br><br>Common causes: (1) you opened the file directly with <code>file://</code> — it must be <strong>hosted</strong> for the proxies to work; (2) a CORS proxy is temporarily down — hit Retry; (3) Stooq doesn\'t carry that symbol.';
+    let diagHtml='';
+    if(e && e.diag && e.diag.length){
+      diagHtml='<br><br><strong style="color:var(--text)">Per-proxy log (symbol: '+asset.t+'):</strong>'+
+        '<div style="margin-top:8px;font-size:11px;line-height:1.7;color:var(--accent3);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;overflow-x:auto">'+
+        e.diag.map(l=>l.replace(/&/g,'&amp;').replace(/</g,'&lt;')).join('<br>')+'</div>';
+    }
+    $('errTxt').innerHTML='Could not load <strong>'+asset.n+'</strong>. '+(e&&e.message?e.message:'unknown error')+diagHtml+
+      '<br><br>Common causes: (1) opened via <code>file://</code> — it must be <strong>hosted</strong>; (2) a proxy is down — hit Retry; (3) Stooq now requires an apikey or blocks the proxy IP (look for "apikey"/"HTML" above); (4) Stooq doesn\'t carry that symbol.';
   }
 }
 function retoggle(){ if(CURRENT) renderMatrix(CURRENT.data, $('mWin').checked?'win':'ret'); }
