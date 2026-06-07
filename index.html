@@ -359,7 +359,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v6 · Stooq';
+const BUILD = 'v7 · Stooq';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -446,7 +446,7 @@ const NOW_MONTH = new Date().getMonth()+1;   // 1-12, used to drop the still-for
     startSel.add(new Option(y, y));
     endSel.add(new Option(y, y));
   }
-  startSel.value = Math.max(1980, NOW_YEAR-15);
+  startSel.value = Math.max(1980, NOW_YEAR-5);   // default: last 5 years (smaller, faster fetch)
   endSel.value = NOW_YEAR;
 })();
 
@@ -461,12 +461,17 @@ const NOW_MONTH = new Date().getMonth()+1;   // 1-12, used to drop the still-for
   });
 })();
 
-async function fetchDaily(symbol){
-  // Stooq daily-history CSV endpoint. We pull the FULL daily history once, then
-  // derive monthly + intra-month stats locally. Try stooq.com AND stooq.pl —
-  // when one mirror is rate-limited the other often still answers.
+async function fetchDaily(symbol, fromYear){
+  // Stooq daily-history CSV endpoint, BOUNDED to the years we actually need
+  // (fetching all of history is huge and slow through public proxies). We pull
+  // from 1 Dec of the year before `fromYear` (so January's return has its prior
+  // close) up to today, then derive monthly + intra-month stats locally.
+  // Try stooq.com AND stooq.pl — if one mirror is rate-limited the other often answers.
+  const d1=(fromYear-1)+'1201';
+  const now=new Date();
+  const d2=''+now.getUTCFullYear()+String(now.getUTCMonth()+1).padStart(2,'0')+String(now.getUTCDate()).padStart(2,'0');
   const stooqUrls=['stooq.com','stooq.pl'].map(h=>
-    'https://'+h+'/q/d/l/?s='+encodeURIComponent(symbol)+'&i=d');
+    'https://'+h+'/q/d/l/?s='+encodeURIComponent(symbol)+'&i=d&d1='+d1+'&d2='+d2);
   const log=[];
   const hostOf=u=>{ try{return new URL(u).host;}catch(_){return u;} };
 
@@ -480,7 +485,7 @@ async function fetchDaily(symbol){
     const host=hostOf(p.target)+' via '+hostOf(pUrl);
     try{
       const ctrl=new AbortController();
-      const to=setTimeout(()=>ctrl.abort(), 20000);
+      const to=setTimeout(()=>ctrl.abort(), 12000);
       const t0=Date.now();
       const r=await fetch(pUrl,{cache:'no-store', signal:ctrl.signal});
       const ms=Date.now()-t0;
@@ -503,7 +508,7 @@ async function fetchDaily(symbol){
       if(rows.length>=24) return rows;
       log.push(`#${i+1} ${host} → only ${rows.length} daily rows parsed`);
     }catch(e){
-      const reason = (e && e.name==='AbortError') ? 'timeout (20s)' : (e && e.message) || 'network/CORS error';
+      const reason = (e && e.name==='AbortError') ? 'timeout (12s)' : (e && e.message) || 'network/CORS error';
       log.push(`#${i+1} ${host} → ${reason}`);
     }
   }
@@ -860,10 +865,13 @@ async function run(force){
   $('sbIcon').textContent=(asset.n.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase())||'?';
   $('sbType').textContent=asset.g;
 
-  // Cache hit: same symbol already fetched and not forced → just recompute the window.
-  // This is what makes changing the year range instant AND avoids re-hitting the
-  // proxies on every dropdown change (which is what triggers rate-limit failures).
-  if(!force && CURRENT && CURRENT.symbol===asset.t){
+  const fromYear=startYr;   // we only fetch back this far (plus prior-Dec buffer)
+
+  // Cache hit: same symbol AND the cached data already reaches far enough back →
+  // just recompute the window (instant, no network). Only re-fetch when the user
+  // goes FURTHER back than what we have, or forces a refresh. This keeps year-range
+  // changes from re-hitting the proxies (which is what triggers rate-limit failures).
+  if(!force && CURRENT && CURRENT.symbol===asset.t && CURRENT.fromYear<=fromYear){
     errBox.classList.add('hidden');
     try{
       renderAll(asset, CURRENT.daily, startYr, endYr);
@@ -875,12 +883,12 @@ async function run(force){
   results.classList.add('hidden'); errBox.classList.add('hidden');
   loader.classList.remove('hidden'); statusbar.classList.add('fetching');
   $('sbStatusTxt').textContent='Fetching…';
-  $('loaderTxt').innerHTML='Fetching <strong>'+asset.n+'</strong> price history from Stooq…<br><span style="font-size:11px">trying proxy chain</span>';
+  $('loaderTxt').innerHTML='Fetching <strong>'+asset.n+'</strong> price history from Stooq ('+fromYear+'→now)…<br><span style="font-size:11px">trying proxy chain</span>';
 
   try{
-    const daily=await fetchDaily(asset.t);
-    if(daily.length<260) throw new Error('Not enough daily history returned for this symbol (need ~1+ year).');
-    CURRENT={symbol:asset.t, daily:daily};
+    const daily=await fetchDaily(asset.t, fromYear);
+    if(daily.length<40) throw new Error('Not enough price history returned for this window. Try an earlier start year.');
+    CURRENT={symbol:asset.t, fromYear:fromYear, daily:daily};
     renderAll(asset, daily, startYr, endYr);
     loader.classList.add('hidden'); results.classList.remove('hidden');
     statusbar.classList.remove('fetching'); $('sbStatusTxt').textContent='Live';
