@@ -318,7 +318,7 @@
    Drop / any web server). The "Famous Patterns" and "Tips" cards render with
    NO data, so the page never looks empty even before any fetch succeeds.
    ============================================================================ */
-const BUILD = 'v4 · Yahoo';
+const BUILD = 'v5 · Yahoo';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -398,6 +398,8 @@ const PROXIES = [
   { json:false, url:u => 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u) },
   { json:false, url:u => 'https://api.allorigins.win/raw?url=' + encodeURIComponent(u) },
   { json:true,  url:u => 'https://api.allorigins.win/get?url=' + encodeURIComponent(u) },
+  { json:false, url:u => 'https://thingproxy.freeboard.io/fetch/' + u },
+  { json:false, url:u => 'https://corsproxy.io/?url=' + encodeURIComponent(u) },
   { json:false, url:u => 'https://cors.x2u.in/' + u },
 ];
 
@@ -405,6 +407,7 @@ const $ = id => document.getElementById(id);
 const assetSel=$('assetSel'), startSel=$('startYr'), endSel=$('endYr'),
       statusbar=$('statusbar'), loader=$('loader'), results=$('results'), errBox=$('errBox');
 const NOW_YEAR = new Date().getFullYear();
+const NOW_MONTH = new Date().getMonth()+1;   // 1-12, used to drop the still-forming month
 
 /* Build year dropdowns: 1980 -> current year */
 (function buildYears(){
@@ -429,21 +432,23 @@ const NOW_YEAR = new Date().getFullYear();
 
 async function fetchMonthly(symbol){
   // Yahoo Finance v8 chart endpoint: monthly candles, full available history.
-  const url='https://query1.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(symbol)+'?range=max&interval=1mo';
+  // Try BOTH hosts — when query1 is rate-limited (HTTP 429), query2 often still answers.
+  const yahooUrls=['query1','query2'].map(h=>
+    'https://'+h+'.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(symbol)+'?range=max&interval=1mo');
   const log=[];                       // collects what happened at each attempt
   const hostOf=u=>{ try{return new URL(u).host;}catch(_){return u;} };
 
-  // Build the attempt list: WORKER first (if set), then public proxies.
+  // Build the attempt list: WORKER first (if set), then each proxy × each Yahoo host.
   const attempts=[];
   if(WORKER_URL && !/YOURNAME/.test(WORKER_URL)){
-    attempts.push({ json:false, direct:true,
+    attempts.push({ json:false, direct:true, target:yahooUrls[0],
       url:()=> WORKER_URL.replace(/\/$/,'') + '/?s=' + encodeURIComponent(symbol) });
   }
-  PROXIES.forEach(p=>attempts.push(p));
+  PROXIES.forEach(p=>yahooUrls.forEach(u=>attempts.push({ json:p.json, target:u, url:()=>p.url(u) })));
 
   for(let i=0;i<attempts.length;i++){
     const p=attempts[i];
-    const pUrl=p.url(url);
+    const pUrl=p.url(p.target);
     const host=hostOf(pUrl)+(p.direct?' (worker)':'');
     try{
       const ctrl=new AbortController();
@@ -496,7 +501,11 @@ function parseYahoo(data){
     const close=closeArr[i];
     if(close==null || isNaN(close)) continue;
     const d=new Date(ts[i]*1000);          // Yahoo timestamps are seconds (UTC)
-    out.push({ y:d.getUTCFullYear(), m:d.getUTCMonth()+1, close:close });
+    const y=d.getUTCFullYear(), m=d.getUTCMonth()+1;
+    // Skip the current, still-forming month: its candle is partial, so its % change
+    // is a month-to-date figure that would pollute the seasonal average for this month.
+    if(y===NOW_YEAR && m===NOW_MONTH) continue;
+    out.push({ y, m, close:close });
   }
   return out;
 }
@@ -670,60 +679,89 @@ const TIPS=[
 ];
 $('tipsList').innerHTML=TIPS.map(t=>'<li>'+t+'</li>').join('');
 
-let CURRENT=null;
-async function run(){
+let CURRENT=null;     // raw fetch cache: {symbol, rows}
+let LASTDATA=null;    // last computed seasonality data, for the matrix metric toggle
+
+/* Render everything from already-fetched rows for the chosen year window.
+   No network here — pure recompute, so changing the year range is instant. */
+function renderAll(asset, rows, startYr, endYr){
+  const data=compute(rows, startYr, endYr);
+  if(!data.years.length) throw new Error('No data in the selected year window. Try an earlier start year.');
+  const mode = $('mWin').checked ? 'win' : 'ret';
+  renderMatrix(data, mode);
+  renderStrength(data.agg);
+  // Rate momentum/volatility/drawdown over the SELECTED window so the rating
+  // and CAGR signal match the matrix (fall back to full history if the window is tiny).
+  const winRows=rows.filter(r=> r.y>=startYr && r.y<=endYr);
+  const extra=renderRating(winRows.length>=12 ? winRows : rows, data);
+  renderSignals(data, extra);
+  LASTDATA=data;
+  const ranked=data.agg.map((a,i)=>Object.assign({},a,{i})).filter(a=>a.avg!=null).sort((a,b)=>b.avg-a.avg);
+  $('sbCov').textContent=data.years[0]+'–'+data.years[data.years.length-1]+' ('+data.years.length+'y)';
+  if(ranked.length){
+    $('sbBest').textContent=MONTHS[ranked[0].i]+' '+(ranked[0].avg>0?'+':'')+ranked[0].avg.toFixed(1)+'%';
+    $('sbWorst').textContent=MONTHS[ranked[ranked.length-1].i]+' '+ranked[ranked.length-1].avg.toFixed(1)+'%';
+  }
+}
+
+function showError(asset, e){
+  loader.classList.add('hidden'); statusbar.classList.remove('fetching'); $('sbStatusTxt').textContent='Error';
+  errBox.classList.remove('hidden'); results.classList.add('hidden');
+  let diagHtml='';
+  if(e && e.diag && e.diag.length){
+    diagHtml='<br><br><strong style="color:var(--text)">Per-proxy log (symbol: '+asset.t+'):</strong>'+
+      '<div style="margin-top:8px;font-size:11px;line-height:1.7;color:var(--accent3);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;overflow-x:auto">'+
+      e.diag.map(l=>l.replace(/&/g,'&amp;').replace(/</g,'&lt;')).join('<br>')+'</div>';
+  }
+  $('errTxt').innerHTML='Could not load <strong>'+asset.n+'</strong>. '+(e&&e.message?e.message:'unknown error')+diagHtml+
+    '<br><br>Common causes: (1) opened via <code>file://</code> — it must be <strong>hosted</strong>; (2) a proxy is down or rate-limited — hit Retry; (3) Yahoo blocked the proxy IP (look for "HTML"/"HTTP 429" above); (4) Yahoo doesn\'t carry that symbol.';
+}
+
+async function run(force){
   const asset=ASSETS[+assetSel.value];
   let startYr=+startSel.value, endYr=+endSel.value;
   if(startYr>endYr){ const tmp=startYr; startYr=endYr; endYr=tmp; startSel.value=startYr; endSel.value=endYr; }
+
+  $('sbName').textContent=asset.n;
+  $('sbIcon').textContent=(asset.n.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase())||'?';
+  $('sbType').textContent=asset.g;
+
+  // Cache hit: same symbol already fetched and not forced → just recompute the window.
+  // This is what makes changing the year range instant AND avoids re-hitting the
+  // proxies on every dropdown change (which is what triggers rate-limit failures).
+  if(!force && CURRENT && CURRENT.symbol===asset.t){
+    errBox.classList.add('hidden');
+    try{
+      renderAll(asset, CURRENT.rows, startYr, endYr);
+      results.classList.remove('hidden'); $('sbStatusTxt').textContent='Live';
+    }catch(e){ showError(asset, e); }
+    return;
+  }
 
   results.classList.add('hidden'); errBox.classList.add('hidden');
   loader.classList.remove('hidden'); statusbar.classList.add('fetching');
   $('sbStatusTxt').textContent='Fetching…';
   $('loaderTxt').innerHTML='Fetching <strong>'+asset.n+'</strong> monthly history…<br><span style="font-size:11px">trying proxy chain</span>';
-  $('sbName').textContent=asset.n;
-  $('sbIcon').textContent=(asset.n.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase())||'?';
-  $('sbType').textContent=asset.g;
 
   try{
     const rows=await fetchMonthly(asset.t);
     if(rows.length<24) throw new Error('Not enough monthly history returned for this symbol.');
-    const data=compute(rows, startYr, endYr);
-    if(!data.years.length) throw new Error('No data in the selected year window. Try an earlier start year.');
-    const mode = $('mWin').checked ? 'win' : 'ret';
-    renderMatrix(data, mode);
-    renderStrength(data.agg);
-    const extra=renderRating(rows, data);
-    renderSignals(data, extra);
-    CURRENT={data:data};
-    const ranked=data.agg.map((a,i)=>Object.assign({},a,{i})).filter(a=>a.avg!=null).sort((a,b)=>b.avg-a.avg);
-    $('sbCov').textContent=data.years[0]+'–'+data.years[data.years.length-1]+' ('+data.years.length+'y)';
-    if(ranked.length){
-      $('sbBest').textContent=MONTHS[ranked[0].i]+' '+(ranked[0].avg>0?'+':'')+ranked[0].avg.toFixed(1)+'%';
-      $('sbWorst').textContent=MONTHS[ranked[ranked.length-1].i]+' '+ranked[ranked.length-1].avg.toFixed(1)+'%';
-    }
+    CURRENT={symbol:asset.t, rows:rows};
+    renderAll(asset, rows, startYr, endYr);
     loader.classList.add('hidden'); results.classList.remove('hidden');
     statusbar.classList.remove('fetching'); $('sbStatusTxt').textContent='Live';
   }catch(e){
-    loader.classList.add('hidden'); statusbar.classList.remove('fetching'); $('sbStatusTxt').textContent='Error';
-    errBox.classList.remove('hidden');
-    let diagHtml='';
-    if(e && e.diag && e.diag.length){
-      diagHtml='<br><br><strong style="color:var(--text)">Per-proxy log (symbol: '+asset.t+'):</strong>'+
-        '<div style="margin-top:8px;font-size:11px;line-height:1.7;color:var(--accent3);background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:10px 12px;overflow-x:auto">'+
-        e.diag.map(l=>l.replace(/&/g,'&amp;').replace(/</g,'&lt;')).join('<br>')+'</div>';
-    }
-    $('errTxt').innerHTML='Could not load <strong>'+asset.n+'</strong>. '+(e&&e.message?e.message:'unknown error')+diagHtml+
-      '<br><br>Common causes: (1) opened via <code>file://</code> — it must be <strong>hosted</strong>; (2) a proxy is down or rate-limited — hit Retry; (3) Yahoo blocked the proxy IP (look for "HTML"/"HTTP 429" above); (4) Yahoo doesn\'t carry that symbol.';
+    showError(asset, e);
   }
 }
-function retoggle(){ if(CURRENT) renderMatrix(CURRENT.data, $('mWin').checked?'win':'ret'); }
+function retoggle(){ if(LASTDATA) renderMatrix(LASTDATA, $('mWin').checked?'win':'ret'); }
 
-assetSel.addEventListener('change', run);
-startSel.addEventListener('change', run);
-endSel.addEventListener('change', run);
+assetSel.addEventListener('change', ()=>run());      // new symbol → fetch (cache miss)
+startSel.addEventListener('change', ()=>run());      // year change → recompute from cache, no fetch
+endSel.addEventListener('change', ()=>run());
 $('mRet').addEventListener('change', retoggle);
 $('mWin').addEventListener('change', retoggle);
-$('retryBtn').addEventListener('click', run);
+$('retryBtn').addEventListener('click', ()=>run(true));  // Retry always re-fetches
 
 // Stamp the build into the footer so you can confirm which file is live.
 $('footText').textContent = 'SeasonScope ['+BUILD+'] · Data: Yahoo Finance · Educational tool — not financial advice. Past seasonality does not predict future returns.';
