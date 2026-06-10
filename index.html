@@ -595,7 +595,14 @@ async function snapshotDaily(symbol){
     const r=await fetch(DATA_BASE+'prices/'+encodeURIComponent(symbol)+'.csv',{cache:'no-store'});
     if(!r.ok) return null;
     const rows=parseStooq(await r.text());
-    return (rows && rows.length>=24) ? rows : null;
+    if(!rows || rows.length<24) return null;
+    // Guard against a too-coarse snapshot (e.g. an old quarterly/monthly file):
+    // if the last ~400 days hold far fewer rows than daily would (~250), treat
+    // it as unusable so we fall back to a live daily fetch and months fill in.
+    const cutoff=Date.now()-400*864e5;
+    const recent=rows.filter(x=>x.t.getTime()>=cutoff).length;
+    if(recent<60) return null;
+    return rows;
   }catch(_){ return null; }
 }
 
