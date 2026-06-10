@@ -1,12 +1,10 @@
 # Nightly market-data snapshot for SeasonScope.
 #
-# Fetches Stooq daily prices (no key) and FMP fundamentals (FMP_KEY repo
-# secret) via scripts/fetch_data.mjs, then commits the results under data/.
-# The app serves those static files first, so normal use needs no CORS
-# proxies and the API key never reaches the browser.
+# Fetches Yahoo Finance prices + analyst data SERVER-SIDE via
+# scripts/fetch_data.mjs (no API key, no CORS proxy), then commits the results
+# under data/. The app serves those static files first, so normal use needs no
+# proxies. No repository secret is required.
 #
-# Setup: repo Settings -> Secrets and variables -> Actions -> New repository
-# secret -> name FMP_KEY (without it, the run still snapshots prices).
 # First run: Actions tab -> "Refresh market data" -> Run workflow.
 
 name: Refresh market data
@@ -37,8 +35,6 @@ jobs:
         run: SELFTEST=1 node scripts/fetch_data.mjs
 
       - name: Fetch snapshot
-        env:
-          FMP_KEY: ${{ secrets.FMP_KEY }}
         run: node scripts/fetch_data.mjs
 
       - name: Commit & push

@@ -201,7 +201,7 @@
   .sg-tag.t-seasonal{border-color:rgba(200,240,96,0.4); color:var(--bull); background:rgba(200,240,96,0.07)}
   .sg-tag.t-momentum{border-color:rgba(96,200,240,0.4); color:var(--accent3); background:rgba(96,200,240,0.07)}
   .sg-tag.t-value{border-color:rgba(240,184,96,0.4); color:var(--accent2); background:rgba(240,184,96,0.07)}
-  .sg-tag.t-dcf{border-color:rgba(200,240,96,0.55); color:var(--accent); background:rgba(200,240,96,0.1)}
+  .sg-tag.t-analyst{border-color:rgba(200,240,96,0.55); color:var(--accent); background:rgba(200,240,96,0.1)}
   .snapline{font-size:11px; color:var(--accent3); margin-bottom:14px}
   .sg-go{font-size:11px; color:var(--accent); white-space:nowrap; flex-shrink:0}
   .sg-price{font-size:12px; color:var(--text); white-space:nowrap; flex-shrink:0; text-align:right}
@@ -263,7 +263,7 @@
   <div id="panel-discover" class="panel">
     <div class="card" style="animation-delay:.05s">
       <div class="card-title accent">◎ Suggested to Monitor</div>
-      <p class="paneldesc">Auto-ranked by <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI), <strong>value / entry</strong> (drawdown from highs, 52-wk range position, vs 200-day trend) — plus, when the nightly snapshot is available, <strong>FMP analyst data</strong> (DCF fair value tilts the ranking; rating shown per name). Not investment advice.</p>
+      <p class="paneldesc">Auto-ranked by <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI), <strong>value / entry</strong> (drawdown from highs, 52-wk range position, vs 200-day trend) — plus, when the nightly snapshot is available, <strong>analyst data</strong> (upside to the mean price target tilts the ranking; rating shown per name). Not investment advice.</p>
       <div class="snapline" id="snapNote">Checking nightly snapshot…</div>
       <div class="disc-controls">
         <button id="scanBtn" class="btn">↻ Scan now</button>
@@ -285,7 +285,7 @@
       <div class="disc-progress"><div id="pennyBar" class="disc-bar"></div></div>
       <div id="pennyList" class="disc-list"></div>
       <div id="pennyScreen" class="hidden">
-        <div class="card-title accent3" style="margin-top:22px">Screener picks · nightly FMP scan (&lt;$5, liquid, active)</div>
+        <div class="card-title accent3" style="margin-top:22px">Screener picks · nightly scan</div>
         <div id="pennyScreenList"></div>
         <div class="note">Auto-screened from the whole market by the nightly run — not curated by anyone. Extremely high risk; data is a snapshot, not live.</div>
       </div>
@@ -376,7 +376,7 @@
           <div class="val-chips" id="valChips"></div>
         </div>
         <div id="valRows"></div>
-        <div class="note">Two layers: when the <strong>nightly snapshot</strong> is available, real fundamentals from FMP (DCF fair value → over/under-valued, FMP rating, analyst buy/hold/sell consensus, refreshed by the GitHub Action each night). Below that, a <strong>technical</strong> read computed from price — drawdown from highs, 52-week range position, distance from the 200-day trend, RSI. Snapshot data is up to a day old. Not investment advice.</div>
+        <div class="note">Two layers: when the <strong>nightly snapshot</strong> is available, analyst data from Yahoo Finance (mean price target → over/under-valued, rating, buy/hold/sell consensus, refreshed by the GitHub Action each night). Below that, a <strong>technical</strong> read computed from price — drawdown from highs, 52-week range position, distance from the 200-day trend, RSI. Snapshot data is up to a day old. Not investment advice.</div>
       </div>
     </div>
 
@@ -459,7 +459,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v10 · Snapshot';
+const BUILD = 'v11 · Yahoo snapshot';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -530,11 +530,12 @@ const ASSETS = [
 const DISCOVER_TICKERS = ['aapl.us','msft.us','nvda.us','amzn.us','googl.us','meta.us','tsla.us','jpm.us','xom.us','unh.us','wmt.us','ko.us','cat.us','amd.us'];
 
 /* ===========================================================================
-   >>> CORS PROXY CHAIN <<<  (free, no account). Stooq has no CORS headers, so
-   the browser must reach it through a proxy. We try each in order until one
-   returns valid CSV. Each entry: { url: fn(targetUrl) -> proxyUrl , json: bool }
-     - json:false -> proxy returns the raw Stooq CSV directly
-     - json:true  -> proxy wraps it as {"contents":"...csv..."} (AllOrigins /get)
+   >>> CORS PROXY CHAIN <<<  (free, no account). The live FALLBACK fetch (used
+   only when a symbol has no nightly snapshot yet) hits Yahoo Finance, which has
+   no CORS headers, so the browser must go through a proxy. Each entry:
+   { url: fn(targetUrl) -> proxyUrl , json: bool }
+     - json:false -> proxy returns the raw Yahoo JSON directly
+     - json:true  -> proxy wraps it as {"contents":"...json..."} (AllOrigins /get)
    =========================================================================== */
 const PROXIES = [
   { json:false, url:u => 'https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(u) },
@@ -546,14 +547,13 @@ const PROXIES = [
 ];
 
 /* ===========================================================================
-   >>> NIGHTLY SNAPSHOT (GitHub Actions + Secrets) <<<
+   >>> NIGHTLY SNAPSHOT (GitHub Actions) <<<
    A scheduled workflow (.github/workflows/refresh-data.yml) runs every night:
-   it fetches prices from Stooq and fundamentals (FMP rating, DCF fair value,
-   analyst recommendations, penny screener) using the FMP_KEY repository
-   secret, and commits the results under data/. The app loads those static
-   files FIRST — same-origin, or raw.githubusercontent.com which sends CORS
-   headers — so normal use needs NO proxies and NO key ever reaches the
-   browser. The proxy chain above remains only as a live fallback for symbols
+   server-side it fetches Yahoo Finance prices + analyst data (mean price
+   target, buy/hold/sell consensus, rating) — NO API key — and commits the
+   results under data/. The app loads those static files FIRST — same-origin,
+   or raw.githubusercontent.com which sends CORS headers — so normal use needs
+   NO proxies. The proxy chain above is only a live fallback for symbols
    without a snapshot yet.
    =========================================================================== */
 const DATA_BASES = [
@@ -619,26 +619,20 @@ async function fetchDaily(symbol, fromYear){
   const snap=await snapshotDaily(symbol);
   if(snap) return snap;
 
-  // Stooq daily-history CSV endpoint, BOUNDED to the years we actually need
-  // (fetching all of history is huge and slow through public proxies). We pull
-  // from 1 Dec of the year before `fromYear` (so January's return has its prior
-  // close) up to today, then derive monthly + intra-month stats locally.
-  // Try stooq.com AND stooq.pl — if one mirror is rate-limited the other often answers.
-  const d1=(fromYear-1)+'1201';
+  // Live fallback: Yahoo Finance chart API, BOUNDED to the years we need, via
+  // the CORS proxy chain (Yahoo has no CORS headers for the browser). Try both
+  // Yahoo hosts; fire everything in parallel and take the first valid response.
   const now=new Date();
-  const d2=''+now.getUTCFullYear()+String(now.getUTCMonth()+1).padStart(2,'0')+String(now.getUTCDate()).padStart(2,'0');
-  const stooqUrls=['stooq.com','stooq.pl'].map(h=>
-    'https://'+h+'/q/d/l/?s='+encodeURIComponent(symbol)+'&i=d&d1='+d1+'&d2='+d2);
+  const p1=Math.floor(Date.UTC(fromYear-1,11,1)/1000);   // 1 Dec of year before `fromYear`
+  const p2=Math.floor(now.getTime()/1000);
+  const yahooUrls=['query1','query2'].map(h=>
+    'https://'+h+'.finance.yahoo.com/v8/finance/chart/'+encodeURIComponent(toYahoo(symbol))+'?period1='+p1+'&period2='+p2+'&interval=1d');
   const log=[];
   const hostOf=u=>{ try{return new URL(u).host;}catch(_){return u;} };
 
-  // attempt list: each proxy × each Stooq mirror
   const attempts=[];
-  PROXIES.forEach(p=>stooqUrls.forEach(u=>attempts.push({ json:p.json, target:u, url:()=>p.url(u) })));
+  PROXIES.forEach(p=>yahooUrls.forEach(u=>attempts.push({ json:p.json, target:u, url:()=>p.url(u) })));
 
-  // Fire ALL attempts in PARALLEL and take the first that returns valid CSV.
-  // (Sequential was the slowness: one hung proxy blocked the next for 12s each.
-  // Racing them means the fastest healthy proxy wins — usually a second or two.)
   const one=(p, i)=>new Promise(async (resolve, reject)=>{
     const pUrl=p.url(p.target);
     const host=hostOf(p.target)+' via '+hostOf(pUrl);
@@ -658,11 +652,10 @@ async function fetchDaily(symbol, fromYear){
       txt=(txt||'').trim();
       if(!txt){ log.push(`#${i+1} ${host} → empty response (${ms}ms)`); return reject(); }
       const snippet=txt.slice(0,90).replace(/\s+/g,' ');
-      if(/^\s*</.test(txt) || /<html|<!doctype/i.test(txt.slice(0,200))){ log.push(`#${i+1} ${host} → got HTML not CSV: "${snippet}"`); return reject(); }
-      if(/exceeded the daily hits limit/i.test(txt)){ log.push(`#${i+1} ${host} → Stooq daily hit-limit reached`); return reject(); }
-      if(/^no data/i.test(txt)){ log.push(`#${i+1} ${host} → Stooq: no data for symbol`); return reject(); }
-      const rows=parseStooq(txt);
-      if(rows===null){ log.push(`#${i+1} ${host} → unrecognised CSV: "${snippet}"`); return reject(); }
+      let json; try{ json=JSON.parse(txt); }
+      catch(_){ log.push(`#${i+1} ${host} → not JSON: "${snippet}"`); return reject(); }
+      const rows=parseYahooChart(json);
+      if(rows===null){ log.push(`#${i+1} ${host} → no chart data: "${snippet}"`); return reject(); }
       if(rows.length>=24){ return resolve(rows); }
       log.push(`#${i+1} ${host} → only ${rows.length} daily rows parsed`); return reject();
     }catch(e){
@@ -674,14 +667,44 @@ async function fetchDaily(symbol, fromYear){
   try{
     return await Promise.any(attempts.map((p,i)=>one(p,i)));
   }catch(_){
-    const err=new Error('all CORS proxies failed (Stooq may be rate-limiting the shared proxy IPs — wait a minute and hit Retry)');
+    const err=new Error('no snapshot yet and all live proxies failed — run the "Refresh market data" Action, or hit Retry in a minute');
     err.diag=log;
     throw err;
   }
 }
 
-/* Parse Stooq daily CSV ("Date,Open,High,Low,Close[,Volume]") into sorted
-   daily rows: [{t:Date, y, m, d, dow, close}]. Returns null if not CSV. */
+/* Map our (Stooq-style) tickers to Yahoo symbols — mirrors scripts/fetch_data.mjs. */
+function toYahoo(t){
+  if(t.endsWith('.us')) return t.slice(0,-3).toUpperCase();
+  if(t.endsWith('.f')){ const m={'gc.f':'GC=F','si.f':'SI=F','cl.f':'CL=F','ng.f':'NG=F','hg.f':'HG=F'}; return m[t]||t.toUpperCase(); }
+  if(t.charAt(0)==='^'){ const m={'^spx':'^GSPC','^ndx':'^NDX','^dji':'^DJI','^vix':'^VIX'}; return m[t]||t.toUpperCase(); }
+  if(t==='btcusd') return 'BTC-USD'; if(t==='ethusd') return 'ETH-USD';
+  if(/^[a-z]{6}$/.test(t)) return t.toUpperCase()+'=X';
+  return t.toUpperCase();
+}
+
+/* Parse Yahoo chart JSON into sorted daily rows [{t,y,m,d,dow,close}]. */
+function parseYahooChart(json){
+  const res=json && json.chart && json.chart.result && json.chart.result[0];
+  if(!res || !res.timestamp) return null;
+  const ts=res.timestamp;
+  const q=(res.indicators && res.indicators.quote && res.indicators.quote[0]) || {};
+  const adj=res.indicators && res.indicators.adjclose && res.indicators.adjclose[0] && res.indicators.adjclose[0].adjclose;
+  const close=(adj && adj.length===ts.length) ? adj : q.close;
+  if(!close) return null;
+  const out=[];
+  for(let i=0;i<ts.length;i++){
+    const c=close[i];
+    if(c==null || isNaN(c)) continue;
+    const t=new Date(ts[i]*1000);
+    out.push({ t, y:t.getUTCFullYear(), m:t.getUTCMonth()+1, d:t.getUTCDate(), dow:t.getUTCDay(), close:c });
+  }
+  out.sort((a,b)=> a.t - b.t);
+  return out;
+}
+
+/* Parse Stooq-style daily CSV ("Date,Open,High,Low,Close[,Volume]" — the format
+   the nightly snapshot writes) into sorted daily rows. Returns null if not CSV. */
 function parseStooq(csv){
   const lines=csv.split(/\r?\n/).filter(l=>l.trim());
   if(!lines.length) return null;
@@ -858,20 +881,20 @@ function scoreAsset(asset, daily){
   let composite=sea*0.34 + mom*0.33 + val.score*0.33;
   const tags=[];
   if(sea>=60) tags.push('seasonal'); if(mom>=60) tags.push('momentum'); if(val.score>=58) tags.push('value');
-  // Analyst DCF tilt from the nightly snapshot, when available: an undervalued
-  // (per FMP DCF) name ranks a little higher, an overvalued one lower (max ±5).
+  // Analyst tilt from the nightly snapshot, when available: a name with upside
+  // to its analyst target ranks a little higher, one above target lower (±5).
   const fd=fundFor(asset.t);
-  if(fd && fd.dcfGapPct!=null){
-    composite=clamp(composite + clamp(fd.dcfGapPct,-20,20)*0.25, 0, 100);
-    if(fd.dcfGapPct>=10) tags.push('dcf');
+  if(fd && fd.gapPct!=null){
+    composite=clamp(composite + clamp(fd.gapPct,-20,20)*0.25, 0, 100);
+    if(fd.gapPct>=10) tags.push('analyst');
   }
   const grade = composite>=72?'A':composite>=60?'B':composite>=48?'C':'D';
   // one-line rationale
   const nm=MONTHS_FULL[(NOW_MONTH)%12];                 // next month name
   const na=data.agg[(NOW_MONTH)%12];
   const bits=[];
-  if(fd && fd.dcfGapPct!=null) bits.push('DCF '+(fd.dcfGapPct>=0?'+':'')+fd.dcfGapPct.toFixed(0)+'%');
-  if(fd && fd.rating) bits.push('FMP '+fd.rating);
+  if(fd && fd.gapPct!=null) bits.push('target '+(fd.gapPct>=0?'+':'')+fd.gapPct.toFixed(0)+'%');
+  if(fd && fd.ratingLabel) bits.push(fd.ratingLabel);
   if(na && na.avg!=null) bits.push(nm+' avg '+(na.avg>0?'+':'')+na.avg.toFixed(1)+'% ('+na.winRate.toFixed(0)+'% win)');
   if(sig.r3m!=null) bits.push('3-mo '+(sig.r3m>0?'+':'')+sig.r3m.toFixed(0)+'%');
   bits.push(Math.round(-sig.ddFromHigh)+'% off high');
@@ -1053,26 +1076,26 @@ function renderIntra(intra){
   requestAnimationFrame(()=>document.querySelectorAll('#dowBars .fill, #womBars .fill').forEach(f=>f.style.width=f.dataset.w+'%'));
 }
 
-/* Valuation & Entry card: price-based read + FMP analyst/DCF snapshot rows. */
+/* Valuation & Entry card: analyst snapshot (when available) + price-based read. */
 function renderValuation(asset, daily){
   const sig=priceSignals(daily);
   const v=valuationVerdict(sig);
   const fd=fundFor(asset.t);
-  // When the nightly snapshot carries a DCF verdict, lead with it (real
-  // fundamental signal); the price-based read becomes the secondary line.
-  if(fd && fd.dcfGapPct!=null){
-    const under=fd.dcfGapPct>=0;
-    $('valVerdict').textContent=(under?'Undervalued ':'Overvalued ')+Math.abs(fd.dcfGapPct).toFixed(0)+'% vs DCF';
+  // When the nightly snapshot carries an analyst verdict, lead with it; the
+  // price-based read becomes the secondary line.
+  if(fd && fd.gapPct!=null){
+    const under=fd.gapPct>=0;
+    $('valVerdict').textContent=(under?'Undervalued ':'Overvalued ')+Math.abs(fd.gapPct).toFixed(0)+'% vs '+(fd.fairLabel||'target');
     $('valVerdict').className='val-verdict '+(under?'bull':'bear');
-    $('valTag').textContent='FMP DCF (nightly) · technical: '+v.label.toLowerCase();
+    $('valTag').textContent='analyst (nightly) · technical: '+v.label.toLowerCase();
   }else{
     $('valVerdict').textContent=v.label;
     $('valVerdict').className='val-verdict '+v.tone;
     $('valTag').textContent='price-based · score '+v.score.toFixed(0)+'/100';
   }
-  // headline chips: vs trend + RSI state (+ analyst rating when available)
+  // headline chips: analyst rating + vs trend + RSI state
   let chips='';
-  if(fd && fd.rating) chips+='<span class="chip info">FMP rating '+fd.rating+(fd.ratingRecommendation?' · '+fd.ratingRecommendation:'')+'</span>';
+  if(fd && fd.ratingLabel) chips+='<span class="chip info">Analyst: '+fd.ratingLabel+'</span>';
   if(sig.vsMA200!=null){
     const below=sig.vsMA200<0;
     chips+='<span class="chip '+(below?'neutral':'info')+'">'+(below?'Below':'Above')+' 200-day trend '+(sig.vsMA200>0?'+':'')+sig.vsMA200.toFixed(0)+'%</span>';
@@ -1088,7 +1111,7 @@ function renderValuation(asset, daily){
   const f=(x,suf)=>x==null?'—':(x>0?'+':'')+x.toFixed(1)+(suf||'');
   let fundRows='';
   if(fd){
-    if(fd.dcf!=null && fd.price!=null) fundRows+=row('DCF fair value (FMP, nightly)', '$'+fd.dcf.toFixed(2)+' vs price $'+fd.price.toFixed(2), fd.dcfGapPct>=0?'bull':'bear');
+    if(fd.fair!=null && fd.price!=null) fundRows+=row('Analyst mean target (nightly)', '$'+fd.fair.toFixed(2)+' vs price $'+fd.price.toFixed(2), fd.gapPct>=0?'bull':'bear');
     if(fd.rec) fundRows+=row('Analyst consensus', fd.rec.buy+' buy · '+fd.rec.hold+' hold · '+fd.rec.sell+' sell', fd.rec.buy>fd.rec.sell?'bull':'bear');
   }
   $('valRows').innerHTML=
@@ -1320,13 +1343,14 @@ function renderSnapshotStatus(){
   const el=$('snapNote');
   if(META && META.updatedAt){
     const d=new Date(META.updatedAt);
+    const nfund=(FUND && FUND.bySymbol)? Object.keys(FUND.bySymbol).length : 0;
     el.textContent='● Nightly snapshot · last successful update '+d.toLocaleString()
       +' · '+(META.prices?META.prices.ok+' symbols':'')
-      +(FUND?' · analyst data loaded':' · analyst data pending (set the FMP_KEY secret)');
-    $('footText').textContent='SeasonScope ['+BUILD+'] · Data: Stooq + FMP nightly snapshot ('+d.toLocaleDateString()+') · Educational tool — not financial advice.';
+      +(nfund?' · analyst data for '+nfund+' stocks':' · analyst data unavailable this run');
+    $('footText').textContent='SeasonScope ['+BUILD+'] · Data: Yahoo Finance nightly snapshot ('+d.toLocaleDateString()+') · Educational tool — not financial advice.';
   }else{
     el.textContent='○ No nightly snapshot yet — fetching live via proxies (slower). It appears after the "Refresh market data" Action runs on main.';
-    $('footText').textContent='SeasonScope ['+BUILD+'] · Data: Stooq (live) · Educational tool — not financial advice. Past seasonality does not predict future returns.';
+    $('footText').textContent='SeasonScope ['+BUILD+'] · Data: Yahoo Finance (live) · Educational tool — not financial advice. Past seasonality does not predict future returns.';
   }
 }
 function renderPennyScreen(){

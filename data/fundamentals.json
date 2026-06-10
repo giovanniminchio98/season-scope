@@ -1,0 +1,629 @@
+{
+ "updatedAt": "2026-06-10T21:53:40.444Z",
+ "source": "yahoo",
+ "bySymbol": {
+  "aapl.us": {
+   "price": 291.58,
+   "fair": 312.48,
+   "fairLabel": "analyst target",
+   "gapPct": 7.2,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 30,
+    "hold": 15,
+    "sell": 3
+   }
+  },
+  "msft.us": {
+   "price": 397.36,
+   "fair": 560.95,
+   "fairLabel": "analyst target",
+   "gapPct": 41.2,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 53,
+    "hold": 3,
+    "sell": 0
+   }
+  },
+  "nvda.us": {
+   "price": 200.42,
+   "fair": 298.42,
+   "fairLabel": "analyst target",
+   "gapPct": 48.9,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 59,
+    "hold": 2,
+    "sell": 1
+   }
+  },
+  "amzn.us": {
+   "price": 238,
+   "fair": 312.71,
+   "fairLabel": "analyst target",
+   "gapPct": 31.4,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 62,
+    "hold": 4,
+    "sell": 0
+   }
+  },
+  "googl.us": {
+   "price": 356.38,
+   "fair": 431.76,
+   "fairLabel": "analyst target",
+   "gapPct": 21.2,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 56,
+    "hold": 7,
+    "sell": 0
+   }
+  },
+  "meta.us": {
+   "price": 570.98,
+   "fair": 828.8,
+   "fairLabel": "analyst target",
+   "gapPct": 45.2,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 58,
+    "hold": 6,
+    "sell": 0
+   }
+  },
+  "tsla.us": {
+   "price": 381.59,
+   "fair": 419.94,
+   "fairLabel": "analyst target",
+   "gapPct": 10,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 23,
+    "hold": 18,
+    "sell": 6
+   }
+  },
+  "brk-b.us": {
+   "price": 483.68,
+   "fair": 520.33,
+   "fairLabel": "analyst target",
+   "gapPct": 7.6,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 3,
+    "hold": 1,
+    "sell": 0
+   }
+  },
+  "jpm.us": {
+   "price": 309.14,
+   "fair": 342.19,
+   "fairLabel": "analyst target",
+   "gapPct": 10.7,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 12,
+    "hold": 12,
+    "sell": 0
+   }
+  },
+  "v.us": {
+   "price": 322.96,
+   "fair": 398.83,
+   "fairLabel": "analyst target",
+   "gapPct": 23.5,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 36,
+    "hold": 3,
+    "sell": 0
+   }
+  },
+  "ma.us": {
+   "price": 489.08,
+   "fair": 646.97,
+   "fairLabel": "analyst target",
+   "gapPct": 32.3,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 37,
+    "hold": 2,
+    "sell": 0
+   }
+  },
+  "unh.us": {
+   "price": 407.46,
+   "fair": 407.38,
+   "fairLabel": "analyst target",
+   "gapPct": 0,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 23,
+    "hold": 4,
+    "sell": 1
+   }
+  },
+  "hd.us": {
+   "price": 318.92,
+   "fair": 370.18,
+   "fairLabel": "analyst target",
+   "gapPct": 16.1,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 22,
+    "hold": 14,
+    "sell": 0
+   }
+  },
+  "pg.us": {
+   "price": 149.05,
+   "fair": 163.77,
+   "fairLabel": "analyst target",
+   "gapPct": 9.9,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 14,
+    "hold": 10,
+    "sell": 0
+   }
+  },
+  "jnj.us": {
+   "price": 238.49,
+   "fair": 252.87,
+   "fairLabel": "analyst target",
+   "gapPct": 6,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 15,
+    "hold": 8,
+    "sell": 1
+   }
+  },
+  "xom.us": {
+   "price": 150.62,
+   "fair": 169.91,
+   "fairLabel": "analyst target",
+   "gapPct": 12.8,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 11,
+    "hold": 13,
+    "sell": 1
+   }
+  },
+  "cvx.us": {
+   "price": 189.8,
+   "fair": 216.04,
+   "fairLabel": "analyst target",
+   "gapPct": 13.8,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 18,
+    "hold": 6,
+    "sell": 1
+   }
+  },
+  "ko.us": {
+   "price": 83.59,
+   "fair": 86.06,
+   "fairLabel": "analyst target",
+   "gapPct": 3,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 19,
+    "hold": 4,
+    "sell": 1
+   }
+  },
+  "pep.us": {
+   "price": 144.32,
+   "fair": 170.57,
+   "fairLabel": "analyst target",
+   "gapPct": 18.2,
+   "ratingLabel": "hold",
+   "rec": {
+    "buy": 8,
+    "hold": 14,
+    "sell": 1
+   }
+  },
+  "cost.us": {
+   "price": 983.37,
+   "fair": 1082.33,
+   "fairLabel": "analyst target",
+   "gapPct": 10.1,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 22,
+    "hold": 13,
+    "sell": 2
+   }
+  },
+  "wmt.us": {
+   "price": 120.59,
+   "fair": 137.93,
+   "fairLabel": "analyst target",
+   "gapPct": 14.4,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 39,
+    "hold": 4,
+    "sell": 1
+   }
+  },
+  "mcd.us": {
+   "price": 282.52,
+   "fair": 331.29,
+   "fairLabel": "analyst target",
+   "gapPct": 17.3,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 19,
+    "hold": 14,
+    "sell": 1
+   }
+  },
+  "dis.us": {
+   "price": 98.61,
+   "fair": 129.67,
+   "fairLabel": "analyst target",
+   "gapPct": 31.5,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 27,
+    "hold": 2,
+    "sell": 1
+   }
+  },
+  "nflx.us": {
+   "price": 82,
+   "fair": 114.56,
+   "fairLabel": "analyst target",
+   "gapPct": 39.7,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 37,
+    "hold": 13,
+    "sell": 0
+   }
+  },
+  "adbe.us": {
+   "price": 233.38,
+   "fair": 329.33,
+   "fairLabel": "analyst target",
+   "gapPct": 41.1,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 15,
+    "hold": 20,
+    "sell": 3
+   }
+  },
+  "crm.us": {
+   "price": 170.92,
+   "fair": 254.99,
+   "fairLabel": "analyst target",
+   "gapPct": 49.2,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 39,
+    "hold": 10,
+    "sell": 2
+   }
+  },
+  "amd.us": {
+   "price": 452.4,
+   "fair": 482.69,
+   "fairLabel": "analyst target",
+   "gapPct": 6.7,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 41,
+    "hold": 10,
+    "sell": 0
+   }
+  },
+  "intc.us": {
+   "price": 107.04,
+   "fair": 92.17,
+   "fairLabel": "analyst target",
+   "gapPct": -13.9,
+   "ratingLabel": "hold",
+   "rec": {
+    "buy": 12,
+    "hold": 32,
+    "sell": 4
+   }
+  },
+  "csco.us": {
+   "price": 118.8,
+   "fair": 126.5,
+   "fairLabel": "analyst target",
+   "gapPct": 6.5,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 17,
+    "hold": 8,
+    "sell": 1
+   }
+  },
+  "orcl.us": {
+   "price": 201.26,
+   "fair": 255.18,
+   "fairLabel": "analyst target",
+   "gapPct": 26.8,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 36,
+    "hold": 6,
+    "sell": 1
+   }
+  },
+  "bac.us": {
+   "price": 54.54,
+   "fair": 63.16,
+   "fairLabel": "analyst target",
+   "gapPct": 15.8,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 22,
+    "hold": 2,
+    "sell": 0
+   }
+  },
+  "wfc.us": {
+   "price": 81.97,
+   "fair": 96.11,
+   "fairLabel": "analyst target",
+   "gapPct": 17.3,
+   "rec": {
+    "buy": 16,
+    "hold": 8,
+    "sell": 0
+   }
+  },
+  "pfe.us": {
+   "price": 25.6,
+   "fair": 29.19,
+   "fairLabel": "analyst target",
+   "gapPct": 14,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 11,
+    "hold": 15,
+    "sell": 3
+   }
+  },
+  "abbv.us": {
+   "price": 224.95,
+   "fair": 253.55,
+   "fairLabel": "analyst target",
+   "gapPct": 12.7,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 24,
+    "hold": 8,
+    "sell": 0
+   }
+  },
+  "nke.us": {
+   "price": 43.96,
+   "fair": 60.49,
+   "fairLabel": "analyst target",
+   "gapPct": 37.6,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 16,
+    "hold": 20,
+    "sell": 2
+   }
+  },
+  "t.us": {
+   "price": 23.21,
+   "fair": 30.3,
+   "fairLabel": "analyst target",
+   "gapPct": 30.5,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 15,
+    "hold": 10,
+    "sell": 0
+   }
+  },
+  "qcom.us": {
+   "price": 191.2,
+   "fair": 180.48,
+   "fairLabel": "analyst target",
+   "gapPct": -5.6,
+   "ratingLabel": "hold",
+   "rec": {
+    "buy": 12,
+    "hold": 22,
+    "sell": 5
+   }
+  },
+  "ibm.us": {
+   "price": 272.36,
+   "fair": 290.89,
+   "fairLabel": "analyst target",
+   "gapPct": 6.8,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 13,
+    "hold": 7,
+    "sell": 2
+   }
+  },
+  "ba.us": {
+   "price": 209,
+   "fair": 270,
+   "fairLabel": "analyst target",
+   "gapPct": 29.2,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 21,
+    "hold": 5,
+    "sell": 1
+   }
+  },
+  "cat.us": {
+   "price": 856.16,
+   "fair": 936.99,
+   "fairLabel": "analyst target",
+   "gapPct": 9.4,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 15,
+    "hold": 11,
+    "sell": 2
+   }
+  },
+  "plug.us": {
+   "price": 2.86,
+   "fair": 3.62,
+   "fairLabel": "analyst target",
+   "gapPct": 26.4,
+   "ratingLabel": "hold",
+   "rec": {
+    "buy": 5,
+    "hold": 12,
+    "sell": 3
+   }
+  },
+  "chpt.us": {
+   "price": 6.4,
+   "fair": 6.33,
+   "fairLabel": "analyst target",
+   "gapPct": -1,
+   "ratingLabel": "hold",
+   "rec": {
+    "buy": 0,
+    "hold": 7,
+    "sell": 1
+   }
+  },
+  "lcid.us": {
+   "price": 4.7,
+   "fair": 8.4,
+   "fairLabel": "analyst target",
+   "gapPct": 78.7,
+   "ratingLabel": "hold",
+   "rec": {
+    "buy": 1,
+    "hold": 8,
+    "sell": 3
+   }
+  },
+  "rivn.us": {
+   "price": 14.76,
+   "fair": 18.15,
+   "fairLabel": "analyst target",
+   "gapPct": 23,
+   "ratingLabel": "hold",
+   "rec": {
+    "buy": 11,
+    "hold": 10,
+    "sell": 5
+   }
+  },
+  "sofi.us": {
+   "price": 15.87,
+   "fair": 21,
+   "fairLabel": "analyst target",
+   "gapPct": 32.3,
+   "ratingLabel": "hold",
+   "rec": {
+    "buy": 8,
+    "hold": 12,
+    "sell": 4
+   }
+  },
+  "riot.us": {
+   "price": 24.08,
+   "fair": 27.7,
+   "fairLabel": "analyst target",
+   "gapPct": 15,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 18,
+    "hold": 2,
+    "sell": 0
+   }
+  },
+  "mara.us": {
+   "price": 12.62,
+   "fair": 17.57,
+   "fairLabel": "analyst target",
+   "gapPct": 39.2,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 7,
+    "hold": 5,
+    "sell": 1
+   }
+  },
+  "nok.us": {
+   "price": 13.4,
+   "fair": 14.11,
+   "fairLabel": "analyst target",
+   "gapPct": 5.3,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 8,
+    "hold": 2,
+    "sell": 1
+   }
+  },
+  "ai.us": {
+   "price": 10.8,
+   "fair": 8.82,
+   "fairLabel": "analyst target",
+   "gapPct": -18.4,
+   "ratingLabel": "hold",
+   "rec": {
+    "buy": 1,
+    "hold": 7,
+    "sell": 6
+   }
+  },
+  "hut.us": {
+   "price": 105.68,
+   "fair": 119,
+   "fairLabel": "analyst target",
+   "gapPct": 12.6,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 16,
+    "hold": 0,
+    "sell": 0
+   }
+  },
+  "f.us": {
+   "price": 14.3,
+   "fair": 14.55,
+   "fairLabel": "analyst target",
+   "gapPct": 1.7,
+   "ratingLabel": "hold",
+   "rec": {
+    "buy": 5,
+    "hold": 15,
+    "sell": 1
+   }
+  },
+  "pton.us": {
+   "price": 5.59,
+   "fair": 8.09,
+   "fairLabel": "analyst target",
+   "gapPct": 44.8,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 9,
+    "hold": 11,
+    "sell": 1
+   }
+  }
+ }
+}
