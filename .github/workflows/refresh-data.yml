@@ -1,0 +1,54 @@
+# Nightly market-data snapshot for SeasonScope.
+#
+# Fetches Stooq daily prices (no key) and FMP fundamentals (FMP_KEY repo
+# secret) via scripts/fetch_data.mjs, then commits the results under data/.
+# The app serves those static files first, so normal use needs no CORS
+# proxies and the API key never reaches the browser.
+#
+# Setup: repo Settings -> Secrets and variables -> Actions -> New repository
+# secret -> name FMP_KEY (without it, the run still snapshots prices).
+# First run: Actions tab -> "Refresh market data" -> Run workflow.
+
+name: Refresh market data
+
+on:
+  schedule:
+    - cron: '25 3 * * *'   # nightly 03:25 UTC, after US close settles
+  workflow_dispatch: {}     # manual "Run workflow" button
+
+permissions:
+  contents: write           # allow the job to commit data/ back to the repo
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Self-test (no network)
+        run: SELFTEST=1 node scripts/fetch_data.mjs
+
+      - name: Fetch snapshot
+        env:
+          FMP_KEY: ${{ secrets.FMP_KEY }}
+        run: node scripts/fetch_data.mjs
+
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then
+            echo "No data changes — nothing to commit."
+            exit 0
+          fi
+          git commit -m "data: nightly refresh $(date -u +%F)"
+          git push
