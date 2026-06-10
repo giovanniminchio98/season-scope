@@ -9,6 +9,8 @@ What it does
 -Selectable year range — start and end year dropdowns from 1980 to the current year.
 -Month strength bars — average return + win-rate per month, ranked visually.
 -Asset rating — an A+ to D composite score from momentum (CAGR), volatility, drawdown control, trend consistency and seasonal reliability. Clearly labelled as SeasonScope’s own metric, not a Morningstar rating.
+-Three tabs — **Discover** (opens first; auto-ranks a shortlist of stocks to monitor by a computed seasonal + momentum + value/entry score), **Analyze** (the full single-asset deep dive — also reachable by tapping any suggestion), and **Movers** (a curated low-price / speculative watchlist ranked the same way).
+-Valuation & entry (price-based) — a technical read of whether a name looks stretched or in a value/entry zone: drawdown from highs, position in the 52-week range, distance from the 200-day trend, RSI and 3/6-month momentum. Clearly labelled as a computed price signal, NOT a fundamental valuation or analyst rating (this build is key-free, so no analyst data is available).
 -Seasonal forecast — current month + the next two: expected (mean) return, win-rate, a ±1σ confidence band and a confidence label, plus a plain-language read of the upcoming month.
 -Intra-month detail — average daily % change by day-of-week (Mon–Fri) and by week-of-month (turn-of-the-month effect).
 -Per-month confidence — each month shows its standard deviation, sample size and a ⚠ flag when too few years make the signal noisy.

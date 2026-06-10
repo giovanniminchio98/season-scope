@@ -166,6 +166,50 @@
   .lowconf{color:var(--accent2); cursor:help}
   @media(max-width:600px){ .fcast-grid{grid-template-columns:1fr} }
 
+  /* main tabs */
+  .maintabs{display:flex; gap:8px; margin-bottom:22px; animation:fadeUp 0.5s ease both}
+  .maintabs input{display:none}
+  .maintabs label{
+    flex:1; padding:14px 18px; font-size:12px; text-transform:uppercase; letter-spacing:0.12em;
+    color:var(--muted); text-align:center; cursor:pointer; transition:all .2s; white-space:nowrap;
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+  }
+  .maintabs label:hover{color:var(--text); border-color:#3a3a3a}
+  #tabDiscover:checked ~ label[for=tabDiscover],
+  #tabAnalyze:checked ~ label[for=tabAnalyze],
+  #tabPenny:checked ~ label[for=tabPenny]{background:var(--accent); color:#0e0e0e; font-weight:500; border-color:var(--accent)}
+  .panel{animation:fadeUp 0.4s ease both}
+  .paneldesc{font-size:12px; color:var(--muted); line-height:1.7; margin-bottom:16px; max-width:820px}
+
+  .disc-controls{display:flex; align-items:center; gap:14px; margin-bottom:12px}
+  .scanstat{font-size:11px; color:var(--muted)}
+  .disc-progress{height:4px; background:var(--border); border-radius:99px; overflow:hidden; margin-bottom:18px}
+  .disc-bar{height:100%; width:0; background:var(--accent); border-radius:99px; transition:width .3s ease}
+  .disc-list{display:flex; flex-direction:column; gap:10px}
+
+  .sg{display:flex; align-items:center; gap:14px; padding:14px 16px; background:var(--surface); border:1px solid var(--border); border-radius:12px; transition:border-color .2s, transform .12s; cursor:pointer}
+  .sg:hover{border-color:var(--accent); transform:translateX(2px)}
+  .sg-rank{font-family:'DM Serif Display',serif; font-style:italic; font-size:22px; color:var(--muted); width:30px; text-align:center; flex-shrink:0}
+  .sg-grade{font-family:'DM Serif Display',serif; font-style:italic; font-size:30px; line-height:1; width:54px; text-align:center; flex-shrink:0}
+  .sg-grade.g-a{color:var(--bull)} .sg-grade.g-b{color:var(--accent)} .sg-grade.g-c{color:var(--accent2)} .sg-grade.g-d{color:var(--bear)}
+  .sg-main{flex:1; min-width:0}
+  .sg-name{font-size:15px; color:var(--text); font-weight:500; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+  .sg-grp{font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); border:1px solid var(--border); padding:1px 6px; border-radius:99px}
+  .sg-why{font-size:11px; color:var(--muted); line-height:1.6; margin-top:4px}
+  .sg-tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px}
+  .sg-tag{font-size:9px; text-transform:uppercase; letter-spacing:0.08em; padding:3px 9px; border-radius:99px; border:1px solid}
+  .sg-tag.t-seasonal{border-color:rgba(200,240,96,0.4); color:var(--bull); background:rgba(200,240,96,0.07)}
+  .sg-tag.t-momentum{border-color:rgba(96,200,240,0.4); color:var(--accent3); background:rgba(96,200,240,0.07)}
+  .sg-tag.t-value{border-color:rgba(240,184,96,0.4); color:var(--accent2); background:rgba(240,184,96,0.07)}
+  .sg-go{font-size:11px; color:var(--accent); white-space:nowrap; flex-shrink:0}
+  .sg-price{font-size:12px; color:var(--text); white-space:nowrap; flex-shrink:0; text-align:right}
+  .sg-price .pc{font-size:10px}
+
+  .val-head{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px; flex-wrap:wrap}
+  .val-verdict{font-family:'DM Serif Display',serif; font-style:italic; font-size:30px; line-height:1.1}
+  .val-verdict.bull{color:var(--bull)} .val-verdict.bear{color:var(--bear)} .val-verdict.neutral{color:var(--accent2)}
+  .val-chips{display:flex; gap:8px; flex-wrap:wrap}
+
   .hidden{display:none !important}
   .err{color:var(--bear); font-size:12px; line-height:1.8}
   .err strong{color:var(--text)}
@@ -207,6 +251,40 @@
     </div>
     <p class="subtitle">Monthly seasonality dashboard. Years in rows, months in columns — spot the months an asset consistently gains or bleeds. Stocks, forex, commodities &amp; indices. Data computed live from monthly price history; rebuilds every time you load.</p>
   </header>
+
+  <div class="maintabs">
+    <input type="radio" name="maintab" id="tabDiscover" checked><label for="tabDiscover">◎ Discover</label>
+    <input type="radio" name="maintab" id="tabAnalyze"><label for="tabAnalyze">⌕ Analyze</label>
+    <input type="radio" name="maintab" id="tabPenny"><label for="tabPenny">⚡ Movers</label>
+  </div>
+
+  <div id="panel-discover" class="panel">
+    <div class="card" style="animation-delay:.05s">
+      <div class="card-title accent">◎ Suggested to Monitor</div>
+      <p class="paneldesc">Auto-ranked from price action — <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI) and <strong>value / entry</strong> (drawdown from highs, position in 52-wk range, vs 200-day trend). These are SeasonScope's own <strong>computed, price-based</strong> signals — not analyst opinions — and not investment advice.</p>
+      <div class="disc-controls">
+        <button id="scanBtn" class="btn">↻ Scan now</button>
+        <span id="scanStatus" class="scanstat">—</span>
+      </div>
+      <div class="disc-progress"><div id="scanBar" class="disc-bar"></div></div>
+      <div id="discoverList" class="disc-list"></div>
+    </div>
+  </div>
+
+  <div id="panel-penny" class="panel hidden">
+    <div class="card" style="animation-delay:.05s">
+      <div class="card-title accent2">⚡ Low-Price / Speculative Movers · Watchlist</div>
+      <p class="paneldesc"><strong>High risk.</strong> Low-priced, high-volatility names — they can move hard in both directions and some can go to zero. Ranked by the same computed seasonal + momentum + value/entry signals. Curated watchlist (edit the <code>Penny</code> group in the code to change it). <strong>Not investment advice.</strong></p>
+      <div class="disc-controls">
+        <button id="pennyScanBtn" class="btn">↻ Scan watchlist</button>
+        <span id="pennyStatus" class="scanstat">—</span>
+      </div>
+      <div class="disc-progress"><div id="pennyBar" class="disc-bar"></div></div>
+      <div id="pennyList" class="disc-list"></div>
+    </div>
+  </div>
+
+  <div id="panel-analyze" class="panel hidden">
 
   <div class="controls">
     <div class="ctrl-group" style="flex:2; min-width:200px">
@@ -282,6 +360,18 @@
       </div>
     </div>
 
+    <div class="grid-full">
+      <div class="card" style="animation-delay:.16s">
+        <div class="card-title accent2">Valuation &amp; Entry · Price-Based Signal</div>
+        <div class="val-head">
+          <div><div class="val-verdict" id="valVerdict">—</div><div class="rating-sub" id="valTag">computed from price</div></div>
+          <div class="val-chips" id="valChips"></div>
+        </div>
+        <div id="valRows"></div>
+        <div class="note">A <strong>technical</strong> read of whether the price looks stretched or in a value/entry zone — drawdown from highs, position in the 52-week range, distance from the 200-day trend, and RSI. Because this build is key-free it uses <strong>price only</strong>: it is <strong>not</strong> a fundamental valuation, analyst rating or fair-value estimate, and not investment advice.</div>
+      </div>
+    </div>
+
     <div class="grid-2">
       <div class="card" style="animation-delay:.18s">
         <div class="card-title accent3">Intra-Month · Day of Week</div>
@@ -308,6 +398,8 @@
     </div>
 
   </div>
+
+  </div><!-- /panel-analyze -->
 
   <div class="grid-full">
     <div class="card" style="animation-delay:.3s">
@@ -359,7 +451,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v8 · Stooq';
+const BUILD = 'v9 · Stooq';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -416,7 +508,18 @@ const ASSETS = [
   {g:'Commodities',t:'gc.f',n:'Gold'},{g:'Commodities',t:'si.f',n:'Silver'},
   {g:'Commodities',t:'cl.f',n:'Crude Oil WTI'},{g:'Commodities',t:'ng.f',n:'Natural Gas'},
   {g:'Commodities',t:'hg.f',n:'Copper'},{g:'Commodities',t:'btcusd',n:'Bitcoin'},
+  // ---- Penny / low-price / speculative (HIGH RISK — edit freely) ----
+  {g:'Penny',t:'plug.us',n:'Plug Power'},{g:'Penny',t:'chpt.us',n:'ChargePoint'},
+  {g:'Penny',t:'lcid.us',n:'Lucid'},{g:'Penny',t:'rivn.us',n:'Rivian'},
+  {g:'Penny',t:'sofi.us',n:'SoFi'},{g:'Penny',t:'riot.us',n:'Riot Platforms'},
+  {g:'Penny',t:'mara.us',n:'Marathon Digital'},{g:'Penny',t:'nok.us',n:'Nokia'},
+  {g:'Penny',t:'ai.us',n:'C3.ai'},{g:'Penny',t:'hut.us',n:'Hut 8'},
+  {g:'Penny',t:'f.us',n:'Ford'},{g:'Penny',t:'pton.us',n:'Peloton'},
 ];
+
+/* Tickers scanned on the Discover tab (kept focused so the multi-stock scan
+   stays fast/reliable on public proxies). Edit freely — must match an ASSETS 't'. */
+const DISCOVER_TICKERS = ['aapl.us','msft.us','nvda.us','amzn.us','googl.us','meta.us','tsla.us','jpm.us','xom.us','unh.us','wmt.us','ko.us','cat.us','amd.us'];
 
 /* ===========================================================================
    >>> CORS PROXY CHAIN <<<  (free, no account). Stooq has no CORS headers, so
@@ -623,6 +726,97 @@ function computeForecast(agg){
   return out;
 }
 
+/* ---------- Price-based signals (key-free: derived from price only) ---------- */
+const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
+const sc01=(v,lo,hi)=>clamp((v-lo)/(hi-lo),0,1)*100;   // map v∈[lo,hi] → 0..100
+function sma(arr,n){ if(arr.length<n) return null; let s=0; for(let i=arr.length-n;i<arr.length;i++) s+=arr[i]; return s/n; }
+function retDays(closes,n){ if(closes.length<=n) return null; const a=closes[closes.length-1-n], b=closes[closes.length-1]; return a>0? (b-a)/a*100 : null; }
+function rsi(closes,period){
+  period=period||14; if(closes.length<period+1) return null;
+  let g=0,l=0;
+  for(let i=closes.length-period;i<closes.length;i++){ const d=closes[i]-closes[i-1]; if(d>=0)g+=d; else l-=d; }
+  const ag=g/period, al=l/period; if(al===0) return 100; const rs=ag/al; return 100-100/(1+rs);
+}
+
+/* Snapshot of where the price sits relative to its own history. */
+function priceSignals(daily){
+  const closes=daily.map(r=>r.close);
+  const last=closes[closes.length-1];
+  const win=closes.slice(-252);                      // ~1 trading year
+  const hi52=Math.max.apply(null,win), lo52=Math.min.apply(null,win);
+  const allHi=Math.max.apply(null,closes);
+  const ma200=sma(closes,200), ma50=sma(closes,50);
+  return {
+    last,
+    ddFromHigh: allHi>0? (last-allHi)/allHi*100 : 0,    // ≤0, how far below all-time(window) high
+    rangePos: hi52>lo52? (last-lo52)/(hi52-lo52) : 0.5, // 0 at 1y low, 1 at 1y high
+    vsMA200: ma200? (last-ma200)/ma200*100 : null,
+    vsMA50: ma50? (last-ma50)/ma50*100 : null,
+    rsi14: rsi(closes,14),
+    r1m: retDays(closes,21), r3m: retDays(closes,63), r6m: retDays(closes,126),
+  };
+}
+
+/* Value / entry read: high score = looks like a value/entry zone (on sale,
+   below trend, oversold) WITHOUT being a falling knife. Purely technical. */
+function valuationVerdict(sig){
+  // reward being moderately off highs (~10-30%), low in its range, below trend, oversold RSI
+  const sDD   = sig.ddFromHigh<=-50 ? 25 : sc01(-sig.ddFromHigh, 0, 30);   // peak value ~30% off, penalise crashes
+  const sRange= (1-sig.rangePos)*100;
+  const sMA   = sig.vsMA200==null? 50 : sc01(-sig.vsMA200, -10, 25);        // below 200d → higher
+  const sRSI  = sig.rsi14==null? 50 : sc01(40-sig.rsi14, -20, 20);          // oversold → higher
+  const score = sDD*0.3 + sRange*0.3 + sMA*0.2 + sRSI*0.2;
+  let label, tone;
+  if(score>=70){ label='Value / oversold zone'; tone='bull'; }
+  else if(score>=56){ label='Below trend · possible entry'; tone='bull'; }
+  else if(score>=44){ label='Around fair (vs its history)'; tone='neutral'; }
+  else if(score>=30){ label='Extended above trend'; tone='bear'; }
+  else { label='Stretched · looks rich'; tone='bear'; }
+  return {score, label, tone};
+}
+
+/* Momentum read: positive 3/6-mo trend, RSI not blown out. */
+function momentumScore(sig){
+  const s3=sc01(sig.r3m==null?0:sig.r3m,-15,25), s6=sc01(sig.r6m==null?0:sig.r6m,-20,40);
+  const trend=sig.vsMA50==null?50:sc01(sig.vsMA50,-12,12);
+  let rsiPen=0; if(sig.rsi14!=null && sig.rsi14>78) rsiPen=15;  // overbought → trim
+  return clamp(s3*0.4+s6*0.35+trend*0.25-rsiPen,0,100);
+}
+
+/* Seasonal edge: how favourable the next 1-2 calendar months have been. */
+function seasonalEdgeScore(agg){
+  let tot=0,w=0;
+  for(let k=0;k<2;k++){
+    const a=agg[(NOW_MONTH-1+k)%12];
+    if(a && a.avg!=null){ const s=sc01(a.avg,-3,5)*0.6 + sc01(a.winRate,35,70)*0.4; const wt=(k===0?1:0.7); tot+=s*wt; w+=wt; }
+  }
+  return w? tot/w : 50;
+}
+
+/* Full per-asset score from one daily series (reuses the monthly pipeline). */
+function scoreAsset(asset, daily){
+  const monthly=toMonthly(daily);
+  const data=compute(monthly, NOW_YEAR-12, NOW_YEAR);   // use up to ~12y of seasonality if present
+  const sig=priceSignals(daily);
+  const val=valuationVerdict(sig);
+  const mom=momentumScore(sig);
+  const sea=seasonalEdgeScore(data.agg);
+  const composite=sea*0.34 + mom*0.33 + val.score*0.33;
+  const grade = composite>=72?'A':composite>=60?'B':composite>=48?'C':'D';
+  const tags=[];
+  if(sea>=60) tags.push('seasonal'); if(mom>=60) tags.push('momentum'); if(val.score>=58) tags.push('value');
+  // one-line rationale
+  const nm=MONTHS_FULL[(NOW_MONTH)%12];                 // next month name
+  const na=data.agg[(NOW_MONTH)%12];
+  const bits=[];
+  if(na && na.avg!=null) bits.push(nm+' avg '+(na.avg>0?'+':'')+na.avg.toFixed(1)+'% ('+na.winRate.toFixed(0)+'% win)');
+  if(sig.r3m!=null) bits.push('3-mo '+(sig.r3m>0?'+':'')+sig.r3m.toFixed(0)+'%');
+  bits.push(Math.round(-sig.ddFromHigh)+'% off high');
+  if(sig.rsi14!=null) bits.push('RSI '+sig.rsi14.toFixed(0));
+  return { t:asset.t, n:asset.n, g:asset.g, composite, grade, sea, mom, val:val.score,
+           verdict:val.label, tone:val.tone, tags, rationale:bits.join(' · '), price:sig.last };
+}
+
 function cellColor(v, mode){
   if(v==null) return {bg:'transparent', fg:'#555'};
   if(mode==='win'){
@@ -796,6 +990,38 @@ function renderIntra(intra){
   requestAnimationFrame(()=>document.querySelectorAll('#dowBars .fill, #womBars .fill').forEach(f=>f.style.width=f.dataset.w+'%'));
 }
 
+/* Valuation & Entry card (price-based). */
+function renderValuation(daily){
+  const sig=priceSignals(daily);
+  const v=valuationVerdict(sig);
+  $('valVerdict').textContent=v.label;
+  $('valVerdict').className='val-verdict '+v.tone;
+  $('valTag').textContent='price-based · score '+v.score.toFixed(0)+'/100';
+  // headline chips: vs trend + RSI state
+  let chips='';
+  if(sig.vsMA200!=null){
+    const below=sig.vsMA200<0;
+    chips+='<span class="chip '+(below?'neutral':'info')+'">'+(below?'Below':'Above')+' 200-day trend '+(sig.vsMA200>0?'+':'')+sig.vsMA200.toFixed(0)+'%</span>';
+  }
+  if(sig.rsi14!=null){
+    const cls=sig.rsi14<=30?'bull':sig.rsi14>=70?'bear':'neutral';
+    const st=sig.rsi14<=30?'oversold':sig.rsi14>=70?'overbought':'neutral';
+    chips+='<span class="chip '+cls+'">RSI '+sig.rsi14.toFixed(0)+' · '+st+'</span>';
+  }
+  chips+='<span class="chip neutral">'+Math.round(-sig.ddFromHigh)+'% off high</span>';
+  $('valChips').innerHTML=chips;
+  const row=(l,val,cls)=>'<div class="row"><span class="label">'+l+'</span><span class="value '+(cls||'')+'">'+val+'</span></div>';
+  const f=(x,suf)=>x==null?'—':(x>0?'+':'')+x.toFixed(1)+(suf||'');
+  $('valRows').innerHTML=
+    row('Last price', sig.last!=null? sig.last.toFixed(2):'—')+
+    row('Drawdown from high', f(sig.ddFromHigh,'%'), sig.ddFromHigh<-25?'bear':'')+
+    row('Position in 52-wk range', (sig.rangePos*100).toFixed(0)+'%', sig.rangePos<0.3?'bull':sig.rangePos>0.8?'bear':'')+
+    row('Vs 200-day trend', f(sig.vsMA200,'%'), sig.vsMA200!=null&&sig.vsMA200<0?'accent2':'')+
+    row('Momentum · 3-mo', f(sig.r3m,'%'), sig.r3m>=0?'bull':'bear')+
+    row('Momentum · 6-mo', f(sig.r6m,'%'), sig.r6m>=0?'bull':'bear')+
+    row('RSI (14d)', sig.rsi14!=null? sig.rsi14.toFixed(0):'—');
+}
+
 /* Famous patterns (STATIC — no API needed) */
 const FAMOUS=[
   ['Sell in May & Go Away','Equities historically underperform May–Oct vs Nov–Apr. The "Halloween indicator" is the inverse: stay invested Nov–Apr.'],
@@ -821,7 +1047,22 @@ const TIPS=[
 ];
 $('tipsList').innerHTML=TIPS.map(t=>'<li>'+t+'</li>').join('');
 
-let CURRENT=null;     // raw fetch cache: {symbol, rows}
+/* Shared in-memory daily-price cache, keyed by symbol. Stores the deepest range
+   fetched so far; a shallower request reuses it. Both Analyze and the scanners
+   read through getDaily so a symbol is fetched at most once per session. */
+const DAILY_CACHE={};
+function cachedDaily(symbol, fromYear){
+  const c=DAILY_CACHE[symbol];
+  return (c && c.fromYear<=fromYear) ? c.daily : null;
+}
+async function getDaily(symbol, fromYear){
+  const hit=cachedDaily(symbol, fromYear);
+  if(hit) return hit;
+  const daily=await fetchDaily(symbol, fromYear);
+  DAILY_CACHE[symbol]={fromYear, daily};
+  return daily;
+}
+
 let LASTDATA=null;    // last computed seasonality data, for the matrix metric toggle
 
 /* Render everything from already-fetched rows for the chosen year window.
@@ -840,6 +1081,7 @@ function renderAll(asset, daily, startYr, endYr){
   renderSignals(data, extra);
   renderForecast(computeForecast(data.agg));            // forward seasonal forecast
   renderIntra(computeIntra(daily, startYr, endYr));     // day-of-week + week-of-month
+  renderValuation(daily);                               // price-based valuation / entry
   LASTDATA=data;
   const ranked=data.agg.map((a,i)=>Object.assign({},a,{i})).filter(a=>a.avg!=null).sort((a,b)=>b.avg-a.avg);
   $('sbCov').textContent=data.years[0]+'–'+data.years[data.years.length-1]+' ('+data.years.length+'y)';
@@ -872,15 +1114,15 @@ async function run(force){
   $('sbType').textContent=asset.g;
 
   const fromYear=startYr;   // we only fetch back this far (plus prior-Dec buffer)
+  if(force) delete DAILY_CACHE[asset.t];
 
-  // Cache hit: same symbol AND the cached data already reaches far enough back →
-  // just recompute the window (instant, no network). Only re-fetch when the user
-  // goes FURTHER back than what we have, or forces a refresh. This keeps year-range
-  // changes from re-hitting the proxies (which is what triggers rate-limit failures).
-  if(!force && CURRENT && CURRENT.symbol===asset.t && CURRENT.fromYear<=fromYear){
+  // Cache hit: data already reaches far enough back → recompute the window instantly
+  // (no network). Year-range narrowing never re-hits the proxies.
+  const hit=cachedDaily(asset.t, fromYear);
+  if(hit){
     errBox.classList.add('hidden');
     try{
-      renderAll(asset, CURRENT.daily, startYr, endYr);
+      renderAll(asset, hit, startYr, endYr);
       results.classList.remove('hidden'); $('sbStatusTxt').textContent='Live';
     }catch(e){ showError(asset, e); }
     return;
@@ -892,9 +1134,8 @@ async function run(force){
   $('loaderTxt').innerHTML='Fetching <strong>'+asset.n+'</strong> price history from Stooq ('+fromYear+'→now)…<br><span style="font-size:11px">trying proxy chain</span>';
 
   try{
-    const daily=await fetchDaily(asset.t, fromYear);
+    const daily=await getDaily(asset.t, fromYear);
     if(daily.length<40) throw new Error('Not enough price history returned for this window. Try an earlier start year.');
-    CURRENT={symbol:asset.t, fromYear:fromYear, daily:daily};
     renderAll(asset, daily, startYr, endYr);
     loader.classList.add('hidden'); results.classList.remove('hidden');
     statusbar.classList.remove('fetching'); $('sbStatusTxt').textContent='Live';
@@ -911,11 +1152,103 @@ $('mRet').addEventListener('change', retoggle);
 $('mWin').addEventListener('change', retoggle);
 $('retryBtn').addEventListener('click', ()=>run(true));  // Retry always re-fetches
 
+/* ===========================  DISCOVER / MOVERS SCANNER  =================== */
+const SCAN_FROM=NOW_YEAR-6;                          // depth scanned per symbol
+const SCAN_TTL=12*3600*1000;                         // localStorage freshness window
+const DUI={list:'discoverList', status:'scanStatus', bar:'scanBar', btn:'scanBtn', key:'ss_scan_v2'};
+const PUI={list:'pennyList',    status:'pennyStatus', bar:'pennyBar', btn:'pennyScanBtn', key:'ss_penny_v2'};
+const gradeClass=g=> g==='A'?'g-a':g==='B'?'g-b':g==='C'?'g-c':'g-d';
+
+function readCache(key){
+  try{ const c=JSON.parse(localStorage.getItem(key)); return (c && c.results && c.results.length)? c : null; }catch(_){ return null; }
+}
+function openInAnalyze(ticker){
+  const idx=ASSETS.findIndex(a=>a.t===ticker); if(idx<0) return;
+  assetSel.value=idx; analyzeLoaded=true;
+  $('tabAnalyze').checked=true; showPanel('analyze');
+  window.scrollTo({top:0,behavior:'smooth'}); run();
+}
+function renderSuggestions(listId, results){
+  const el=$(listId);
+  if(!results.length){ el.innerHTML='<div class="scanstat">Nothing loaded yet.</div>'; return; }
+  el.innerHTML=results.map((r,idx)=>{
+    const tags=r.tags.map(t=>'<span class="sg-tag t-'+t+'">'+t+'</span>').join('');
+    const pc = r.price!=null? '$'+(r.price>=1?r.price.toFixed(2):r.price.toFixed(3)) : '';
+    return '<div class="sg" data-t="'+r.t+'">'+
+      '<div class="sg-rank">'+(idx+1)+'</div>'+
+      '<div class="sg-grade '+gradeClass(r.grade)+'">'+r.grade+'</div>'+
+      '<div class="sg-main"><div class="sg-name">'+r.n+' <span class="sg-grp">'+r.g+'</span></div>'+
+        '<div class="sg-why">'+r.verdict+' — '+r.rationale+'</div>'+
+        '<div class="sg-tags">'+(tags||'<span class="sg-tag t-value" style="opacity:.5">no strong edge</span>')+'</div></div>'+
+      '<div class="sg-price">'+pc+'<br><span class="pc">score '+r.composite.toFixed(0)+'</span></div>'+
+      '<div class="sg-go">Analyze →</div></div>';
+  }).join('');
+  el.querySelectorAll('.sg').forEach(d=>d.addEventListener('click',()=>openInAnalyze(d.dataset.t)));
+}
+let scanning={};
+async function scan(tickers, ui){
+  if(scanning[ui.key]) return; scanning[ui.key]=true;
+  const btn=$(ui.btn); btn.disabled=true;
+  const items=tickers.map(t=>ASSETS.find(a=>a.t===t)).filter(Boolean);
+  let done=0; const results=[]; const total=items.length;
+  $(ui.status).textContent='Scanning '+total+' symbols…';
+  const queue=items.slice();
+  const worker=async ()=>{
+    while(queue.length){
+      const it=queue.shift();
+      try{
+        const daily=await getDaily(it.t, SCAN_FROM);
+        if(daily && daily.length>=60){ results.push(scoreAsset(it, daily));
+          renderSuggestions(ui.list, results.slice().sort((a,b)=>b.composite-a.composite)); }
+      }catch(_){}
+      done++; $(ui.bar).style.width=(done/total*100)+'%';
+      $(ui.status).textContent='Scanned '+done+'/'+total+(results.length?' · '+results.length+' ranked':'');
+    }
+  };
+  await Promise.all([worker(),worker(),worker()]);   // 3 in parallel — gentle on proxies
+  results.sort((a,b)=>b.composite-a.composite);
+  renderSuggestions(ui.list, results);
+  $(ui.status).textContent=results.length? (results.length+' ranked · '+new Date().toLocaleTimeString()+' · tap a row to analyze')
+                                          : 'Nothing loaded — proxies may be rate-limited. Wait a minute and Scan again.';
+  $(ui.bar).style.width='100%';
+  btn.disabled=false; scanning[ui.key]=false;
+  try{ localStorage.setItem(ui.key, JSON.stringify({t:Date.now(), results})); }catch(_){}
+}
+
+$('scanBtn').addEventListener('click', ()=>scan(DISCOVER_TICKERS, DUI));
+$('pennyScanBtn').addEventListener('click', ()=>scan(ASSETS.filter(a=>a.g==='Penny').map(a=>a.t), PUI));
+
+/* ===========================  TABS + LAZY INIT  =========================== */
+let analyzeLoaded=false, pennyInit=false;
+function showPanel(which){
+  ['discover','analyze','penny'].forEach(p=>$('panel-'+p).classList.toggle('hidden', p!==which));
+}
+$('tabDiscover').addEventListener('change', ()=>showPanel('discover'));
+$('tabAnalyze').addEventListener('change', ()=>{ showPanel('analyze'); if(!analyzeLoaded){ analyzeLoaded=true; run(); } });
+$('tabPenny').addEventListener('change', ()=>{ showPanel('penny');
+  if(!pennyInit){ pennyInit=true;
+    const c=readCache(PUI.key);
+    if(c){ renderSuggestions(PUI.list, c.results); $('pennyStatus').textContent='cached · Scan to refresh'; $('pennyBar').style.width='100%'; }
+    else scan(ASSETS.filter(a=>a.g==='Penny').map(a=>a.t), PUI);
+  }
+});
+
 // Stamp the build into the footer so you can confirm which file is live.
 $('footText').textContent = 'SeasonScope ['+BUILD+'] · Data: Stooq · Educational tool — not financial advice. Past seasonality does not predict future returns.';
 
 assetSel.value=0;
-run();
+showPanel('discover');                                // land on Discover, suggestions first
+(function initDiscover(){
+  const c=readCache(DUI.key);
+  if(c){
+    renderSuggestions(DUI.list, c.results);
+    $('scanStatus').textContent='cached '+new Date(c.t).toLocaleTimeString()+' · Scan to refresh';
+    $('scanBar').style.width='100%';
+    if(Date.now()-c.t > SCAN_TTL) scan(DISCOVER_TICKERS, DUI);   // stale → refresh in background
+  } else {
+    scan(DISCOVER_TICKERS, DUI);                       // first ever load → scan now
+  }
+})();
 </script>
 </body>
 </html>
