@@ -23,19 +23,16 @@ Data: Stooq free daily history (no API key, no server/worker). The app fetches t
 
 Note: it must be hosted (GitHub Pages / Netlify Drop / any web server) — opening the file directly with file:// blocks the cross-origin fetch.
 
-## Nightly data snapshot (GitHub Actions + Secrets)
+## Nightly data snapshot (GitHub Actions — no API key)
 
-A scheduled workflow (`.github/workflows/refresh-data.yml`, nightly 03:25 UTC + manual run) executes `scripts/fetch_data.mjs`, which:
+A scheduled workflow (`.github/workflows/refresh-data.yml`, nightly 03:25 UTC + manual run) executes `scripts/fetch_data.mjs`, which fetches everything from **Yahoo Finance server-side** (no browser → no CORS, and **no API key**):
 
-- fetches **daily prices from Stooq** for every asset (no key needed — the Action talks to Stooq directly, no CORS proxy) → `data/prices/<symbol>.csv`
-- fetches **fundamentals from Financial Modeling Prep** using the `FMP_KEY` repository secret: FMP rating, DCF fair value (→ over/under-valued), analyst buy/hold/sell consensus, and a penny-stock screener → `data/fundamentals.json`
-- writes `data/meta.json` with the last successful run, which the app shows in the Discover tab and footer.
+- **daily prices** (`/v8/finance/chart`, full history, adjusted close) → `data/prices/<symbol>.csv`
+- **analyst data** (`/v10/finance/quoteSummary`: mean price target → over/under-valued %, buy/hold/sell consensus, rating) → `data/fundamentals.json`
+- `data/meta.json` with the last successful run, which the app shows in the Discover tab and footer.
 
-The app loads these static files first (same-origin, or `raw.githubusercontent.com` which sends CORS headers), so normal use needs **no proxies and the API key never reaches the browser**. The public proxy chain remains only as a live fallback for symbols without a snapshot. Files are only overwritten on successful fetches, so a failed night keeps yesterday's data.
+The app loads these static files first (same-origin, or `raw.githubusercontent.com` which sends CORS headers), so normal use needs **no proxies and no key**. The public proxy chain remains only as a live fallback (also Yahoo) for symbols without a snapshot. Files are only overwritten on successful fetches, so a failed night keeps yesterday's data.
 
-**Setup (one time):**
-1. Create a free API key at financialmodelingprep.com (Sign up → Dashboard → API key).
-2. Repo → Settings → Secrets and variables → Actions → New repository secret → name `FMP_KEY`, paste the key.
-3. Actions tab → "Refresh market data" → Run workflow (first snapshot; afterwards it runs nightly on the default branch).
+**Setup:** none required for data — just run it once. Actions tab → "Refresh market data" → Run workflow (first snapshot; afterwards it runs nightly on the default branch). The asset list is parsed from `index.html`, so adding a ticker there is enough; the next run picks it up.
 
-Without the secret, the run still snapshots prices — only the analyst/DCF/screener extras are skipped. The asset list is parsed from `index.html`, so adding a ticker there is enough; the next run picks it up.
+> Earlier versions tried Stooq (now 404s GitHub's runner IPs) and Financial Modeling Prep (free tier 403s the rating/DCF/analyst endpoints). Yahoo server-side replaced both; any `FMP_KEY` secret is unused and can be deleted.

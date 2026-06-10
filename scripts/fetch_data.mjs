@@ -3,12 +3,18 @@
    SeasonScope nightly data snapshot — run by GitHub Actions
    (.github/workflows/refresh-data.yml), or manually: node scripts/fetch_data.mjs
 
-   - PRICES: Stooq daily CSV per asset (no key needed — the Action talks to
-     Stooq directly, so no CORS proxy is involved) -> data/prices/<symbol>.csv
-   - FUNDAMENTALS (optional, needs the FMP_KEY repo secret): Financial Modeling
-     Prep rating, DCF fair value, analyst recommendations and a penny screener
-     -> data/fundamentals.json
-   - data/meta.json records the last successful run, which the app displays.
+   DATA SOURCE: Yahoo Finance, fetched SERVER-SIDE (no browser → no CORS, and
+   NO API KEY). Stooq was dropped because it 404s GitHub's runner IPs, and FMP
+   was dropped because its free tier 403s the rating/DCF/analyst endpoints.
+
+   - PRICES: /v8/finance/chart (full daily history) -> data/prices/<symbol>.csv
+     written as "Date,Open,High,Low,Close,Volume" so the app's CSV parser reads
+     it unchanged (Close = adjusted close, so seasonality handles splits/divs).
+   - ANALYST DATA: /v10/finance/quoteSummary (mean price target -> over/under
+     valued %, analyst buy/hold/sell consensus, rating) -> data/fundamentals.json
+     This needs a Yahoo cookie+crumb; if that handshake fails the prices snapshot
+     still succeeds and the app falls back to its price-based valuation.
+   - data/meta.json records the last successful run, shown in the app.
 
    Files are only overwritten on a successful fetch, so a flaky night degrades
    freshness, never availability. The asset list is parsed from index.html so
@@ -24,7 +30,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DATA = path.join(ROOT, 'data');
 const PRICES = path.join(DATA, 'prices');
-const FMP_KEY = process.env.FMP_KEY || '';
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36';
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -40,140 +46,169 @@ function parseAssets(html){
   return out;
 }
 
-function looksLikeStooqCsv(txt){
-  if(!txt) return false;
-  const head = txt.slice(0, 200).toLowerCase();
-  return head.includes('date') && head.includes('close') && txt.trim().split('\n').length > 24;
+/* Map our (Stooq-style) tickers to Yahoo symbols. */
+function toYahoo(t){
+  if(t.endsWith('.us')) return t.slice(0, -3).toUpperCase();                 // aapl.us -> AAPL, brk-b.us -> BRK-B
+  if(t.endsWith('.f')){ const m = { 'gc.f':'GC=F','si.f':'SI=F','cl.f':'CL=F','ng.f':'NG=F','hg.f':'HG=F' }; return m[t] || null; }
+  if(t.startsWith('^')){ const m = { '^spx':'^GSPC','^ndx':'^NDX','^dji':'^DJI','^vix':'^VIX' }; return m[t] || t.toUpperCase(); }
+  if(t === 'btcusd') return 'BTC-USD';
+  if(t === 'ethusd') return 'ETH-USD';
+  if(/^[a-z]{6}$/.test(t)) return t.toUpperCase() + '=X';                     // eurusd -> EURUSD=X
+  return t.toUpperCase();
 }
 
-async function fetchText(url, timeoutMs = 30000){
+async function fetchText(url, { timeout = 30000, headers = {} } = {}){
   const ctrl = new AbortController();
-  const to = setTimeout(() => ctrl.abort(), timeoutMs);
+  const to = setTimeout(() => ctrl.abort(), timeout);
   try{
-    const r = await fetch(url, { signal: ctrl.signal, headers: { 'user-agent': 'seasonscope-data/1.0' } });
+    const r = await fetch(url, { signal: ctrl.signal, headers: { 'user-agent': UA, ...headers } });
     if(!r.ok) throw new Error('HTTP ' + r.status);
-    return await r.text();
+    return { text: await r.text(), res: r };
   } finally { clearTimeout(to); }
 }
 
-async function fetchStooq(symbol){
-  const d2 = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-  const q = `/q/d/l/?s=${encodeURIComponent(symbol)}&i=d&d1=19800101&d2=${d2}`;
-  for(const host of ['https://stooq.com', 'https://stooq.pl']){
+/* Yahoo chart JSON -> CSV string (Date,Open,High,Low,Close,Volume). */
+function yahooChartToCsv(json){
+  const res = json && json.chart && json.chart.result && json.chart.result[0];
+  if(!res || !res.timestamp) return null;
+  const ts = res.timestamp;
+  const q = (res.indicators && res.indicators.quote && res.indicators.quote[0]) || {};
+  const adj = res.indicators && res.indicators.adjclose && res.indicators.adjclose[0] && res.indicators.adjclose[0].adjclose;
+  const close = (adj && adj.length === ts.length) ? adj : q.close;
+  if(!close) return null;
+  const lines = ['Date,Open,High,Low,Close,Volume'];
+  for(let i = 0; i < ts.length; i++){
+    const c = close[i];
+    if(c == null || isNaN(c)) continue;
+    const d = new Date(ts[i] * 1000).toISOString().slice(0, 10);
+    const o = q.open && q.open[i] != null ? q.open[i] : c;
+    const hi = q.high && q.high[i] != null ? q.high[i] : c;
+    const lo = q.low && q.low[i] != null ? q.low[i] : c;
+    const v = q.volume && q.volume[i] != null ? q.volume[i] : 0;
+    lines.push(`${d},${o},${hi},${lo},${c},${v}`);
+  }
+  return lines.length > 24 ? lines.join('\n') + '\n' : null;
+}
+
+async function fetchYahooPrices(stooqT){
+  const ys = toYahoo(stooqT);
+  if(!ys) return null;
+  for(const host of ['query1', 'query2']){
     for(let attempt = 0; attempt < 2; attempt++){
       try{
-        const txt = await fetchText(host + q);
-        if(/exceeded the daily hits limit/i.test(txt)) throw new Error('stooq hit limit');
-        if(looksLikeStooqCsv(txt)) return txt;
-        throw new Error('not CSV: ' + txt.slice(0, 60).replace(/\s+/g, ' '));
+        const url = `https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ys)}?range=max&interval=1d`;
+        const { text } = await fetchText(url);
+        const csv = yahooChartToCsv(JSON.parse(text));
+        if(csv) return csv;
+        throw new Error('no chart data');
       }catch(e){
-        if(attempt === 1) console.warn(`  ${symbol} via ${host}: ${e.message}`);
-        await sleep(800);
+        if(attempt === 1) console.warn(`  ${stooqT} (${ys}) via ${host}: ${e.message}`);
+        await sleep(700);
       }
     }
   }
   return null;
 }
 
-async function fmpJson(p){
-  const sep = p.includes('?') ? '&' : '?';
-  const txt = await fetchText(`https://financialmodelingprep.com/api/v3/${p}${sep}apikey=${FMP_KEY}`);
-  return JSON.parse(txt);
+/* Yahoo needs a cookie + crumb for quoteSummary. Returns null if unavailable. */
+async function yahooSession(){
+  try{
+    const r = await fetch('https://fc.yahoo.com/', { headers: { 'user-agent': UA } });
+    const cookie = (r.headers.getSetCookie ? r.headers.getSetCookie() : []).map(c => c.split(';')[0]).join('; ');
+    const { text: crumb } = await fetchText('https://query1.finance.yahoo.com/v1/test/getcrumb', { headers: { cookie } });
+    if(!crumb || /[<>{}]/.test(crumb) || crumb.length > 40) throw new Error('bad crumb');
+    return { cookie, crumb };
+  }catch(e){ console.warn('  Yahoo session (cookie/crumb) unavailable: ' + e.message); return null; }
 }
 
-/* aapl.us -> AAPL, brk-b.us -> BRK-B (FMP uses uppercase US tickers). */
-const toFmpSymbol = t => t.slice(0, -3).toUpperCase();
+async function fetchYahooFundamentals(ys, sess){
+  const url = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(ys)}`
+    + `?modules=financialData,recommendationTrend&crumb=${encodeURIComponent(sess.crumb)}`;
+  const { text } = await fetchText(url, { headers: { cookie: sess.cookie } });
+  const json = JSON.parse(text);
+  const res = json && json.quoteSummary && json.quoteSummary.result && json.quoteSummary.result[0];
+  if(!res) return null;
+  const fd = res.financialData || {};
+  const trend = res.recommendationTrend && res.recommendationTrend.trend && res.recommendationTrend.trend[0];
+  const price = fd.currentPrice && fd.currentPrice.raw;
+  const target = fd.targetMeanPrice && fd.targetMeanPrice.raw;
+  const out = {};
+  if(price != null) out.price = +price.toFixed(2);
+  if(target != null && price){
+    out.fair = +target.toFixed(2);
+    out.fairLabel = 'analyst target';
+    out.gapPct = +(((target - price) / price) * 100).toFixed(1);   // +ve = upside (under-valued vs target)
+  }
+  if(fd.recommendationKey && fd.recommendationKey !== 'none') out.ratingLabel = fd.recommendationKey.replace(/_/g, ' ');
+  if(trend) out.rec = { buy: (trend.strongBuy || 0) + (trend.buy || 0), hold: trend.hold || 0, sell: (trend.sell || 0) + (trend.strongSell || 0) };
+  return Object.keys(out).length ? out : null;
+}
 
 async function main(){
   fs.mkdirSync(PRICES, { recursive: true });
   const assets = parseAssets(fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8'));
   console.log(`Assets: ${assets.length}`);
 
-  // ---- prices (Stooq, keyless) ----
+  // ---- prices (Yahoo chart, keyless) ----
   const pricesOk = [], pricesFailed = [];
   for(const a of assets){
-    const csv = await fetchStooq(a.t);
+    const csv = await fetchYahooPrices(a.t);
     if(csv){ fs.writeFileSync(path.join(PRICES, a.t + '.csv'), csv); pricesOk.push(a.t); }
     else pricesFailed.push(a.t);
-    await sleep(350);                            // be polite to Stooq
+    await sleep(250);
   }
   console.log(`Prices: ${pricesOk.length} ok, ${pricesFailed.length} failed${pricesFailed.length ? ' (' + pricesFailed.join(', ') + ')' : ''}`);
 
-  // ---- fundamentals (FMP, optional — skipped cleanly when no key) ----
-  const fmpErrors = [];
-  if(FMP_KEY){
-    const bySymbol = {};
-    const usStocks = assets.filter(a => (a.g === 'Stocks' || a.g === 'Penny') && a.t.endsWith('.us'));
+  // ---- analyst data (Yahoo quoteSummary, keyless; best-effort) ----
+  const bySymbol = {};
+  let fundErrors = 0;
+  const usStocks = assets.filter(a => (a.g === 'Stocks' || a.g === 'Penny') && a.t.endsWith('.us'));
+  const sess = await yahooSession();
+  if(sess){
     for(const a of usStocks){
-      const sym = toFmpSymbol(a.t);
-      const entry = { fmp: sym };
       try{
-        const r = await fmpJson(`rating/${sym}`);
-        if(Array.isArray(r) && r[0]){ entry.rating = r[0].rating; entry.ratingScore = r[0].ratingScore; entry.ratingRecommendation = r[0].ratingRecommendation; }
-      }catch(e){ fmpErrors.push(`rating ${sym}: ${e.message}`); }
-      try{
-        const r = await fmpJson(`discounted-cash-flow/${sym}`);
-        const row = Array.isArray(r) ? r[0] : r;
-        if(row && row.dcf){
-          entry.dcf = +(+row.dcf).toFixed(2);
-          const price = +(row['Stock Price'] ?? row.price);
-          if(price){ entry.price = price; entry.dcfGapPct = +(((entry.dcf - price) / price) * 100).toFixed(1); }
-        }
-      }catch(e){ fmpErrors.push(`dcf ${sym}: ${e.message}`); }
-      try{
-        const r = await fmpJson(`analyst-stock-recommendations/${sym}`);
-        if(Array.isArray(r) && r[0]){
-          const x = r[0];
-          entry.rec = {
-            period: x.date,
-            buy: (x.analystRatingsbuy || 0) + (x.analystRatingsStrongBuy || 0),
-            hold: x.analystRatingsHold || 0,
-            sell: (x.analystRatingsSell || 0) + (x.analystRatingsStrongSell || 0),
-          };
-        }
-      }catch(e){ fmpErrors.push(`recs ${sym}: ${e.message}`); }
-      if(Object.keys(entry).length > 1) bySymbol[a.t] = entry;
-      await sleep(250);                          // stay well inside FMP free-tier rate limits
+        const f = await fetchYahooFundamentals(toYahoo(a.t), sess);
+        if(f) bySymbol[a.t] = f;
+      }catch(e){ fundErrors++; if(fundErrors <= 6) console.warn(`  fund ${a.t}: ${e.message}`); }
+      await sleep(300);
     }
-
-    let pennyScreen = null;
-    try{
-      const r = await fmpJson('stock-screener?priceLowerThan=5&priceMoreThan=0.5&volumeMoreThan=500000&marketCapMoreThan=50000000&isActivelyTrading=true&exchange=NASDAQ,NYSE&limit=15');
-      if(Array.isArray(r) && r.length) pennyScreen = r.map(x => ({ symbol: x.symbol, name: x.companyName, price: x.price, marketCap: x.marketCap, volume: x.volume, sector: x.sector || null }));
-    }catch(e){ fmpErrors.push('screener: ' + e.message); }
-
-    fs.writeFileSync(path.join(DATA, 'fundamentals.json'),
-      JSON.stringify({ updatedAt: new Date().toISOString(), bySymbol, pennyScreen }, null, 1));
-    console.log(`Fundamentals: ${Object.keys(bySymbol).length} symbols, screener ${pennyScreen ? pennyScreen.length : 'n/a'}, ${fmpErrors.length} endpoint errors`);
-    if(fmpErrors.length) console.log('  ' + fmpErrors.slice(0, 12).join('\n  '));
-  } else {
-    console.log('FMP_KEY not set — skipping fundamentals (prices snapshot still updated).');
   }
+  fs.writeFileSync(path.join(DATA, 'fundamentals.json'),
+    JSON.stringify({ updatedAt: new Date().toISOString(), source: 'yahoo', bySymbol }, null, 1));
+  console.log(`Analyst data: ${Object.keys(bySymbol).length} symbols${sess ? '' : ' (no session — skipped)'}, ${fundErrors} errors`);
 
   if(pricesOk.length === 0){
     console.error('All price fetches failed — keeping previous snapshot, marking run failed.');
-    process.exit(1);                             // job fails -> nothing committed
+    process.exit(1);
   }
 
   fs.writeFileSync(path.join(DATA, 'meta.json'), JSON.stringify({
     updatedAt: new Date().toISOString(),
+    source: 'Yahoo Finance',
     prices: { ok: pricesOk.length, failed: pricesFailed },
-    fundamentals: FMP_KEY ? { errors: fmpErrors.length } : null,
+    analyst: { symbols: Object.keys(bySymbol).length },
   }, null, 1));
   console.log('Snapshot complete.');
 }
 
 if(process.env.SELFTEST === '1'){
-  // No-network checks of the pure helpers, against the real index.html.
   const assets = parseAssets(fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8'));
   console.log('selftest: assets parsed =', assets.length);
   const fail = msg => { console.error('selftest FAILED:', msg); process.exit(1); };
+  const eq = (a, b, m) => { if(a !== b) fail(`${m}: got ${a}, want ${b}`); };
   if(!assets.find(a => a.t === 'aapl.us')) fail('aapl.us missing');
-  if(!assets.find(a => a.n === "McDonald's")) fail('double-quoted name (McDonald\'s) not parsed');
-  if(!assets.find(a => a.t === 'brk-b.us')) fail('brk-b.us missing');
-  if(toFmpSymbol('brk-b.us') !== 'BRK-B') fail('FMP symbol mapping');
-  if(!looksLikeStooqCsv('Date,Open,High,Low,Close\n' + '2024-01-02,1,1,1,1\n'.repeat(30))) fail('csv positive check');
-  if(looksLikeStooqCsv('<html>nope</html>')) fail('csv negative check');
+  if(!assets.find(a => a.n === "McDonald's")) fail('double-quoted name not parsed');
+  eq(toYahoo('aapl.us'), 'AAPL', 'us stock');
+  eq(toYahoo('brk-b.us'), 'BRK-B', 'dash stock');
+  eq(toYahoo('^spx'), '^GSPC', 'index');
+  eq(toYahoo('eurusd'), 'EURUSD=X', 'forex');
+  eq(toYahoo('gc.f'), 'GC=F', 'future');
+  eq(toYahoo('btcusd'), 'BTC-USD', 'crypto');
+  const csv = yahooChartToCsv({ chart: { result: [{ timestamp: Array.from({ length: 30 }, (_, i) => 1700000000 + i * 86400),
+    indicators: { quote: [{ open: [], high: [], low: [], close: Array(30).fill(10), volume: [] }] } }] } });
+  if(!csv || !/^Date,Open,High,Low,Close,Volume/.test(csv)) fail('chart->csv header');
+  if(csv.trim().split('\n').length !== 31) fail('chart->csv row count');
+  if(yahooChartToCsv({ chart: { result: [{}] } }) !== null) fail('chart->csv empty guard');
   console.log('selftest OK');
 } else {
   main().catch(e => { console.error(e); process.exit(1); });
