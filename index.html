@@ -132,7 +132,9 @@
   .fill.accent3{background:var(--accent3)}
 
   .rating-big{font-family:'DM Serif Display',serif; font-style:italic; font-size:54px; line-height:1; color:var(--accent)}
+  .rating-big.g-a{color:var(--bull)} .rating-big.g-b{color:var(--accent)} .rating-big.g-c{color:var(--accent2)} .rating-big.g-d{color:var(--bear)}
   .rating-sub{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.12em; margin-top:4px}
+  .rating-duo{display:flex; gap:28px; margin-bottom:18px; flex-wrap:wrap}
 
   .sugg{font-size:13px; line-height:1.7; color:var(--text); list-style:none}
   .sugg li{margin:0 0 12px 0; padding-left:20px; position:relative}
@@ -276,7 +278,7 @@
   <div id="panel-discover" class="panel">
     <div class="card" style="animation-delay:.05s">
       <div class="card-title accent">◎ Suggested to Monitor</div>
-      <p class="paneldesc">Auto-ranked by <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI), <strong>value / entry</strong> (drawdown from highs, 52-wk range position, vs 200-day trend) — plus, when the nightly snapshot is available, <strong>analyst data</strong> (upside to the mean price target tilts the ranking; rating shown per name). Not investment advice.</p>
+      <p class="paneldesc">An <strong>opportunity / timing</strong> grade — auto-ranked by <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI), <strong>value / entry</strong> (drawdown from highs, 52-wk range position, vs 200-day trend), plus an analyst-target tilt when the nightly snapshot is available. This is about <em>entry timing right now</em> and is <strong>different from the long-term Quality rating</strong> in Analyze — a stable stock can be high Quality but low Opportunity today. Not investment advice.</p>
       <div class="snapline" id="snapNote">Checking nightly snapshot…</div>
       <div class="disc-controls">
         <button id="scanBtn" class="btn">↻ Scan now</button>
@@ -372,12 +374,13 @@
         <div id="strengthBars"></div>
       </div>
       <div class="card" style="animation-delay:.15s">
-        <div class="card-title accent3">Asset Rating</div>
-        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:18px">
-          <div><div class="rating-big" id="ratingGrade">—</div><div class="rating-sub" id="ratingScore">computed score</div></div>
+        <div class="card-title accent3">Asset Rating · Quality vs Opportunity</div>
+        <div class="rating-duo">
+          <div><div class="rating-big" id="ratingGrade">—</div><div class="rating-sub">Quality · <span id="ratingScore">—</span></div></div>
+          <div><div class="rating-big" id="oppGrade">—</div><div class="rating-sub">Opportunity now · <span id="oppScore">—</span></div></div>
         </div>
         <div id="ratingRows"></div>
-        <div class="note">Composite score from historical price behaviour — momentum, trend consistency, drawdown control, volatility &amp; seasonal reliability. This is SeasonScope's own metric, <strong>not</strong> a Morningstar rating, and is not investment advice.</div>
+        <div class="note"><strong>Quality</strong> = how steady this asset has been over the years (momentum/CAGR, trend consistency, drawdown control, volatility, seasonal reliability) — a long-term grade. <strong>Opportunity now</strong> = the same timing score used on the Discover tab (upcoming-month seasonal edge, recent momentum, value/entry). They differ on purpose: a stable name can be high Quality but low Opportunity if it's not an attractive entry today. SeasonScope's own metrics — <strong>not</strong> a Morningstar rating, not investment advice.</div>
       </div>
     </div>
 
@@ -472,7 +475,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v12 · Yahoo snapshot';
+const BUILD = 'v13 · Yahoo snapshot';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1002,6 +1005,7 @@ function renderRating(rows, data){
   const overall=(sMom*0.3+sVol*0.2+sDD*0.2+sTrend*0.15+seasonScore*0.15);
   const grade = overall>=85?'A+':overall>=75?'A':overall>=65?'B+':overall>=55?'B':overall>=45?'C+':overall>=35?'C':'D';
   $('ratingGrade').textContent=grade;
+  $('ratingGrade').className='rating-big '+gradeClass(grade);
   $('ratingScore').textContent=overall.toFixed(0)+' / 100';
   const metrics=[
     {l:'Momentum · CAGR '+cagr.toFixed(1)+'%',v:sMom,c:'bull'},
@@ -1202,6 +1206,12 @@ function renderAll(asset, daily, startYr, endYr){
   // and CAGR signal match the matrix (fall back to full history if the window is tiny).
   const winRows=monthly.filter(r=> r.y>=startYr && r.y<=endYr);
   const extra=renderRating(winRows.length>=12 ? winRows : monthly, data);
+  // Opportunity (timing) grade — the SAME score shown on Discover, so the two
+  // tabs agree. Sits beside the long-term Quality grade in the rating card.
+  const opp=scoreAsset(asset, daily);
+  $('oppGrade').textContent=opp.grade;
+  $('oppGrade').className='rating-big '+gradeClass(opp.grade);
+  $('oppScore').textContent=opp.composite.toFixed(0)+' / 100';
   renderSignals(data, extra);
   renderForecast(computeForecast(data.agg));            // forward seasonal forecast
   renderIntra(computeIntra(daily, startYr, endYr));     // day-of-week + week-of-month
@@ -1281,7 +1291,7 @@ const SCAN_FROM=NOW_YEAR-6;                          // depth scanned per symbol
 const SCAN_TTL=12*3600*1000;                         // localStorage freshness window
 const DUI={list:'discoverList', status:'scanStatus', bar:'scanBar', btn:'scanBtn', key:'ss_scan_v3'};
 const PUI={list:'pennyList',    status:'pennyStatus', bar:'pennyBar', btn:'pennyScanBtn', key:'ss_penny_v3'};
-const gradeClass=g=> g==='A'?'g-a':g==='B'?'g-b':g==='C'?'g-c':'g-d';
+const gradeClass=g=>{ const c=(g||'').charAt(0); return c==='A'?'g-a':c==='B'?'g-b':c==='C'?'g-c':'g-d'; };
 
 function readCache(key){
   try{ const c=JSON.parse(localStorage.getItem(key)); return (c && c.results && c.results.length)? c : null; }catch(_){ return null; }
@@ -1313,7 +1323,7 @@ function renderSuggestions(listId, results){
         '<div class="sg-tags">'+(tags||'<span class="sg-tag t-value" style="opacity:.5">no strong edge</span>')+'</div>'+
       '</div>'+
       '<div class="sg-end">'+
-        '<span class="sg-price">'+pc+'<span class="pc"> · score '+r.composite.toFixed(0)+'</span></span>'+
+        '<span class="sg-price">'+pc+'<span class="pc"> · opp '+r.composite.toFixed(0)+'</span></span>'+
         '<span class="sg-go">Analyze →</span>'+
       '</div></div>';
   }).join('');
