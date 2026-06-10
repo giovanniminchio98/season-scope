@@ -132,7 +132,9 @@
   .fill.accent3{background:var(--accent3)}
 
   .rating-big{font-family:'DM Serif Display',serif; font-style:italic; font-size:54px; line-height:1; color:var(--accent)}
+  .rating-big.g-a{color:var(--bull)} .rating-big.g-b{color:var(--accent)} .rating-big.g-c{color:var(--accent2)} .rating-big.g-d{color:var(--bear)}
   .rating-sub{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.12em; margin-top:4px}
+  .rating-duo{display:flex; gap:28px; margin-bottom:18px; flex-wrap:wrap}
 
   .sugg{font-size:13px; line-height:1.7; color:var(--text); list-style:none}
   .sugg li{margin:0 0 12px 0; padding-left:20px; position:relative}
@@ -187,15 +189,18 @@
   .disc-bar{height:100%; width:0; background:var(--accent); border-radius:99px; transition:width .3s ease}
   .disc-list{display:flex; flex-direction:column; gap:10px}
 
-  .sg{display:flex; align-items:center; gap:14px; padding:14px 16px; background:var(--surface); border:1px solid var(--border); border-radius:12px; transition:border-color .2s, transform .12s; cursor:pointer}
+  .sg{display:flex; align-items:center; gap:14px; padding:14px 16px; background:var(--surface); border:1px solid var(--border); border-radius:12px; transition:border-color .2s, transform .12s; cursor:pointer; flex-wrap:wrap}
   .sg:hover{border-color:var(--accent); transform:translateX(2px)}
-  .sg-rank{font-family:'DM Serif Display',serif; font-style:italic; font-size:22px; color:var(--muted); width:30px; text-align:center; flex-shrink:0}
-  .sg-grade{font-family:'DM Serif Display',serif; font-style:italic; font-size:30px; line-height:1; width:54px; text-align:center; flex-shrink:0}
+  .sg-lead{display:flex; align-items:center; gap:12px; flex-shrink:0}
+  .sg-rank{font-family:'DM Serif Display',serif; font-style:italic; font-size:22px; color:var(--muted); width:26px; text-align:center}
+  .sg-grade{font-family:'DM Serif Display',serif; font-style:italic; font-size:30px; line-height:1; width:48px; text-align:center}
   .sg-grade.g-a{color:var(--bull)} .sg-grade.g-b{color:var(--accent)} .sg-grade.g-c{color:var(--accent2)} .sg-grade.g-d{color:var(--bear)}
-  .sg-main{flex:1; min-width:0}
+  .sg-body{flex:1; min-width:0}
   .sg-name{font-size:15px; color:var(--text); font-weight:500; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
   .sg-grp{font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); border:1px solid var(--border); padding:1px 6px; border-radius:99px}
-  .sg-why{font-size:11px; color:var(--muted); line-height:1.6; margin-top:4px}
+  .sg-why{font-size:11px; color:var(--muted); line-height:1.7; margin-top:4px}
+  .sg-why .r-good,.sg-why .v-bull{color:var(--bull)} .sg-why .r-bad,.sg-why .v-bear{color:var(--bear)}
+  .sg-why .r-mut{color:var(--muted)} .sg-why .v-neutral{color:var(--accent2)}
   .sg-tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px}
   .sg-tag{font-size:9px; text-transform:uppercase; letter-spacing:0.08em; padding:3px 9px; border-radius:99px; border:1px solid}
   .sg-tag.t-seasonal{border-color:rgba(200,240,96,0.4); color:var(--bull); background:rgba(200,240,96,0.07)}
@@ -203,9 +208,19 @@
   .sg-tag.t-value{border-color:rgba(240,184,96,0.4); color:var(--accent2); background:rgba(240,184,96,0.07)}
   .sg-tag.t-analyst{border-color:rgba(200,240,96,0.55); color:var(--accent); background:rgba(200,240,96,0.1)}
   .snapline{font-size:11px; color:var(--accent3); margin-bottom:14px}
-  .sg-go{font-size:11px; color:var(--accent); white-space:nowrap; flex-shrink:0}
-  .sg-price{font-size:12px; color:var(--text); white-space:nowrap; flex-shrink:0; text-align:right}
-  .sg-price .pc{font-size:10px}
+  .sg-end{display:flex; align-items:center; gap:14px; flex-shrink:0; margin-left:auto}
+  .sg-go{font-size:11px; color:var(--accent); white-space:nowrap}
+  .sg-price{font-size:12px; color:var(--text); white-space:nowrap}
+  .sg-price .pc{font-size:10px; color:var(--muted)}
+  /* Mobile: rank+grade and price/go stay on the top row; name + description
+     drop to their own full-width line below so they're readable. */
+  @media(max-width:560px){
+    .sg{gap:10px; padding:13px 14px}
+    .sg-body{order:3; flex-basis:100%; margin-top:4px}
+    .sg-grade{font-size:26px; width:40px}
+    .sg-end{gap:10px}
+    .sg-go{color:#0e0e0e; background:var(--accent); padding:6px 11px; border-radius:8px; font-weight:500}
+  }
 
   .val-head{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px; flex-wrap:wrap}
   .val-verdict{font-family:'DM Serif Display',serif; font-style:italic; font-size:30px; line-height:1.1}
@@ -263,7 +278,7 @@
   <div id="panel-discover" class="panel">
     <div class="card" style="animation-delay:.05s">
       <div class="card-title accent">◎ Suggested to Monitor</div>
-      <p class="paneldesc">Auto-ranked by <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI), <strong>value / entry</strong> (drawdown from highs, 52-wk range position, vs 200-day trend) — plus, when the nightly snapshot is available, <strong>analyst data</strong> (upside to the mean price target tilts the ranking; rating shown per name). Not investment advice.</p>
+      <p class="paneldesc">An <strong>opportunity / timing</strong> grade — auto-ranked by <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI), <strong>value / entry</strong> (drawdown from highs, 52-wk range position, vs 200-day trend), plus an analyst-target tilt when the nightly snapshot is available. This is about <em>entry timing right now</em> and is <strong>different from the long-term Quality rating</strong> in Analyze — a stable stock can be high Quality but low Opportunity today. Not investment advice.</p>
       <div class="snapline" id="snapNote">Checking nightly snapshot…</div>
       <div class="disc-controls">
         <button id="scanBtn" class="btn">↻ Scan now</button>
@@ -359,12 +374,13 @@
         <div id="strengthBars"></div>
       </div>
       <div class="card" style="animation-delay:.15s">
-        <div class="card-title accent3">Asset Rating</div>
-        <div style="display:flex; align-items:baseline; gap:14px; margin-bottom:18px">
-          <div><div class="rating-big" id="ratingGrade">—</div><div class="rating-sub" id="ratingScore">computed score</div></div>
+        <div class="card-title accent3">Asset Rating · Quality vs Opportunity</div>
+        <div class="rating-duo">
+          <div><div class="rating-big" id="ratingGrade">—</div><div class="rating-sub">Quality · <span id="ratingScore">—</span></div></div>
+          <div><div class="rating-big" id="oppGrade">—</div><div class="rating-sub">Opportunity now · <span id="oppScore">—</span></div></div>
         </div>
         <div id="ratingRows"></div>
-        <div class="note">Composite score from historical price behaviour — momentum, trend consistency, drawdown control, volatility &amp; seasonal reliability. This is SeasonScope's own metric, <strong>not</strong> a Morningstar rating, and is not investment advice.</div>
+        <div class="note"><strong>Quality</strong> = how steady this asset has been over the years (momentum/CAGR, trend consistency, drawdown control, volatility, seasonal reliability) — a long-term grade. <strong>Opportunity now</strong> = the same timing score used on the Discover tab (upcoming-month seasonal edge, recent momentum, value/entry). They differ on purpose: a stable name can be high Quality but low Opportunity if it's not an attractive entry today. SeasonScope's own metrics — <strong>not</strong> a Morningstar rating, not investment advice.</div>
       </div>
     </div>
 
@@ -459,7 +475,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v11 · Yahoo snapshot';
+const BUILD = 'v13 · Yahoo snapshot';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -582,7 +598,14 @@ async function snapshotDaily(symbol){
     const r=await fetch(DATA_BASE+'prices/'+encodeURIComponent(symbol)+'.csv',{cache:'no-store'});
     if(!r.ok) return null;
     const rows=parseStooq(await r.text());
-    return (rows && rows.length>=24) ? rows : null;
+    if(!rows || rows.length<24) return null;
+    // Guard against a too-coarse snapshot (e.g. an old quarterly/monthly file):
+    // if the last ~400 days hold far fewer rows than daily would (~250), treat
+    // it as unusable so we fall back to a live daily fetch and months fill in.
+    const cutoff=Date.now()-400*864e5;
+    const recent=rows.filter(x=>x.t.getTime()>=cutoff).length;
+    if(recent<60) return null;
+    return rows;
   }catch(_){ return null; }
 }
 
@@ -893,14 +916,15 @@ function scoreAsset(asset, daily){
   const nm=MONTHS_FULL[(NOW_MONTH)%12];                 // next month name
   const na=data.agg[(NOW_MONTH)%12];
   const bits=[];
-  if(fd && fd.gapPct!=null) bits.push('target '+(fd.gapPct>=0?'+':'')+fd.gapPct.toFixed(0)+'%');
-  if(fd && fd.ratingLabel) bits.push(fd.ratingLabel);
-  if(na && na.avg!=null) bits.push(nm+' avg '+(na.avg>0?'+':'')+na.avg.toFixed(1)+'% ('+na.winRate.toFixed(0)+'% win)');
-  if(sig.r3m!=null) bits.push('3-mo '+(sig.r3m>0?'+':'')+sig.r3m.toFixed(0)+'%');
-  bits.push(Math.round(-sig.ddFromHigh)+'% off high');
-  if(sig.rsi14!=null) bits.push('RSI '+sig.rsi14.toFixed(0));
+  const push=(t,tone)=>bits.push({t,tone});      // tone: good (green) / bad (red) / mut (grey)
+  if(fd && fd.gapPct!=null) push('target '+(fd.gapPct>=0?'+':'')+fd.gapPct.toFixed(0)+'%', fd.gapPct>=0?'good':'bad');
+  if(fd && fd.ratingLabel) push(fd.ratingLabel, /buy/i.test(fd.ratingLabel)?'good':/sell|under/i.test(fd.ratingLabel)?'bad':'mut');
+  if(na && na.avg!=null) push(nm+' '+(na.avg>0?'+':'')+na.avg.toFixed(1)+'% ('+na.winRate.toFixed(0)+'% win)', na.avg>0?'good':'bad');
+  if(sig.r3m!=null) push('3-mo '+(sig.r3m>0?'+':'')+sig.r3m.toFixed(0)+'%', sig.r3m>=0?'good':'bad');
+  push(Math.round(-sig.ddFromHigh)+'% off high', sig.ddFromHigh<-30?'bad':'mut');
+  if(sig.rsi14!=null) push('RSI '+sig.rsi14.toFixed(0), sig.rsi14<=30?'good':sig.rsi14>=70?'bad':'mut');
   return { t:asset.t, n:asset.n, g:asset.g, composite, grade, sea, mom, val:val.score,
-           verdict:val.label, tone:val.tone, tags, rationale:bits.join(' · '), price:sig.last };
+           verdict:val.label, tone:val.tone, tags, rationale:bits, price:sig.last };
 }
 
 function cellColor(v, mode){
@@ -981,6 +1005,7 @@ function renderRating(rows, data){
   const overall=(sMom*0.3+sVol*0.2+sDD*0.2+sTrend*0.15+seasonScore*0.15);
   const grade = overall>=85?'A+':overall>=75?'A':overall>=65?'B+':overall>=55?'B':overall>=45?'C+':overall>=35?'C':'D';
   $('ratingGrade').textContent=grade;
+  $('ratingGrade').className='rating-big '+gradeClass(grade);
   $('ratingScore').textContent=overall.toFixed(0)+' / 100';
   const metrics=[
     {l:'Momentum · CAGR '+cagr.toFixed(1)+'%',v:sMom,c:'bull'},
@@ -1181,6 +1206,12 @@ function renderAll(asset, daily, startYr, endYr){
   // and CAGR signal match the matrix (fall back to full history if the window is tiny).
   const winRows=monthly.filter(r=> r.y>=startYr && r.y<=endYr);
   const extra=renderRating(winRows.length>=12 ? winRows : monthly, data);
+  // Opportunity (timing) grade — the SAME score shown on Discover, so the two
+  // tabs agree. Sits beside the long-term Quality grade in the rating card.
+  const opp=scoreAsset(asset, daily);
+  $('oppGrade').textContent=opp.grade;
+  $('oppGrade').className='rating-big '+gradeClass(opp.grade);
+  $('oppScore').textContent=opp.composite.toFixed(0)+' / 100';
   renderSignals(data, extra);
   renderForecast(computeForecast(data.agg));            // forward seasonal forecast
   renderIntra(computeIntra(daily, startYr, endYr));     // day-of-week + week-of-month
@@ -1258,9 +1289,9 @@ $('retryBtn').addEventListener('click', ()=>run(true));  // Retry always re-fetc
 /* ===========================  DISCOVER / MOVERS SCANNER  =================== */
 const SCAN_FROM=NOW_YEAR-6;                          // depth scanned per symbol
 const SCAN_TTL=12*3600*1000;                         // localStorage freshness window
-const DUI={list:'discoverList', status:'scanStatus', bar:'scanBar', btn:'scanBtn', key:'ss_scan_v2'};
-const PUI={list:'pennyList',    status:'pennyStatus', bar:'pennyBar', btn:'pennyScanBtn', key:'ss_penny_v2'};
-const gradeClass=g=> g==='A'?'g-a':g==='B'?'g-b':g==='C'?'g-c':'g-d';
+const DUI={list:'discoverList', status:'scanStatus', bar:'scanBar', btn:'scanBtn', key:'ss_scan_v3'};
+const PUI={list:'pennyList',    status:'pennyStatus', bar:'pennyBar', btn:'pennyScanBtn', key:'ss_penny_v3'};
+const gradeClass=g=>{ const c=(g||'').charAt(0); return c==='A'?'g-a':c==='B'?'g-b':c==='C'?'g-c':'g-d'; };
 
 function readCache(key){
   try{ const c=JSON.parse(localStorage.getItem(key)); return (c && c.results && c.results.length)? c : null; }catch(_){ return null; }
@@ -1277,14 +1308,24 @@ function renderSuggestions(listId, results){
   el.innerHTML=results.map((r,idx)=>{
     const tags=r.tags.map(t=>'<span class="sg-tag t-'+t+'">'+t+'</span>').join('');
     const pc = r.price!=null? '$'+(r.price>=1?r.price.toFixed(2):r.price.toFixed(3)) : '';
+    // rationale: array of {t,tone} (green/red/grey); tolerate old string caches
+    const why = Array.isArray(r.rationale)
+      ? r.rationale.map(b=>'<span class="r-'+b.tone+'">'+b.t+'</span>').join(' · ')
+      : (r.rationale||'');
     return '<div class="sg" data-t="'+r.t+'">'+
-      '<div class="sg-rank">'+(idx+1)+'</div>'+
-      '<div class="sg-grade '+gradeClass(r.grade)+'">'+r.grade+'</div>'+
-      '<div class="sg-main"><div class="sg-name">'+r.n+' <span class="sg-grp">'+r.g+'</span></div>'+
-        '<div class="sg-why">'+r.verdict+' — '+r.rationale+'</div>'+
-        '<div class="sg-tags">'+(tags||'<span class="sg-tag t-value" style="opacity:.5">no strong edge</span>')+'</div></div>'+
-      '<div class="sg-price">'+pc+'<br><span class="pc">score '+r.composite.toFixed(0)+'</span></div>'+
-      '<div class="sg-go">Analyze →</div></div>';
+      '<div class="sg-lead">'+
+        '<span class="sg-rank">'+(idx+1)+'</span>'+
+        '<span class="sg-grade '+gradeClass(r.grade)+'">'+r.grade+'</span>'+
+      '</div>'+
+      '<div class="sg-body">'+
+        '<div class="sg-name">'+r.n+' <span class="sg-grp">'+r.g+'</span></div>'+
+        '<div class="sg-why"><span class="v-'+r.tone+'">'+r.verdict+'</span> · '+why+'</div>'+
+        '<div class="sg-tags">'+(tags||'<span class="sg-tag t-value" style="opacity:.5">no strong edge</span>')+'</div>'+
+      '</div>'+
+      '<div class="sg-end">'+
+        '<span class="sg-price">'+pc+'<span class="pc"> · opp '+r.composite.toFixed(0)+'</span></span>'+
+        '<span class="sg-go">Analyze →</span>'+
+      '</div></div>';
   }).join('');
   el.querySelectorAll('.sg').forEach(d=>d.addEventListener('click',()=>openInAnalyze(d.dataset.t)));
 }

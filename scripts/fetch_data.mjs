@@ -93,10 +93,16 @@ function yahooChartToCsv(json){
 async function fetchYahooPrices(stooqT){
   const ys = toYahoo(stooqT);
   if(!ys) return null;
+  // Use explicit period1/period2 with interval=1d to get TRUE DAILY bars.
+  // (range=max makes Yahoo ignore the interval and return coarse 3-month bars,
+  // which collapsed the monthly matrix to only Mar/Jun/Sep/Dec.) period1 is
+  // 1 Jan 1980 — the earliest year the app offers — covering full app range.
+  const period1 = Math.floor(Date.UTC(1980, 0, 1) / 1000);
+  const period2 = Math.floor(Date.now() / 1000);
   for(const host of ['query1', 'query2']){
     for(let attempt = 0; attempt < 2; attempt++){
       try{
-        const url = `https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ys)}?range=max&interval=1d`;
+        const url = `https://${host}.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(ys)}?period1=${period1}&period2=${period2}&interval=1d`;
         const { text } = await fetchText(url);
         const csv = yahooChartToCsv(JSON.parse(text));
         if(csv) return csv;
