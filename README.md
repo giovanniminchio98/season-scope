@@ -22,3 +22,20 @@ Coverage: ~40 mega-cap US stocks, major indices, major forex pairs, and key comm
 Data: Stooq free daily history (no API key, no server/worker). The app fetches the full daily history once per asset through a small chain of free public CORS proxies, then derives the monthly matrix, per-month stats, forecast and intra-month patterns locally. Fetched data is cached per asset, so changing the year range is instant and doesn't re-hit the network. It rebuilds every time you load and picks up new data automatically.
 
 Note: it must be hosted (GitHub Pages / Netlify Drop / any web server) — opening the file directly with file:// blocks the cross-origin fetch.
+
+## Nightly data snapshot (GitHub Actions + Secrets)
+
+A scheduled workflow (`.github/workflows/refresh-data.yml`, nightly 03:25 UTC + manual run) executes `scripts/fetch_data.mjs`, which:
+
+- fetches **daily prices from Stooq** for every asset (no key needed — the Action talks to Stooq directly, no CORS proxy) → `data/prices/<symbol>.csv`
+- fetches **fundamentals from Financial Modeling Prep** using the `FMP_KEY` repository secret: FMP rating, DCF fair value (→ over/under-valued), analyst buy/hold/sell consensus, and a penny-stock screener → `data/fundamentals.json`
+- writes `data/meta.json` with the last successful run, which the app shows in the Discover tab and footer.
+
+The app loads these static files first (same-origin, or `raw.githubusercontent.com` which sends CORS headers), so normal use needs **no proxies and the API key never reaches the browser**. The public proxy chain remains only as a live fallback for symbols without a snapshot. Files are only overwritten on successful fetches, so a failed night keeps yesterday's data.
+
+**Setup (one time):**
+1. Create a free API key at financialmodelingprep.com (Sign up → Dashboard → API key).
+2. Repo → Settings → Secrets and variables → Actions → New repository secret → name `FMP_KEY`, paste the key.
+3. Actions tab → "Refresh market data" → Run workflow (first snapshot; afterwards it runs nightly on the default branch).
+
+Without the secret, the run still snapshots prices — only the analyst/DCF/screener extras are skipped. The asset list is parsed from `index.html`, so adding a ticker there is enough; the next run picks it up.

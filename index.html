@@ -201,6 +201,8 @@
   .sg-tag.t-seasonal{border-color:rgba(200,240,96,0.4); color:var(--bull); background:rgba(200,240,96,0.07)}
   .sg-tag.t-momentum{border-color:rgba(96,200,240,0.4); color:var(--accent3); background:rgba(96,200,240,0.07)}
   .sg-tag.t-value{border-color:rgba(240,184,96,0.4); color:var(--accent2); background:rgba(240,184,96,0.07)}
+  .sg-tag.t-dcf{border-color:rgba(200,240,96,0.55); color:var(--accent); background:rgba(200,240,96,0.1)}
+  .snapline{font-size:11px; color:var(--accent3); margin-bottom:14px}
   .sg-go{font-size:11px; color:var(--accent); white-space:nowrap; flex-shrink:0}
   .sg-price{font-size:12px; color:var(--text); white-space:nowrap; flex-shrink:0; text-align:right}
   .sg-price .pc{font-size:10px}
@@ -261,7 +263,8 @@
   <div id="panel-discover" class="panel">
     <div class="card" style="animation-delay:.05s">
       <div class="card-title accent">◎ Suggested to Monitor</div>
-      <p class="paneldesc">Auto-ranked from price action — <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI) and <strong>value / entry</strong> (drawdown from highs, position in 52-wk range, vs 200-day trend). These are SeasonScope's own <strong>computed, price-based</strong> signals — not analyst opinions — and not investment advice.</p>
+      <p class="paneldesc">Auto-ranked by <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI), <strong>value / entry</strong> (drawdown from highs, 52-wk range position, vs 200-day trend) — plus, when the nightly snapshot is available, <strong>FMP analyst data</strong> (DCF fair value tilts the ranking; rating shown per name). Not investment advice.</p>
+      <div class="snapline" id="snapNote">Checking nightly snapshot…</div>
       <div class="disc-controls">
         <button id="scanBtn" class="btn">↻ Scan now</button>
         <span id="scanStatus" class="scanstat">—</span>
@@ -281,6 +284,11 @@
       </div>
       <div class="disc-progress"><div id="pennyBar" class="disc-bar"></div></div>
       <div id="pennyList" class="disc-list"></div>
+      <div id="pennyScreen" class="hidden">
+        <div class="card-title accent3" style="margin-top:22px">Screener picks · nightly FMP scan (&lt;$5, liquid, active)</div>
+        <div id="pennyScreenList"></div>
+        <div class="note">Auto-screened from the whole market by the nightly run — not curated by anyone. Extremely high risk; data is a snapshot, not live.</div>
+      </div>
     </div>
   </div>
 
@@ -368,7 +376,7 @@
           <div class="val-chips" id="valChips"></div>
         </div>
         <div id="valRows"></div>
-        <div class="note">A <strong>technical</strong> read of whether the price looks stretched or in a value/entry zone — drawdown from highs, position in the 52-week range, distance from the 200-day trend, and RSI. Because this build is key-free it uses <strong>price only</strong>: it is <strong>not</strong> a fundamental valuation, analyst rating or fair-value estimate, and not investment advice.</div>
+        <div class="note">Two layers: when the <strong>nightly snapshot</strong> is available, real fundamentals from FMP (DCF fair value → over/under-valued, FMP rating, analyst buy/hold/sell consensus, refreshed by the GitHub Action each night). Below that, a <strong>technical</strong> read computed from price — drawdown from highs, 52-week range position, distance from the 200-day trend, RSI. Snapshot data is up to a day old. Not investment advice.</div>
       </div>
     </div>
 
@@ -451,7 +459,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v9 · Stooq';
+const BUILD = 'v10 · Snapshot';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -537,6 +545,47 @@ const PROXIES = [
   { json:false, url:u => 'https://cors.x2u.in/' + u },
 ];
 
+/* ===========================================================================
+   >>> NIGHTLY SNAPSHOT (GitHub Actions + Secrets) <<<
+   A scheduled workflow (.github/workflows/refresh-data.yml) runs every night:
+   it fetches prices from Stooq and fundamentals (FMP rating, DCF fair value,
+   analyst recommendations, penny screener) using the FMP_KEY repository
+   secret, and commits the results under data/. The app loads those static
+   files FIRST — same-origin, or raw.githubusercontent.com which sends CORS
+   headers — so normal use needs NO proxies and NO key ever reaches the
+   browser. The proxy chain above remains only as a live fallback for symbols
+   without a snapshot yet.
+   =========================================================================== */
+const DATA_BASES = [
+  'data/',                                                                       // same-origin (GitHub Pages or any host serving this repo)
+  'https://raw.githubusercontent.com/giovanniminchio98/season-scope/main/data/', // works from any other host (~5 min CDN cache)
+];
+let DATA_BASE=null, META=null, FUND=null;
+const SNAP_READY=(async function initSnapshot(){
+  for(const b of DATA_BASES){
+    try{
+      const r=await fetch(b+'meta.json',{cache:'no-store'});
+      if(!r.ok) continue;
+      const m=await r.json();
+      if(!m || !m.updatedAt) continue;
+      DATA_BASE=b; META=m;
+      try{ const fr=await fetch(b+'fundamentals.json',{cache:'no-store'}); if(fr.ok) FUND=await fr.json(); }catch(_){}
+      break;
+    }catch(_){}
+  }
+})();
+function fundFor(t){ return (FUND && FUND.bySymbol && FUND.bySymbol[t]) || null; }
+async function snapshotDaily(symbol){
+  await SNAP_READY;
+  if(!DATA_BASE) return null;
+  try{
+    const r=await fetch(DATA_BASE+'prices/'+encodeURIComponent(symbol)+'.csv',{cache:'no-store'});
+    if(!r.ok) return null;
+    const rows=parseStooq(await r.text());
+    return (rows && rows.length>=24) ? rows : null;
+  }catch(_){ return null; }
+}
+
 const $ = id => document.getElementById(id);
 const assetSel=$('assetSel'), startSel=$('startYr'), endSel=$('endYr'),
       statusbar=$('statusbar'), loader=$('loader'), results=$('results'), errBox=$('errBox');
@@ -565,6 +614,11 @@ const NOW_MONTH = new Date().getMonth()+1;   // 1-12, used to drop the still-for
 })();
 
 async function fetchDaily(symbol, fromYear){
+  // 0) Nightly snapshot first: a static file committed by the GitHub Action —
+  //    instant, no proxies, no rate limits, and it covers full history.
+  const snap=await snapshotDaily(symbol);
+  if(snap) return snap;
+
   // Stooq daily-history CSV endpoint, BOUNDED to the years we actually need
   // (fetching all of history is huge and slow through public proxies). We pull
   // from 1 Dec of the year before `fromYear` (so January's return has its prior
@@ -801,14 +855,23 @@ function scoreAsset(asset, daily){
   const val=valuationVerdict(sig);
   const mom=momentumScore(sig);
   const sea=seasonalEdgeScore(data.agg);
-  const composite=sea*0.34 + mom*0.33 + val.score*0.33;
-  const grade = composite>=72?'A':composite>=60?'B':composite>=48?'C':'D';
+  let composite=sea*0.34 + mom*0.33 + val.score*0.33;
   const tags=[];
   if(sea>=60) tags.push('seasonal'); if(mom>=60) tags.push('momentum'); if(val.score>=58) tags.push('value');
+  // Analyst DCF tilt from the nightly snapshot, when available: an undervalued
+  // (per FMP DCF) name ranks a little higher, an overvalued one lower (max ±5).
+  const fd=fundFor(asset.t);
+  if(fd && fd.dcfGapPct!=null){
+    composite=clamp(composite + clamp(fd.dcfGapPct,-20,20)*0.25, 0, 100);
+    if(fd.dcfGapPct>=10) tags.push('dcf');
+  }
+  const grade = composite>=72?'A':composite>=60?'B':composite>=48?'C':'D';
   // one-line rationale
   const nm=MONTHS_FULL[(NOW_MONTH)%12];                 // next month name
   const na=data.agg[(NOW_MONTH)%12];
   const bits=[];
+  if(fd && fd.dcfGapPct!=null) bits.push('DCF '+(fd.dcfGapPct>=0?'+':'')+fd.dcfGapPct.toFixed(0)+'%');
+  if(fd && fd.rating) bits.push('FMP '+fd.rating);
   if(na && na.avg!=null) bits.push(nm+' avg '+(na.avg>0?'+':'')+na.avg.toFixed(1)+'% ('+na.winRate.toFixed(0)+'% win)');
   if(sig.r3m!=null) bits.push('3-mo '+(sig.r3m>0?'+':'')+sig.r3m.toFixed(0)+'%');
   bits.push(Math.round(-sig.ddFromHigh)+'% off high');
@@ -990,15 +1053,26 @@ function renderIntra(intra){
   requestAnimationFrame(()=>document.querySelectorAll('#dowBars .fill, #womBars .fill').forEach(f=>f.style.width=f.dataset.w+'%'));
 }
 
-/* Valuation & Entry card (price-based). */
-function renderValuation(daily){
+/* Valuation & Entry card: price-based read + FMP analyst/DCF snapshot rows. */
+function renderValuation(asset, daily){
   const sig=priceSignals(daily);
   const v=valuationVerdict(sig);
-  $('valVerdict').textContent=v.label;
-  $('valVerdict').className='val-verdict '+v.tone;
-  $('valTag').textContent='price-based · score '+v.score.toFixed(0)+'/100';
-  // headline chips: vs trend + RSI state
+  const fd=fundFor(asset.t);
+  // When the nightly snapshot carries a DCF verdict, lead with it (real
+  // fundamental signal); the price-based read becomes the secondary line.
+  if(fd && fd.dcfGapPct!=null){
+    const under=fd.dcfGapPct>=0;
+    $('valVerdict').textContent=(under?'Undervalued ':'Overvalued ')+Math.abs(fd.dcfGapPct).toFixed(0)+'% vs DCF';
+    $('valVerdict').className='val-verdict '+(under?'bull':'bear');
+    $('valTag').textContent='FMP DCF (nightly) · technical: '+v.label.toLowerCase();
+  }else{
+    $('valVerdict').textContent=v.label;
+    $('valVerdict').className='val-verdict '+v.tone;
+    $('valTag').textContent='price-based · score '+v.score.toFixed(0)+'/100';
+  }
+  // headline chips: vs trend + RSI state (+ analyst rating when available)
   let chips='';
+  if(fd && fd.rating) chips+='<span class="chip info">FMP rating '+fd.rating+(fd.ratingRecommendation?' · '+fd.ratingRecommendation:'')+'</span>';
   if(sig.vsMA200!=null){
     const below=sig.vsMA200<0;
     chips+='<span class="chip '+(below?'neutral':'info')+'">'+(below?'Below':'Above')+' 200-day trend '+(sig.vsMA200>0?'+':'')+sig.vsMA200.toFixed(0)+'%</span>';
@@ -1012,7 +1086,13 @@ function renderValuation(daily){
   $('valChips').innerHTML=chips;
   const row=(l,val,cls)=>'<div class="row"><span class="label">'+l+'</span><span class="value '+(cls||'')+'">'+val+'</span></div>';
   const f=(x,suf)=>x==null?'—':(x>0?'+':'')+x.toFixed(1)+(suf||'');
+  let fundRows='';
+  if(fd){
+    if(fd.dcf!=null && fd.price!=null) fundRows+=row('DCF fair value (FMP, nightly)', '$'+fd.dcf.toFixed(2)+' vs price $'+fd.price.toFixed(2), fd.dcfGapPct>=0?'bull':'bear');
+    if(fd.rec) fundRows+=row('Analyst consensus', fd.rec.buy+' buy · '+fd.rec.hold+' hold · '+fd.rec.sell+' sell', fd.rec.buy>fd.rec.sell?'bull':'bear');
+  }
   $('valRows').innerHTML=
+    fundRows+
     row('Last price', sig.last!=null? sig.last.toFixed(2):'—')+
     row('Drawdown from high', f(sig.ddFromHigh,'%'), sig.ddFromHigh<-25?'bear':'')+
     row('Position in 52-wk range', (sig.rangePos*100).toFixed(0)+'%', sig.rangePos<0.3?'bull':sig.rangePos>0.8?'bear':'')+
@@ -1081,7 +1161,7 @@ function renderAll(asset, daily, startYr, endYr){
   renderSignals(data, extra);
   renderForecast(computeForecast(data.agg));            // forward seasonal forecast
   renderIntra(computeIntra(daily, startYr, endYr));     // day-of-week + week-of-month
-  renderValuation(daily);                               // price-based valuation / entry
+  renderValuation(asset, daily);                        // valuation / entry (+ FMP snapshot)
   LASTDATA=data;
   const ranked=data.agg.map((a,i)=>Object.assign({},a,{i})).filter(a=>a.avg!=null).sort((a,b)=>b.avg-a.avg);
   $('sbCov').textContent=data.years[0]+'–'+data.years[data.years.length-1]+' ('+data.years.length+'y)';
@@ -1227,18 +1307,41 @@ $('tabDiscover').addEventListener('change', ()=>showPanel('discover'));
 $('tabAnalyze').addEventListener('change', ()=>{ showPanel('analyze'); if(!analyzeLoaded){ analyzeLoaded=true; run(); } });
 $('tabPenny').addEventListener('change', ()=>{ showPanel('penny');
   if(!pennyInit){ pennyInit=true;
+    renderPennyScreen();
     const c=readCache(PUI.key);
     if(c){ renderSuggestions(PUI.list, c.results); $('pennyStatus').textContent='cached · Scan to refresh'; $('pennyBar').style.width='100%'; }
     else scan(ASSETS.filter(a=>a.g==='Penny').map(a=>a.t), PUI);
   }
 });
 
-// Stamp the build into the footer so you can confirm which file is live.
-$('footText').textContent = 'SeasonScope ['+BUILD+'] · Data: Stooq · Educational tool — not financial advice. Past seasonality does not predict future returns.';
+/* Show when the nightly GitHub Action last refreshed the data, in-app. */
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+function renderSnapshotStatus(){
+  const el=$('snapNote');
+  if(META && META.updatedAt){
+    const d=new Date(META.updatedAt);
+    el.textContent='● Nightly snapshot · last successful update '+d.toLocaleString()
+      +' · '+(META.prices?META.prices.ok+' symbols':'')
+      +(FUND?' · analyst data loaded':' · analyst data pending (set the FMP_KEY secret)');
+    $('footText').textContent='SeasonScope ['+BUILD+'] · Data: Stooq + FMP nightly snapshot ('+d.toLocaleDateString()+') · Educational tool — not financial advice.';
+  }else{
+    el.textContent='○ No nightly snapshot yet — fetching live via proxies (slower). It appears after the "Refresh market data" Action runs on main.';
+    $('footText').textContent='SeasonScope ['+BUILD+'] · Data: Stooq (live) · Educational tool — not financial advice. Past seasonality does not predict future returns.';
+  }
+}
+function renderPennyScreen(){
+  if(!(FUND && FUND.pennyScreen && FUND.pennyScreen.length)) return;
+  $('pennyScreen').classList.remove('hidden');
+  $('pennyScreenList').innerHTML=FUND.pennyScreen.map(p=>
+    '<div class="row"><span class="label">'+esc(p.symbol)+' · '+esc(p.name||'')+'</span>'+
+    '<span class="value">$'+(+p.price).toFixed(2)+'</span></div>').join('');
+}
 
 assetSel.value=0;
 showPanel('discover');                                // land on Discover, suggestions first
-(function initDiscover(){
+(async function boot(){
+  await SNAP_READY;                                    // know snapshot state before first scan
+  renderSnapshotStatus();
   const c=readCache(DUI.key);
   if(c){
     renderSuggestions(DUI.list, c.results);
