@@ -359,7 +359,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v7 · Stooq';
+const BUILD = 'v8 · Stooq';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -479,8 +479,10 @@ async function fetchDaily(symbol, fromYear){
   const attempts=[];
   PROXIES.forEach(p=>stooqUrls.forEach(u=>attempts.push({ json:p.json, target:u, url:()=>p.url(u) })));
 
-  for(let i=0;i<attempts.length;i++){
-    const p=attempts[i];
+  // Fire ALL attempts in PARALLEL and take the first that returns valid CSV.
+  // (Sequential was the slowness: one hung proxy blocked the next for 12s each.
+  // Racing them means the fastest healthy proxy wins — usually a second or two.)
+  const one=(p, i)=>new Promise(async (resolve, reject)=>{
     const pUrl=p.url(p.target);
     const host=hostOf(p.target)+' via '+hostOf(pUrl);
     try{
@@ -490,31 +492,35 @@ async function fetchDaily(symbol, fromYear){
       const r=await fetch(pUrl,{cache:'no-store', signal:ctrl.signal});
       const ms=Date.now()-t0;
       clearTimeout(to);
-      if(!r.ok){ log.push(`#${i+1} ${host} → HTTP ${r.status} (${ms}ms)`); continue; }
+      if(!r.ok){ log.push(`#${i+1} ${host} → HTTP ${r.status} (${ms}ms)`); return reject(); }
       let txt=await r.text();
-      // AllOrigins /get wraps the payload as {"contents":"...","status":{}}
       if(p.json){
         try{ const w=JSON.parse(txt); txt = w.contents || ''; }
-        catch(_){ log.push(`#${i+1} ${host} → wrapper parse failed (${ms}ms)`); continue; }
+        catch(_){ log.push(`#${i+1} ${host} → wrapper parse failed (${ms}ms)`); return reject(); }
       }
       txt=(txt||'').trim();
-      if(!txt){ log.push(`#${i+1} ${host} → empty response (${ms}ms)`); continue; }
+      if(!txt){ log.push(`#${i+1} ${host} → empty response (${ms}ms)`); return reject(); }
       const snippet=txt.slice(0,90).replace(/\s+/g,' ');
-      if(/^\s*</.test(txt) || /<html|<!doctype/i.test(txt.slice(0,200))){ log.push(`#${i+1} ${host} → got HTML not CSV: "${snippet}"`); continue; }
-      if(/exceeded the daily hits limit/i.test(txt)){ log.push(`#${i+1} ${host} → Stooq daily hit-limit reached`); continue; }
-      if(/^no data/i.test(txt)){ log.push(`#${i+1} ${host} → Stooq: no data for symbol`); continue; }
+      if(/^\s*</.test(txt) || /<html|<!doctype/i.test(txt.slice(0,200))){ log.push(`#${i+1} ${host} → got HTML not CSV: "${snippet}"`); return reject(); }
+      if(/exceeded the daily hits limit/i.test(txt)){ log.push(`#${i+1} ${host} → Stooq daily hit-limit reached`); return reject(); }
+      if(/^no data/i.test(txt)){ log.push(`#${i+1} ${host} → Stooq: no data for symbol`); return reject(); }
       const rows=parseStooq(txt);
-      if(rows===null){ log.push(`#${i+1} ${host} → unrecognised CSV: "${snippet}"`); continue; }
-      if(rows.length>=24) return rows;
-      log.push(`#${i+1} ${host} → only ${rows.length} daily rows parsed`);
+      if(rows===null){ log.push(`#${i+1} ${host} → unrecognised CSV: "${snippet}"`); return reject(); }
+      if(rows.length>=24){ return resolve(rows); }
+      log.push(`#${i+1} ${host} → only ${rows.length} daily rows parsed`); return reject();
     }catch(e){
       const reason = (e && e.name==='AbortError') ? 'timeout (12s)' : (e && e.message) || 'network/CORS error';
-      log.push(`#${i+1} ${host} → ${reason}`);
+      log.push(`#${i+1} ${host} → ${reason}`); return reject();
     }
+  });
+
+  try{
+    return await Promise.any(attempts.map((p,i)=>one(p,i)));
+  }catch(_){
+    const err=new Error('all CORS proxies failed (Stooq may be rate-limiting the shared proxy IPs — wait a minute and hit Retry)');
+    err.diag=log;
+    throw err;
   }
-  const err=new Error('all CORS proxies failed (Stooq may be rate-limiting the shared proxy IPs — wait a minute and hit Retry)');
-  err.diag=log;
-  throw err;
 }
 
 /* Parse Stooq daily CSV ("Date,Open,High,Low,Close[,Volume]") into sorted
