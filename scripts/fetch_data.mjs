@@ -129,16 +129,19 @@ async function yahooSession(){
 
 async function fetchYahooFundamentals(ys, sess){
   const url = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(ys)}`
-    + `?modules=financialData,recommendationTrend&crumb=${encodeURIComponent(sess.crumb)}`;
+    + `?modules=financialData,recommendationTrend,price&crumb=${encodeURIComponent(sess.crumb)}`;
   const { text } = await fetchText(url, { headers: { cookie: sess.cookie } });
   const json = JSON.parse(text);
   const res = json && json.quoteSummary && json.quoteSummary.result && json.quoteSummary.result[0];
   if(!res) return null;
   const fd = res.financialData || {};
+  const pr = res.price || {};
   const trend = res.recommendationTrend && res.recommendationTrend.trend && res.recommendationTrend.trend[0];
-  const price = fd.currentPrice && fd.currentPrice.raw;
+  const price = (fd.currentPrice && fd.currentPrice.raw) ?? (pr.regularMarketPrice && pr.regularMarketPrice.raw);
   const target = fd.targetMeanPrice && fd.targetMeanPrice.raw;
   const out = {};
+  if(pr.marketCap && pr.marketCap.raw != null) out.mktCap = pr.marketCap.raw;
+  if(pr.longName || pr.shortName) out.name = pr.longName || pr.shortName;
   if(price != null) out.price = +price.toFixed(2);
   if(target != null && price){
     out.fair = +target.toFixed(2);
@@ -150,25 +153,62 @@ async function fetchYahooFundamentals(ys, sess){
   return Object.keys(out).length ? out : null;
 }
 
+/* Candidate pool for the "top N by market cap" Discover universe. These large
+   caps are price-snapshotted and market-cap-ranked nightly; the app then takes
+   the top 50/100. Edit freely — it just needs to comfortably contain the
+   biggest names so the cap is meaningful. (Forex/commodities/indices are not
+   ranked here; the app always includes those from its own list.) */
+const CANDIDATES_EXTRA = [
+  {t:'goog.us',n:'Alphabet C'},{t:'avgo.us',n:'Broadcom'},{t:'lly.us',n:'Eli Lilly'},
+  {t:'tsm.us',n:'Taiwan Semi'},{t:'lin.us',n:'Linde'},{t:'tmo.us',n:'Thermo Fisher'},
+  {t:'abt.us',n:'Abbott'},{t:'acn.us',n:'Accenture'},{t:'mrk.us',n:'Merck'},
+  {t:'dhr.us',n:'Danaher'},{t:'txn.us',n:'Texas Instruments'},{t:'nee.us',n:'NextEra'},
+  {t:'pm.us',n:'Philip Morris'},{t:'hon.us',n:'Honeywell'},{t:'unp.us',n:'Union Pacific'},
+  {t:'low.us',n:"Lowe's"},{t:'amgn.us',n:'Amgen'},{t:'sbux.us',n:'Starbucks'},
+  {t:'intu.us',n:'Intuit'},{t:'gs.us',n:'Goldman Sachs'},{t:'ms.us',n:'Morgan Stanley'},
+  {t:'blk.us',n:'BlackRock'},{t:'axp.us',n:'American Express'},{t:'schw.us',n:'Charles Schwab'},
+  {t:'c.us',n:'Citigroup'},{t:'bkng.us',n:'Booking'},{t:'isrg.us',n:'Intuitive Surgical'},
+  {t:'now.us',n:'ServiceNow'},{t:'adp.us',n:'ADP'},{t:'gild.us',n:'Gilead'},
+  {t:'mdt.us',n:'Medtronic'},{t:'cvs.us',n:'CVS Health'},{t:'amt.us',n:'American Tower'},
+  {t:'pld.us',n:'Prologis'},{t:'syk.us',n:'Stryker'},{t:'mmm.us',n:'3M'},
+  {t:'mo.us',n:'Altria'},{t:'duk.us',n:'Duke Energy'},{t:'so.us',n:'Southern Co'},
+  {t:'cb.us',n:'Chubb'},{t:'etn.us',n:'Eaton'},{t:'bsx.us',n:'Boston Scientific'},
+  {t:'regn.us',n:'Regeneron'},{t:'vrtx.us',n:'Vertex'},{t:'zts.us',n:'Zoetis'},
+  {t:'panw.us',n:'Palo Alto'},{t:'snps.us',n:'Synopsys'},{t:'cdns.us',n:'Cadence'},
+  {t:'klac.us',n:'KLA'},{t:'lrcx.us',n:'Lam Research'},{t:'mu.us',n:'Micron'},
+  {t:'adi.us',n:'Analog Devices'},{t:'mar.us',n:'Marriott'},{t:'mdlz.us',n:'Mondelez'},
+  {t:'cme.us',n:'CME Group'},{t:'usb.us',n:'US Bancorp'},{t:'pnc.us',n:'PNC'},
+  {t:'tgt.us',n:'Target'},{t:'fdx.us',n:'FedEx'},{t:'gm.us',n:'General Motors'},
+  {t:'de.us',n:'Deere'},{t:'emr.us',n:'Emerson'},{t:'gd.us',n:'General Dynamics'},
+  {t:'nsc.us',n:'Norfolk Southern'},{t:'itw.us',n:'Illinois Tool Works'},{t:'apd.us',n:'Air Products'},
+  {t:'cop.us',n:'ConocoPhillips'},{t:'slb.us',n:'Schlumberger'},{t:'eog.us',n:'EOG Resources'},
+  {t:'spgi.us',n:'S&P Global'},{t:'ice.us',n:'ICE'},{t:'mmc.us',n:'Marsh McLennan'},
+  {t:'uber.us',n:'Uber'},{t:'pypl.us',n:'PayPal'},{t:'abnb.us',n:'Airbnb'},
+];
+
 async function main(){
   fs.mkdirSync(PRICES, { recursive: true });
   const assets = parseAssets(fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8'));
-  console.log(`Assets: ${assets.length}`);
+  // Build the price-snapshot pool = app assets + extra large-cap candidates (dedup by ticker).
+  const pool = []; const seen = new Set();
+  for(const a of assets){ if(!seen.has(a.t)){ seen.add(a.t); pool.push({ t: a.t, n: a.n, g: a.g }); } }
+  for(const e of CANDIDATES_EXTRA){ if(!seen.has(e.t)){ seen.add(e.t); pool.push({ t: e.t, n: e.n, g: 'Stocks' }); } }
+  console.log(`Assets: ${assets.length} · pool (with candidates): ${pool.length}`);
 
-  // ---- prices (Yahoo chart, keyless) ----
+  // ---- prices (Yahoo chart, keyless) — whole pool ----
   const pricesOk = [], pricesFailed = [];
-  for(const a of assets){
+  for(const a of pool){
     const csv = await fetchYahooPrices(a.t);
     if(csv){ fs.writeFileSync(path.join(PRICES, a.t + '.csv'), csv); pricesOk.push(a.t); }
     else pricesFailed.push(a.t);
     await sleep(250);
   }
-  console.log(`Prices: ${pricesOk.length} ok, ${pricesFailed.length} failed${pricesFailed.length ? ' (' + pricesFailed.join(', ') + ')' : ''}`);
+  console.log(`Prices: ${pricesOk.length} ok, ${pricesFailed.length} failed${pricesFailed.length ? ' (' + pricesFailed.slice(0, 20).join(', ') + (pricesFailed.length > 20 ? '…' : '') + ')' : ''}`);
 
-  // ---- analyst data (Yahoo quoteSummary, keyless; best-effort) ----
+  // ---- analyst data + market cap (Yahoo quoteSummary, keyless; best-effort) ----
   const bySymbol = {};
   let fundErrors = 0;
-  const usStocks = assets.filter(a => (a.g === 'Stocks' || a.g === 'Penny') && a.t.endsWith('.us'));
+  const usStocks = pool.filter(a => a.t.endsWith('.us'));   // every US stock in the pool
   const sess = await yahooSession();
   if(sess){
     for(const a of usStocks){
@@ -188,11 +228,24 @@ async function main(){
     process.exit(1);
   }
 
+  // ---- universe: rank non-penny US stocks by market cap, take top 100 ----
+  const pennySet = new Set(assets.filter(a => a.g === 'Penny').map(a => a.t));
+  const okSet = new Set(pricesOk);
+  const ranked = usStocks
+    .filter(a => !pennySet.has(a.t) && okSet.has(a.t))      // need a price snapshot to be scannable
+    .map(a => ({ t: a.t, n: (bySymbol[a.t] && bySymbol[a.t].name) || a.n, mktCap: (bySymbol[a.t] && bySymbol[a.t].mktCap) || 0 }))
+    .sort((x, y) => y.mktCap - x.mktCap)
+    .slice(0, 100);
+  fs.writeFileSync(path.join(DATA, 'universe.json'),
+    JSON.stringify({ updatedAt: new Date().toISOString(), ranked: ranked.some(r => r.mktCap > 0), stocks: ranked }, null, 1));
+  console.log(`Universe: ${ranked.length} stocks ranked by market cap (top: ${ranked.slice(0, 3).map(r => r.t).join(', ')})`);
+
   fs.writeFileSync(path.join(DATA, 'meta.json'), JSON.stringify({
     updatedAt: new Date().toISOString(),
     source: 'Yahoo Finance',
     prices: { ok: pricesOk.length, failed: pricesFailed },
     analyst: { symbols: Object.keys(bySymbol).length },
+    universe: { stocks: ranked.length },
   }, null, 1));
   console.log('Snapshot complete.');
 }

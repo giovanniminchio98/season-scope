@@ -1,11 +1,16 @@
 {
- "updatedAt": "2026-06-10T21:53:40.445Z",
+ "updatedAt": "2026-06-11T06:37:40.711Z",
  "source": "Yahoo Finance",
  "prices": {
-  "ok": 70,
-  "failed": []
+  "ok": 144,
+  "failed": [
+   "mmc.us"
+  ]
  },
  "analyst": {
-  "symbols": 52
+  "symbols": 126
+ },
+ "universe": {
+  "stocks": 100
  }
 }

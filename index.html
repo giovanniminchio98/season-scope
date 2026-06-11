@@ -136,6 +136,17 @@
   .rating-sub{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:0.12em; margin-top:4px}
   .rating-duo{display:flex; gap:28px; margin-bottom:18px; flex-wrap:wrap}
 
+  .card-title.noline::after{content:none}
+  .chart-head{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; flex-wrap:wrap}
+  .chart-tf{display:flex; gap:6px}
+  .tfbtn{font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:6px 13px; cursor:pointer; transition:all .15s}
+  .tfbtn:hover{color:var(--text)}
+  .tfbtn.active{background:var(--accent); color:#0e0e0e; border-color:var(--accent); font-weight:500}
+  .chart-wrap{position:relative; width:100%}
+  #priceChart{width:100%; height:300px; display:block; touch-action:none; cursor:crosshair}
+  .chart-tip{position:absolute; pointer-events:none; background:var(--card); border:1px solid var(--accent); border-radius:8px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; transform:translate(-50%,-130%); z-index:5; box-shadow:0 4px 14px rgba(0,0,0,0.4)}
+  @media(max-width:560px){ #priceChart{height:240px} }
+
   .sugg{font-size:13px; line-height:1.7; color:var(--text); list-style:none}
   .sugg li{margin:0 0 12px 0; padding-left:20px; position:relative}
   .sugg li::before{content:'▸'; position:absolute; left:0; color:var(--accent)}
@@ -278,10 +289,14 @@
   <div id="panel-discover" class="panel">
     <div class="card" style="animation-delay:.05s">
       <div class="card-title accent">◎ Suggested to Monitor</div>
-      <p class="paneldesc">An <strong>opportunity / timing</strong> grade — auto-ranked by <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI), <strong>value / entry</strong> (drawdown from highs, 52-wk range position, vs 200-day trend), plus an analyst-target tilt when the nightly snapshot is available. This is about <em>entry timing right now</em> and is <strong>different from the long-term Quality rating</strong> in Analyze — a stable stock can be high Quality but low Opportunity today. Not investment advice.</p>
+      <p class="paneldesc">Dynamic membership: the <strong>top 50 / 100 companies by market cap</strong> (refreshed nightly) plus forex, commodities &amp; indices — then ranked by an <strong>opportunity / timing</strong> grade from <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI), <strong>value / entry</strong> (drawdown from highs, 52-wk range position, vs 200-day trend), plus an analyst-target tilt when the nightly snapshot is available. This is about <em>entry timing right now</em> and is <strong>different from the long-term Quality rating</strong> in Analyze — a stable stock can be high Quality but low Opportunity today. Not investment advice.</p>
       <div class="snapline" id="snapNote">Checking nightly snapshot…</div>
       <div class="disc-controls">
         <button id="scanBtn" class="btn">↻ Scan now</button>
+        <span class="chart-tf" id="capToggle">
+          <button class="tfbtn active" data-cap="50">Top 50</button>
+          <button class="tfbtn" data-cap="100">Top 100</button>
+        </span>
         <span id="scanStatus" class="scanstat">—</span>
       </div>
       <div class="disc-progress"><div id="scanBar" class="disc-bar"></div></div>
@@ -351,6 +366,23 @@
   </div>
 
   <div id="results" class="hidden">
+
+    <div class="grid-full">
+      <div class="card" style="animation-delay:.04s">
+        <div class="chart-head">
+          <div class="card-title accent noline" style="margin-bottom:0">Price · Support &amp; Resistance</div>
+          <span class="chart-tf" id="tfToggle">
+            <button class="tfbtn active" data-tf="w">1W</button>
+            <button class="tfbtn" data-tf="m">1M</button>
+          </span>
+        </div>
+        <div class="chart-wrap" id="chartWrap">
+          <svg id="priceChart" viewBox="0 0 1000 360" preserveAspectRatio="none"></svg>
+          <div class="chart-tip hidden" id="chartTip"></div>
+        </div>
+        <div class="note" id="chartNote"></div>
+      </div>
+    </div>
 
     <div class="grid-full">
       <div class="card" style="animation-delay:.05s">
@@ -475,7 +507,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v13 · Yahoo snapshot';
+const BUILD = 'v15 · Dynamic universe';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -544,6 +576,18 @@ const ASSETS = [
 /* Tickers scanned on the Discover tab (kept focused so the multi-stock scan
    stays fast/reliable on public proxies). Edit freely — must match an ASSETS 't'. */
 const DISCOVER_TICKERS = ['aapl.us','msft.us','nvda.us','amzn.us','googl.us','meta.us','tsla.us','jpm.us','xom.us','unh.us','wmt.us','ko.us','cat.us','amd.us'];
+let DISC_CAP=50;   // top-N companies by market cap to scan on Discover (50 / 100 toggle)
+/* Discover membership = top-N market-cap stocks (from the nightly universe.json)
+   + the always-included forex / commodities / indices. Falls back to the small
+   built-in list until the first universe snapshot exists. */
+function discoverTickers(){
+  const stocks=(UNIV && UNIV.stocks && UNIV.stocks.length)
+    ? UNIV.stocks.slice(0, DISC_CAP).map(s=>s.t)
+    : DISCOVER_TICKERS;
+  const extras=ASSETS.filter(a=>['Forex','Commodities','Indices'].includes(a.g)).map(a=>a.t);
+  return stocks.concat(extras);
+}
+function discKey(){ return 'ss_disc_v4_'+DISC_CAP; }
 
 /* ===========================================================================
    >>> CORS PROXY CHAIN <<<  (free, no account). The live FALLBACK fetch (used
@@ -576,7 +620,7 @@ const DATA_BASES = [
   'data/',                                                                       // same-origin (GitHub Pages or any host serving this repo)
   'https://raw.githubusercontent.com/giovanniminchio98/season-scope/main/data/', // works from any other host (~5 min CDN cache)
 ];
-let DATA_BASE=null, META=null, FUND=null;
+let DATA_BASE=null, META=null, FUND=null, UNIV=null;
 const SNAP_READY=(async function initSnapshot(){
   for(const b of DATA_BASES){
     try{
@@ -586,6 +630,7 @@ const SNAP_READY=(async function initSnapshot(){
       if(!m || !m.updatedAt) continue;
       DATA_BASE=b; META=m;
       try{ const fr=await fetch(b+'fundamentals.json',{cache:'no-store'}); if(fr.ok) FUND=await fr.json(); }catch(_){}
+      try{ const ur=await fetch(b+'universe.json',{cache:'no-store'}); if(ur.ok) UNIV=await ur.json(); }catch(_){}
       break;
     }catch(_){}
   }
@@ -625,16 +670,33 @@ const NOW_MONTH = new Date().getMonth()+1;   // 1-12, used to drop the still-for
   endSel.value = NOW_YEAR;
 })();
 
-/* Populate asset dropdown grouped */
-(function buildAssets(){
+/* Populate asset dropdown grouped (rebuildable — universe stocks get merged in) */
+function buildAssetDropdown(){
+  assetSel.innerHTML='';
   const groups={};
   ASSETS.forEach((a,i)=>{(groups[a.g]=groups[a.g]||[]).push({...a,i});});
+  // The Stocks group is ordered by market cap (biggest first) once the nightly
+  // universe data is loaded; everything else keeps its curated order.
+  const haveMc=!!(UNIV && UNIV.stocks && UNIV.stocks.length);
+  const mc={}; if(haveMc) UNIV.stocks.forEach(s=>{ mc[s.t]=s.mktCap||0; });
   Object.keys(groups).forEach(g=>{
     const og=document.createElement('optgroup'); og.label=g;
-    groups[g].forEach(a=>{ og.appendChild(new Option(a.n, a.i)); });
+    const list=groups[g];
+    if(g==='Stocks' && haveMc) list.sort((a,b)=>(mc[b.t]||0)-(mc[a.t]||0) || a.n.localeCompare(b.n));
+    list.forEach(a=>{ og.appendChild(new Option(a.n, a.i)); });
     assetSel.appendChild(og);
   });
-})();
+}
+buildAssetDropdown();
+/* Merge the nightly top-by-market-cap universe into ASSETS (under the single
+   Stocks group) so those names are scannable on Discover, analyzable, and in
+   the dropdown — where the Stocks group then orders biggest-first. */
+function mergeUniverse(){
+  if(!(UNIV && UNIV.stocks && UNIV.stocks.length)) return;
+  let added=false;
+  UNIV.stocks.forEach(s=>{ if(s.t && !ASSETS.some(a=>a.t===s.t)){ ASSETS.push({g:'Stocks', t:s.t, n:s.n||s.t}); added=true; } });
+  if(added) buildAssetDropdown();
+}
 
 async function fetchDaily(symbol, fromYear){
   // 0) Nightly snapshot first: a static file committed by the GitHub Action —
@@ -1193,9 +1255,126 @@ async function getDaily(symbol, fromYear){
 
 let LASTDATA=null;    // last computed seasonality data, for the matrix metric toggle
 
+/* ----- Price chart + support/resistance (vanilla SVG, no library) ----- */
+let CHART_TF='w', CHART_DAILY=null, CHART=null, chartBound=false;
+
+function resampleBy(daily, keyFn){
+  const out=[]; let key=null, cur=null;
+  for(const r of daily){
+    const k=keyFn(r);
+    if(k!==key){ if(cur) out.push(cur); key=k; cur={t:r.t, close:r.close}; }
+    else { cur.t=r.t; cur.close=r.close; }   // keep the LAST close in the bucket
+  }
+  if(cur) out.push(cur);
+  return out;
+}
+const resampleW=d=>resampleBy(d, r=>Math.floor(r.t.getTime()/(7*864e5)));
+const resampleM=d=>resampleBy(d, r=>r.y*12+r.m);
+
+/* Auto support/resistance: swing pivots clustered into price levels. */
+function srLevels(series){
+  const c=series.map(s=>s.close), n=c.length;
+  if(n<12) return {support:[], resistance:[], last:c[n-1]};
+  const w=Math.max(2, Math.round(n*0.03)), piv=[];
+  for(let i=w;i<n-w;i++){
+    let hi=true, lo=true;
+    for(let j=i-w;j<=i+w;j++){ if(j===i) continue; if(c[j]>=c[i]) hi=false; if(c[j]<=c[i]) lo=false; }
+    if(hi) piv.push(c[i]); if(lo) piv.push(c[i]);
+  }
+  const last=c[n-1];
+  if(!piv.length) return {support:[], resistance:[], last};
+  piv.sort((a,b)=>a-b);
+  const span=Math.max.apply(null,c)-Math.min.apply(null,c), tol=Math.max(span*0.025, last*0.012);
+  const clusters=[]; let g=[piv[0]];
+  for(let i=1;i<piv.length;i++){ if(piv[i]-g[g.length-1]<=tol) g.push(piv[i]); else { clusters.push(g); g=[piv[i]]; } }
+  clusters.push(g);
+  const levels=clusters.map(gr=>({ price:gr.reduce((a,b)=>a+b,0)/gr.length, touches:gr.length }));
+  return {
+    resistance: levels.filter(l=>l.price>last*1.004).sort((a,b)=>a.price-b.price).slice(0,3),
+    support:    levels.filter(l=>l.price<last*0.996).sort((a,b)=>b.price-a.price).slice(0,3),
+    last
+  };
+}
+
+function renderChart(winDaily){
+  if(winDaily) CHART_DAILY=winDaily;
+  const daily=CHART_DAILY;
+  const svg=$('priceChart');
+  if(!daily || daily.length<2){ svg.innerHTML=''; $('chartNote').textContent='Not enough price history to chart this window.'; return; }
+  const series=(CHART_TF==='m'?resampleM:resampleW)(daily);
+  const n=series.length;
+  const sr=srLevels(series);
+  const prices=series.map(s=>s.close);
+  let ymin=Math.min.apply(null,prices), ymax=Math.max.apply(null,prices);
+  [...sr.support, ...sr.resistance].forEach(l=>{ if(l.price<ymin)ymin=l.price; if(l.price>ymax)ymax=l.price; });
+  const padY=(ymax-ymin)*0.06||1; ymin-=padY; ymax+=padY;
+  const L=10, R=66, T=14, B=28, PW=1000-L-R, PH=360-T-B;
+  const xOf=i=> L + (n>1? i/(n-1):0)*PW;
+  const yOf=p=> T + (1-(p-ymin)/(ymax-ymin))*PH;
+  CHART={series, L, PW, n, xOf, yOf};
+  const up = prices[n-1] >= prices[0];
+  const col = up ? 'var(--bull)' : 'var(--bear)';
+  let d='M'+xOf(0).toFixed(1)+' '+yOf(prices[0]).toFixed(1);
+  for(let i=1;i<n;i++) d+=' L'+xOf(i).toFixed(1)+' '+yOf(prices[i]).toFixed(1);
+  const area=d+' L'+xOf(n-1).toFixed(1)+' '+(T+PH)+' L'+xOf(0).toFixed(1)+' '+(T+PH)+' Z';
+  let s='';
+  s+='<defs><linearGradient id="cg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="'+col+'" stop-opacity="0.22"/><stop offset="1" stop-color="'+col+'" stop-opacity="0"/></linearGradient></defs>';
+  s+='<path d="'+area+'" fill="url(#cg)"/><path d="'+d+'" fill="none" stroke="'+col+'" stroke-width="1.6"/>';
+  const lvl=(l,c2,lbl)=>{ const y=yOf(l.price).toFixed(1);
+    return '<line x1="'+L+'" x2="'+(1000-R)+'" y1="'+y+'" y2="'+y+'" stroke="'+c2+'" stroke-width="1" stroke-dasharray="4 4" opacity="0.8"/>'
+      +'<text x="'+(1000-R+5)+'" y="'+(+y+3.5)+'" fill="'+c2+'" font-size="11">'+lbl+l.price.toFixed(2)+'</text>'; };
+  sr.resistance.forEach(l=>s+=lvl(l,'var(--bear)','R '));
+  sr.support.forEach(l=>s+=lvl(l,'var(--bull)','S '));
+  // current price marker
+  const ly=yOf(prices[n-1]).toFixed(1);
+  s+='<line x1="'+L+'" x2="'+(1000-R)+'" y1="'+ly+'" y2="'+ly+'" stroke="var(--text)" stroke-width="0.7" stroke-dasharray="1 3" opacity="0.5"/>';
+  s+='<circle cx="'+xOf(n-1).toFixed(1)+'" cy="'+ly+'" r="3.2" fill="var(--text)"/>';
+  s+='<text x="'+(1000-R+5)+'" y="'+(+ly+3.5)+'" fill="var(--text)" font-size="11" font-weight="500">'+prices[n-1].toFixed(2)+'</text>';
+  // x-axis date ticks
+  const ticks=Math.min(5,n);
+  for(let k=0;k<ticks;k++){ const i=Math.round(k/(ticks-1)*(n-1)); const x=xOf(i).toFixed(1);
+    const lab=series[i].t.toLocaleDateString(undefined,{month:'short',year:'2-digit'});
+    s+='<text x="'+x+'" y="'+(360-8)+'" fill="var(--muted)" font-size="10" text-anchor="middle">'+lab+'</text>'; }
+  // crosshair (updated on hover)
+  s+='<line id="cx" x1="0" x2="0" y1="'+T+'" y2="'+(T+PH)+'" stroke="var(--accent)" stroke-width="0.8" opacity="0"/>';
+  s+='<circle id="cdot" r="3.5" fill="var(--accent)" opacity="0"/>';
+  svg.innerHTML=s;
+  const rc=sr.resistance.length, sc=sr.support.length;
+  $('chartNote').innerHTML=(CHART_TF==='m'?'Monthly':'Weekly')+' closes over the selected window. '
+    +'Dashed lines = auto-detected <span style="color:var(--bear)">resistance</span> ('+rc+') and <span style="color:var(--bull)">support</span> ('+sc+') from swing pivots — informational, not advice. Tap/hover for date &amp; price.';
+  if(!chartBound) bindChart();
+}
+
+function bindChart(){
+  chartBound=true;
+  const svg=$('priceChart'), tip=$('chartTip');
+  const move=e=>{
+    if(!CHART) return;
+    const rect=svg.getBoundingClientRect();
+    const xv=(e.clientX-rect.left)/rect.width*1000;
+    let i=Math.round((xv-CHART.L)/CHART.PW*(CHART.n-1));
+    i=Math.max(0,Math.min(CHART.n-1,i));
+    const pt=CHART.series[i], cx=CHART.xOf(i), cy=CHART.yOf(pt.close);
+    const cxl=svg.querySelector('#cx'), cd=svg.querySelector('#cdot');
+    if(cxl){ cxl.setAttribute('x1',cx); cxl.setAttribute('x2',cx); cxl.setAttribute('opacity','0.6'); }
+    if(cd){ cd.setAttribute('cx',cx); cd.setAttribute('cy',cy); cd.setAttribute('opacity','1'); }
+    tip.classList.remove('hidden');
+    tip.style.left=(cx/1000*100)+'%'; tip.style.top=(cy/360*100)+'%';
+    tip.innerHTML='<strong>'+pt.close.toFixed(2)+'</strong> · '+pt.t.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'});
+  };
+  const leave=()=>{ const c=svg.querySelector('#cx'), d=svg.querySelector('#cdot'); if(c)c.setAttribute('opacity','0'); if(d)d.setAttribute('opacity','0'); tip.classList.add('hidden'); };
+  svg.addEventListener('pointermove',move); svg.addEventListener('pointerleave',leave);
+  document.querySelectorAll('#tfToggle .tfbtn').forEach(b=>b.addEventListener('click',()=>{
+    CHART_TF=b.dataset.tf;
+    document.querySelectorAll('#tfToggle .tfbtn').forEach(x=>x.classList.toggle('active', x===b));
+    renderChart();
+  }));
+}
+
 /* Render everything from already-fetched rows for the chosen year window.
    No network here — pure recompute, so changing the year range is instant. */
 function renderAll(asset, daily, startYr, endYr){
+  renderChart(daily.filter(r=> r.y>=startYr && r.y<=endYr));   // price chart + S/R (above matrix)
   const monthly=toMonthly(daily);                       // last-close-per-month series
   const data=compute(monthly, startYr, endYr);
   if(!data.years.length) throw new Error('No data in the selected year window. Try an earlier start year.');
@@ -1289,7 +1468,7 @@ $('retryBtn').addEventListener('click', ()=>run(true));  // Retry always re-fetc
 /* ===========================  DISCOVER / MOVERS SCANNER  =================== */
 const SCAN_FROM=NOW_YEAR-6;                          // depth scanned per symbol
 const SCAN_TTL=12*3600*1000;                         // localStorage freshness window
-const DUI={list:'discoverList', status:'scanStatus', bar:'scanBar', btn:'scanBtn', key:'ss_scan_v3'};
+const DUI={list:'discoverList', status:'scanStatus', bar:'scanBar', btn:'scanBtn', key:'ss_scan_v3', show:30};
 const PUI={list:'pennyList',    status:'pennyStatus', bar:'pennyBar', btn:'pennyScanBtn', key:'ss_penny_v3'};
 const gradeClass=g=>{ const c=(g||'').charAt(0); return c==='A'?'g-a':c==='B'?'g-b':c==='C'?'g-c':'g-d'; };
 
@@ -1330,8 +1509,10 @@ function renderSuggestions(listId, results){
   el.querySelectorAll('.sg').forEach(d=>d.addEventListener('click',()=>openInAnalyze(d.dataset.t)));
 }
 let scanning={};
-async function scan(tickers, ui){
+async function scan(tickers, ui, key){
+  key=key||ui.key;
   if(scanning[ui.key]) return; scanning[ui.key]=true;
+  const show=ui.show||9999;
   const btn=$(ui.btn); btn.disabled=true;
   const items=tickers.map(t=>ASSETS.find(a=>a.t===t)).filter(Boolean);
   let done=0; const results=[]; const total=items.length;
@@ -1343,23 +1524,30 @@ async function scan(tickers, ui){
       try{
         const daily=await getDaily(it.t, SCAN_FROM);
         if(daily && daily.length>=60){ results.push(scoreAsset(it, daily));
-          renderSuggestions(ui.list, results.slice().sort((a,b)=>b.composite-a.composite)); }
+          renderSuggestions(ui.list, results.slice().sort((a,b)=>b.composite-a.composite).slice(0,show)); }
       }catch(_){}
       done++; $(ui.bar).style.width=(done/total*100)+'%';
       $(ui.status).textContent='Scanned '+done+'/'+total+(results.length?' · '+results.length+' ranked':'');
     }
   };
-  await Promise.all([worker(),worker(),worker()]);   // 3 in parallel — gentle on proxies
+  await Promise.all([worker(),worker(),worker(),worker()]);   // 4 in parallel
   results.sort((a,b)=>b.composite-a.composite);
-  renderSuggestions(ui.list, results);
-  $(ui.status).textContent=results.length? (results.length+' ranked · '+new Date().toLocaleTimeString()+' · tap a row to analyze')
-                                          : 'Nothing loaded — proxies may be rate-limited. Wait a minute and Scan again.';
+  renderSuggestions(ui.list, results.slice(0,show));
+  $(ui.status).textContent=results.length? (results.length+' scanned · showing top '+Math.min(show,results.length)+' · '+new Date().toLocaleTimeString())
+                                          : 'Nothing loaded — try Scan again in a minute.';
   $(ui.bar).style.width='100%';
   btn.disabled=false; scanning[ui.key]=false;
-  try{ localStorage.setItem(ui.key, JSON.stringify({t:Date.now(), results})); }catch(_){}
+  try{ localStorage.setItem(key, JSON.stringify({t:Date.now(), results})); }catch(_){}
 }
 
-$('scanBtn').addEventListener('click', ()=>scan(DISCOVER_TICKERS, DUI));
+$('scanBtn').addEventListener('click', ()=>scan(discoverTickers(), DUI, discKey()));
+document.querySelectorAll('#capToggle .tfbtn').forEach(b=>b.addEventListener('click', ()=>{
+  DISC_CAP=+b.dataset.cap;
+  document.querySelectorAll('#capToggle .tfbtn').forEach(x=>x.classList.toggle('active', x===b));
+  const c=readCache(discKey());
+  if(c) renderSuggestions(DUI.list, c.results.slice(0,DUI.show)); else { $('discoverList').innerHTML=''; }
+  scan(discoverTickers(), DUI, discKey());
+}));
 $('pennyScanBtn').addEventListener('click', ()=>scan(ASSETS.filter(a=>a.g==='Penny').map(a=>a.t), PUI));
 
 /* ===========================  TABS + LAZY INIT  =========================== */
@@ -1385,8 +1573,10 @@ function renderSnapshotStatus(){
   if(META && META.updatedAt){
     const d=new Date(META.updatedAt);
     const nfund=(FUND && FUND.bySymbol)? Object.keys(FUND.bySymbol).length : 0;
+    const nuniv=(UNIV && UNIV.stocks)? UNIV.stocks.length : 0;
     el.textContent='● Nightly snapshot · last successful update '+d.toLocaleString()
       +' · '+(META.prices?META.prices.ok+' symbols':'')
+      +(nuniv?' · '+nuniv+' ranked by market cap':'')
       +(nfund?' · analyst data for '+nfund+' stocks':' · analyst data unavailable this run');
     $('footText').textContent='SeasonScope ['+BUILD+'] · Data: Yahoo Finance nightly snapshot ('+d.toLocaleDateString()+') · Educational tool — not financial advice.';
   }else{
@@ -1406,15 +1596,16 @@ assetSel.value=0;
 showPanel('discover');                                // land on Discover, suggestions first
 (async function boot(){
   await SNAP_READY;                                    // know snapshot state before first scan
+  mergeUniverse();                                     // top-by-market-cap names into ASSETS + dropdown
   renderSnapshotStatus();
-  const c=readCache(DUI.key);
+  const c=readCache(discKey());
   if(c){
-    renderSuggestions(DUI.list, c.results);
+    renderSuggestions(DUI.list, c.results.slice(0,DUI.show));
     $('scanStatus').textContent='cached '+new Date(c.t).toLocaleTimeString()+' · Scan to refresh';
     $('scanBar').style.width='100%';
-    if(Date.now()-c.t > SCAN_TTL) scan(DISCOVER_TICKERS, DUI);   // stale → refresh in background
+    if(Date.now()-c.t > SCAN_TTL) scan(discoverTickers(), DUI, discKey());   // stale → refresh in background
   } else {
-    scan(DISCOVER_TICKERS, DUI);                       // first ever load → scan now
+    scan(discoverTickers(), DUI, discKey());           // first ever load → scan now
   }
 })();
 </script>
