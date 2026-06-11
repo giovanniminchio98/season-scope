@@ -161,6 +161,13 @@
   #priceChart{width:100%; height:300px; display:block; touch-action:none; cursor:crosshair}
   .chart-tip{position:absolute; pointer-events:none; background:var(--card); border:1px solid var(--accent); border-radius:8px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; transform:translate(-50%,-130%); z-index:5; box-shadow:0 4px 14px rgba(0,0,0,0.4)}
   @media(max-width:560px){ #priceChart{height:240px} #lwc{height:340px} }
+  #fcChart{width:100%; height:360px; display:block; touch-action:none}
+  .fc-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:8px 18px; margin-top:14px}
+  .fc-stat{display:flex; flex-direction:column; gap:1px; font-size:12px}
+  .fc-stat .l{font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted)}
+  .fc-stat .v{font-size:14px; font-weight:500; color:var(--text)}
+  .fc-stat .v.bull{color:var(--bull)} .fc-stat .v.bear{color:var(--bear)}
+  @media(max-width:560px){ #fcChart{height:280px} .fc-stats{grid-template-columns:repeat(2,1fr)} }
   /* numbered points-of-attention list under the chart */
   .chart-points{list-style:none; margin:16px 0 0; padding:0; display:flex; flex-direction:column; gap:9px}
   .chart-points li{display:flex; gap:11px; font-size:12px; line-height:1.55; color:var(--muted)}
@@ -413,6 +420,29 @@
 
     <div class="grid-full">
       <div class="card" style="animation-delay:.05s">
+        <div class="chart-head">
+          <div class="card-title accent3 noline" style="margin-bottom:2px">Probabilistic Forecast · Advanced Model</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap">
+            <span class="chart-tf" id="fcModel">
+              <button class="tfbtn active" data-m="ensemble">Ensemble</button>
+              <button class="tfbtn" data-m="garch">GARCH-t</button>
+              <button class="tfbtn" data-m="boot">Bootstrap</button>
+            </span>
+            <span class="chart-tf" id="fcHorizon">
+              <button class="tfbtn" data-h="63">3M</button>
+              <button class="tfbtn active" data-h="126">6M</button>
+              <button class="tfbtn" data-h="252">1Y</button>
+            </span>
+          </div>
+        </div>
+        <div class="chart-wrap"><svg id="fcChart" viewBox="0 0 1000 380" preserveAspectRatio="none"></svg></div>
+        <div id="fcStats" class="fc-stats"></div>
+        <div class="note" id="fcNote"></div>
+      </div>
+    </div>
+
+    <div class="grid-full">
+      <div class="card" style="animation-delay:.05s">
         <div class="card-title accent">Monthly Seasonality Matrix</div>
         <div class="matrix-wrap"><table class="matrix" id="matrix"></table></div>
         <div class="note" id="matrixNote"></div>
@@ -534,7 +564,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v17 · Candles + Monte Carlo';
+const BUILD = 'v18 · Probabilistic forecast';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1540,10 +1570,99 @@ document.querySelectorAll('#tfToggle .tfbtn').forEach(b=>b.addEventListener('cli
   rerenderPrice();
 }));
 
+/* ===== Second chart: probabilistic forecast (advanced models) =====
+   Ensemble of GARCH(1,1) with Student-t shocks (volatility clustering + fat
+   tails) and historical block bootstrap (non-parametric, real return shape).
+   Rendered as a fan chart (50% & 90% bands + median) with forecast stats. */
+let FC_DAILY=null, FC_HORIZON=126, FC_MODEL='ensemble';
+function tShock(nu){ let v=0; for(let i=0;i<nu;i++){const z=gauss(); v+=z*z;} return gauss()/Math.sqrt(v/nu)*Math.sqrt((nu-2)/nu); }
+function forecastSim(daily, steps, paths, model){
+  const c=daily.map(r=>r.close), rets=[];
+  for(let i=1;i<c.length;i++){ if(c[i-1]>0&&c[i]>0) rets.push(Math.log(c[i]/c[i-1])); }
+  const R=rets.slice(-1500);
+  if(R.length<40) return null;
+  const mu=mean(R)||0, sd=stdev(R)||0.012, v=Math.max(1e-8, sd*sd), last=c[c.length-1];
+  const alpha=0.08, beta=0.90, omega=v*(1-alpha-beta), nu=5, block=10;
+  const cols=Array.from({length:steps},()=>[]);
+  for(let p=0;p<paths;p++){
+    const garch = model==='ensemble' ? (p%2===0) : (model==='garch');
+    let price=last;
+    if(garch){
+      let s2=v;
+      for(let s=0;s<steps;s++){ const e=Math.sqrt(s2)*tShock(nu); price*=Math.exp(mu+e); cols[s].push(price); s2=omega+alpha*e*e+beta*s2; }
+    }else{
+      let s=0;
+      while(s<steps){ const start=Math.max(0,Math.floor(Math.random()*(R.length-block)));
+        for(let k=0;k<block && s<steps;k++){ price*=Math.exp(R[start+k]||0); cols[s].push(price); s++; } }
+    }
+  }
+  const pc=(a,q)=>{ const x=a.slice().sort((m,n)=>m-n); return x[Math.max(0,Math.min(x.length-1,Math.floor(q*(x.length-1))))]; };
+  const p5=[],p25=[],p50=[],p75=[],p95=[];
+  cols.forEach(col=>{ p5.push(pc(col,.05)); p25.push(pc(col,.25)); p50.push(pc(col,.5)); p75.push(pc(col,.75)); p95.push(pc(col,.95)); });
+  const term=cols[steps-1];
+  return { last, steps, p5,p25,p50,p75,p95, mu, annVol:sd*Math.sqrt(252)*100,
+    pGain: term.filter(x=>x>last).length/term.length*100,
+    pUp10: term.filter(x=>x>=last*1.1).length/term.length*100,
+    pDn10: term.filter(x=>x<=last*0.9).length/term.length*100 };
+}
+function renderFcStats(f){
+  const r=p=>(p/f.last-1)*100, sgn=x=>(x>=0?'+':'')+x.toFixed(1)+'%', L=f.steps-1;
+  const st=(l,v,cls)=>'<div class="fc-stat"><span class="l">'+l+'</span><span class="v '+(cls||'')+'">'+v+'</span></div>';
+  const med=r(f.p50[L]);
+  $('fcStats').innerHTML=
+    st('Median outcome', sgn(med), med>=0?'bull':'bear')+
+    st('50% range', sgn(r(f.p25[L]))+' … '+sgn(r(f.p75[L])))+
+    st('90% range', sgn(r(f.p5[L]))+' … '+sgn(r(f.p95[L])))+
+    st('Prob. of gain', f.pGain.toFixed(0)+'%', f.pGain>=50?'bull':'bear')+
+    st('Prob. ≥ +10%', f.pUp10.toFixed(0)+'%', 'bull')+
+    st('Prob. ≤ −10%', f.pDn10.toFixed(0)+'%', 'bear')+
+    st('Annualised vol', f.annVol.toFixed(0)+'%')+
+    st('Daily drift', (f.mu*100).toFixed(3)+'%')+
+    st('Horizon', Math.round(f.steps/21)+' months');
+}
+function renderForecastChart(){
+  const svg=$('fcChart'), daily=FC_DAILY;
+  if(!daily || daily.length<60){ svg.innerHTML=''; $('fcStats').innerHTML=''; $('fcNote').textContent='Not enough history for a forecast in this window.'; return; }
+  const steps=FC_HORIZON;
+  const f=forecastSim(daily, steps, 400, FC_MODEL);
+  if(!f){ svg.innerHTML=''; $('fcStats').innerHTML=''; $('fcNote').textContent='Not enough return history to model this asset.'; return; }
+  const histN=Math.min(daily.length, Math.round(steps*0.7));
+  const hist=daily.slice(-histN).map(r=>r.close);
+  const total=histN+steps;
+  let ymin=Math.min(Math.min.apply(null,hist), Math.min.apply(null,f.p5));
+  let ymax=Math.max(Math.max.apply(null,hist), Math.max.apply(null,f.p95));
+  const pad=(ymax-ymin)*0.06||1; ymin-=pad; ymax+=pad;
+  const L=10,Rp=72,T=14,B=26,PW=1000-L-Rp,PH=380-T-B;
+  const X=i=>L+i/(total-1)*PW, Y=p=>T+(1-(p-ymin)/(ymax-ymin))*PH, J=histN-1, xf=j=>X(J+j);
+  const band=(up,lo,fill)=>{
+    let d='M'+xf(0).toFixed(1)+' '+Y(f.last).toFixed(1);
+    for(let j=0;j<steps;j++) d+=' L'+xf(j+1).toFixed(1)+' '+Y(up[j]).toFixed(1);
+    for(let j=steps-1;j>=0;j--) d+=' L'+xf(j+1).toFixed(1)+' '+Y(lo[j]).toFixed(1);
+    return '<path d="'+d+' Z" fill="'+fill+'"/>';
+  };
+  let s=band(f.p95,f.p5,'rgba(96,200,240,0.12)')+band(f.p75,f.p25,'rgba(96,200,240,0.22)');
+  let md='M'+xf(0).toFixed(1)+' '+Y(f.last).toFixed(1);
+  for(let j=0;j<steps;j++) md+=' L'+xf(j+1).toFixed(1)+' '+Y(f.p50[j]).toFixed(1);
+  s+='<path d="'+md+'" fill="none" stroke="#60c8f0" stroke-width="1.8" stroke-dasharray="5 3"/>';
+  let hd='M'+X(0).toFixed(1)+' '+Y(hist[0]).toFixed(1);
+  for(let i=1;i<histN;i++) hd+=' L'+X(i).toFixed(1)+' '+Y(hist[i]).toFixed(1);
+  s+='<path d="'+hd+'" fill="none" stroke="#f0ede8" stroke-width="1.6"/>';
+  s+='<line x1="'+X(J).toFixed(1)+'" x2="'+X(J).toFixed(1)+'" y1="'+T+'" y2="'+(T+PH)+'" stroke="var(--border)" stroke-dasharray="2 3"/>';
+  for(let k=0;k<=4;k++){ const p=ymin+(ymax-ymin)*k/4, y=Y(p).toFixed(1);
+    s+='<text x="'+(1000-Rp+5)+'" y="'+(+y+3.5)+'" fill="var(--muted)" font-size="10">'+p.toFixed(2)+'</text>'; }
+  svg.innerHTML=s;
+  renderFcStats(f);
+  const names={ensemble:'Ensemble (GARCH-t + bootstrap)', garch:'GARCH(1,1) · Student-t shocks', boot:'Historical block bootstrap'};
+  $('fcNote').innerHTML='Model: <strong>'+names[FC_MODEL]+'</strong> · '+Math.round(steps/21)+'-month horizon · 400 simulated paths. Shaded = 50% (inner) &amp; 90% (outer) probability ranges; dashed = median path; white = recent actual price. Models volatility clustering &amp; fat tails — an illustration of <em>uncertainty</em>, not a prediction. Not advice.';
+}
+document.querySelectorAll('#fcModel .tfbtn').forEach(b=>b.addEventListener('click',()=>{ FC_MODEL=b.dataset.m; document.querySelectorAll('#fcModel .tfbtn').forEach(x=>x.classList.toggle('active',x===b)); renderForecastChart(); }));
+document.querySelectorAll('#fcHorizon .tfbtn').forEach(b=>b.addEventListener('click',()=>{ FC_HORIZON=+b.dataset.h; document.querySelectorAll('#fcHorizon .tfbtn').forEach(x=>x.classList.toggle('active',x===b)); renderForecastChart(); }));
+
 /* Render everything from already-fetched rows for the chosen year window.
    No network here — pure recompute, so changing the year range is instant. */
 function renderAll(asset, daily, startYr, endYr){
   renderPriceSection(asset, daily.filter(r=> r.y>=startYr && r.y<=endYr));   // candle chart + MC projection (above matrix)
+  FC_DAILY=daily; renderForecastChart();                // advanced probabilistic forecast (uses full history)
   const monthly=toMonthly(daily);                       // last-close-per-month series
   const data=compute(monthly, startYr, endYr);
   if(!data.years.length) throw new Error('No data in the selected year window. Try an earlier start year.');
