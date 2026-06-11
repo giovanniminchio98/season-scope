@@ -289,10 +289,14 @@
   <div id="panel-discover" class="panel">
     <div class="card" style="animation-delay:.05s">
       <div class="card-title accent">◎ Suggested to Monitor</div>
-      <p class="paneldesc">An <strong>opportunity / timing</strong> grade — auto-ranked by <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI), <strong>value / entry</strong> (drawdown from highs, 52-wk range position, vs 200-day trend), plus an analyst-target tilt when the nightly snapshot is available. This is about <em>entry timing right now</em> and is <strong>different from the long-term Quality rating</strong> in Analyze — a stable stock can be high Quality but low Opportunity today. Not investment advice.</p>
+      <p class="paneldesc">Dynamic membership: the <strong>top 50 / 100 companies by market cap</strong> (refreshed nightly) plus forex, commodities &amp; indices — then ranked by an <strong>opportunity / timing</strong> grade from <strong>seasonal edge</strong> (months ahead historically strong), <strong>momentum</strong> (3/6-mo trend + RSI), <strong>value / entry</strong> (drawdown from highs, 52-wk range position, vs 200-day trend), plus an analyst-target tilt when the nightly snapshot is available. This is about <em>entry timing right now</em> and is <strong>different from the long-term Quality rating</strong> in Analyze — a stable stock can be high Quality but low Opportunity today. Not investment advice.</p>
       <div class="snapline" id="snapNote">Checking nightly snapshot…</div>
       <div class="disc-controls">
         <button id="scanBtn" class="btn">↻ Scan now</button>
+        <span class="chart-tf" id="capToggle">
+          <button class="tfbtn active" data-cap="50">Top 50</button>
+          <button class="tfbtn" data-cap="100">Top 100</button>
+        </span>
         <span id="scanStatus" class="scanstat">—</span>
       </div>
       <div class="disc-progress"><div id="scanBar" class="disc-bar"></div></div>
@@ -367,7 +371,7 @@
       <div class="card" style="animation-delay:.04s">
         <div class="chart-head">
           <div class="card-title accent noline" style="margin-bottom:0">Price · Support &amp; Resistance</div>
-          <span class="chart-tf">
+          <span class="chart-tf" id="tfToggle">
             <button class="tfbtn active" data-tf="w">1W</button>
             <button class="tfbtn" data-tf="m">1M</button>
           </span>
@@ -503,7 +507,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v14 · Yahoo snapshot';
+const BUILD = 'v15 · Dynamic universe';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -572,6 +576,18 @@ const ASSETS = [
 /* Tickers scanned on the Discover tab (kept focused so the multi-stock scan
    stays fast/reliable on public proxies). Edit freely — must match an ASSETS 't'. */
 const DISCOVER_TICKERS = ['aapl.us','msft.us','nvda.us','amzn.us','googl.us','meta.us','tsla.us','jpm.us','xom.us','unh.us','wmt.us','ko.us','cat.us','amd.us'];
+let DISC_CAP=50;   // top-N companies by market cap to scan on Discover (50 / 100 toggle)
+/* Discover membership = top-N market-cap stocks (from the nightly universe.json)
+   + the always-included forex / commodities / indices. Falls back to the small
+   built-in list until the first universe snapshot exists. */
+function discoverTickers(){
+  const stocks=(UNIV && UNIV.stocks && UNIV.stocks.length)
+    ? UNIV.stocks.slice(0, DISC_CAP).map(s=>s.t)
+    : DISCOVER_TICKERS;
+  const extras=ASSETS.filter(a=>['Forex','Commodities','Indices'].includes(a.g)).map(a=>a.t);
+  return stocks.concat(extras);
+}
+function discKey(){ return 'ss_disc_v4_'+DISC_CAP; }
 
 /* ===========================================================================
    >>> CORS PROXY CHAIN <<<  (free, no account). The live FALLBACK fetch (used
@@ -604,7 +620,7 @@ const DATA_BASES = [
   'data/',                                                                       // same-origin (GitHub Pages or any host serving this repo)
   'https://raw.githubusercontent.com/giovanniminchio98/season-scope/main/data/', // works from any other host (~5 min CDN cache)
 ];
-let DATA_BASE=null, META=null, FUND=null;
+let DATA_BASE=null, META=null, FUND=null, UNIV=null;
 const SNAP_READY=(async function initSnapshot(){
   for(const b of DATA_BASES){
     try{
@@ -614,6 +630,7 @@ const SNAP_READY=(async function initSnapshot(){
       if(!m || !m.updatedAt) continue;
       DATA_BASE=b; META=m;
       try{ const fr=await fetch(b+'fundamentals.json',{cache:'no-store'}); if(fr.ok) FUND=await fr.json(); }catch(_){}
+      try{ const ur=await fetch(b+'universe.json',{cache:'no-store'}); if(ur.ok) UNIV=await ur.json(); }catch(_){}
       break;
     }catch(_){}
   }
@@ -653,16 +670,33 @@ const NOW_MONTH = new Date().getMonth()+1;   // 1-12, used to drop the still-for
   endSel.value = NOW_YEAR;
 })();
 
-/* Populate asset dropdown grouped */
-(function buildAssets(){
+/* Populate asset dropdown grouped (rebuildable — universe stocks get merged in) */
+function buildAssetDropdown(){
+  assetSel.innerHTML='';
   const groups={};
   ASSETS.forEach((a,i)=>{(groups[a.g]=groups[a.g]||[]).push({...a,i});});
+  // The Stocks group is ordered by market cap (biggest first) once the nightly
+  // universe data is loaded; everything else keeps its curated order.
+  const haveMc=!!(UNIV && UNIV.stocks && UNIV.stocks.length);
+  const mc={}; if(haveMc) UNIV.stocks.forEach(s=>{ mc[s.t]=s.mktCap||0; });
   Object.keys(groups).forEach(g=>{
     const og=document.createElement('optgroup'); og.label=g;
-    groups[g].forEach(a=>{ og.appendChild(new Option(a.n, a.i)); });
+    const list=groups[g];
+    if(g==='Stocks' && haveMc) list.sort((a,b)=>(mc[b.t]||0)-(mc[a.t]||0) || a.n.localeCompare(b.n));
+    list.forEach(a=>{ og.appendChild(new Option(a.n, a.i)); });
     assetSel.appendChild(og);
   });
-})();
+}
+buildAssetDropdown();
+/* Merge the nightly top-by-market-cap universe into ASSETS (under the single
+   Stocks group) so those names are scannable on Discover, analyzable, and in
+   the dropdown — where the Stocks group then orders biggest-first. */
+function mergeUniverse(){
+  if(!(UNIV && UNIV.stocks && UNIV.stocks.length)) return;
+  let added=false;
+  UNIV.stocks.forEach(s=>{ if(s.t && !ASSETS.some(a=>a.t===s.t)){ ASSETS.push({g:'Stocks', t:s.t, n:s.n||s.t}); added=true; } });
+  if(added) buildAssetDropdown();
+}
 
 async function fetchDaily(symbol, fromYear){
   // 0) Nightly snapshot first: a static file committed by the GitHub Action —
@@ -1330,9 +1364,9 @@ function bindChart(){
   };
   const leave=()=>{ const c=svg.querySelector('#cx'), d=svg.querySelector('#cdot'); if(c)c.setAttribute('opacity','0'); if(d)d.setAttribute('opacity','0'); tip.classList.add('hidden'); };
   svg.addEventListener('pointermove',move); svg.addEventListener('pointerleave',leave);
-  document.querySelectorAll('.tfbtn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#tfToggle .tfbtn').forEach(b=>b.addEventListener('click',()=>{
     CHART_TF=b.dataset.tf;
-    document.querySelectorAll('.tfbtn').forEach(x=>x.classList.toggle('active', x===b));
+    document.querySelectorAll('#tfToggle .tfbtn').forEach(x=>x.classList.toggle('active', x===b));
     renderChart();
   }));
 }
@@ -1434,7 +1468,7 @@ $('retryBtn').addEventListener('click', ()=>run(true));  // Retry always re-fetc
 /* ===========================  DISCOVER / MOVERS SCANNER  =================== */
 const SCAN_FROM=NOW_YEAR-6;                          // depth scanned per symbol
 const SCAN_TTL=12*3600*1000;                         // localStorage freshness window
-const DUI={list:'discoverList', status:'scanStatus', bar:'scanBar', btn:'scanBtn', key:'ss_scan_v3'};
+const DUI={list:'discoverList', status:'scanStatus', bar:'scanBar', btn:'scanBtn', key:'ss_scan_v3', show:30};
 const PUI={list:'pennyList',    status:'pennyStatus', bar:'pennyBar', btn:'pennyScanBtn', key:'ss_penny_v3'};
 const gradeClass=g=>{ const c=(g||'').charAt(0); return c==='A'?'g-a':c==='B'?'g-b':c==='C'?'g-c':'g-d'; };
 
@@ -1475,8 +1509,10 @@ function renderSuggestions(listId, results){
   el.querySelectorAll('.sg').forEach(d=>d.addEventListener('click',()=>openInAnalyze(d.dataset.t)));
 }
 let scanning={};
-async function scan(tickers, ui){
+async function scan(tickers, ui, key){
+  key=key||ui.key;
   if(scanning[ui.key]) return; scanning[ui.key]=true;
+  const show=ui.show||9999;
   const btn=$(ui.btn); btn.disabled=true;
   const items=tickers.map(t=>ASSETS.find(a=>a.t===t)).filter(Boolean);
   let done=0; const results=[]; const total=items.length;
@@ -1488,23 +1524,30 @@ async function scan(tickers, ui){
       try{
         const daily=await getDaily(it.t, SCAN_FROM);
         if(daily && daily.length>=60){ results.push(scoreAsset(it, daily));
-          renderSuggestions(ui.list, results.slice().sort((a,b)=>b.composite-a.composite)); }
+          renderSuggestions(ui.list, results.slice().sort((a,b)=>b.composite-a.composite).slice(0,show)); }
       }catch(_){}
       done++; $(ui.bar).style.width=(done/total*100)+'%';
       $(ui.status).textContent='Scanned '+done+'/'+total+(results.length?' · '+results.length+' ranked':'');
     }
   };
-  await Promise.all([worker(),worker(),worker()]);   // 3 in parallel — gentle on proxies
+  await Promise.all([worker(),worker(),worker(),worker()]);   // 4 in parallel
   results.sort((a,b)=>b.composite-a.composite);
-  renderSuggestions(ui.list, results);
-  $(ui.status).textContent=results.length? (results.length+' ranked · '+new Date().toLocaleTimeString()+' · tap a row to analyze')
-                                          : 'Nothing loaded — proxies may be rate-limited. Wait a minute and Scan again.';
+  renderSuggestions(ui.list, results.slice(0,show));
+  $(ui.status).textContent=results.length? (results.length+' scanned · showing top '+Math.min(show,results.length)+' · '+new Date().toLocaleTimeString())
+                                          : 'Nothing loaded — try Scan again in a minute.';
   $(ui.bar).style.width='100%';
   btn.disabled=false; scanning[ui.key]=false;
-  try{ localStorage.setItem(ui.key, JSON.stringify({t:Date.now(), results})); }catch(_){}
+  try{ localStorage.setItem(key, JSON.stringify({t:Date.now(), results})); }catch(_){}
 }
 
-$('scanBtn').addEventListener('click', ()=>scan(DISCOVER_TICKERS, DUI));
+$('scanBtn').addEventListener('click', ()=>scan(discoverTickers(), DUI, discKey()));
+document.querySelectorAll('#capToggle .tfbtn').forEach(b=>b.addEventListener('click', ()=>{
+  DISC_CAP=+b.dataset.cap;
+  document.querySelectorAll('#capToggle .tfbtn').forEach(x=>x.classList.toggle('active', x===b));
+  const c=readCache(discKey());
+  if(c) renderSuggestions(DUI.list, c.results.slice(0,DUI.show)); else { $('discoverList').innerHTML=''; }
+  scan(discoverTickers(), DUI, discKey());
+}));
 $('pennyScanBtn').addEventListener('click', ()=>scan(ASSETS.filter(a=>a.g==='Penny').map(a=>a.t), PUI));
 
 /* ===========================  TABS + LAZY INIT  =========================== */
@@ -1530,8 +1573,10 @@ function renderSnapshotStatus(){
   if(META && META.updatedAt){
     const d=new Date(META.updatedAt);
     const nfund=(FUND && FUND.bySymbol)? Object.keys(FUND.bySymbol).length : 0;
+    const nuniv=(UNIV && UNIV.stocks)? UNIV.stocks.length : 0;
     el.textContent='● Nightly snapshot · last successful update '+d.toLocaleString()
       +' · '+(META.prices?META.prices.ok+' symbols':'')
+      +(nuniv?' · '+nuniv+' ranked by market cap':'')
       +(nfund?' · analyst data for '+nfund+' stocks':' · analyst data unavailable this run');
     $('footText').textContent='SeasonScope ['+BUILD+'] · Data: Yahoo Finance nightly snapshot ('+d.toLocaleDateString()+') · Educational tool — not financial advice.';
   }else{
@@ -1551,15 +1596,16 @@ assetSel.value=0;
 showPanel('discover');                                // land on Discover, suggestions first
 (async function boot(){
   await SNAP_READY;                                    // know snapshot state before first scan
+  mergeUniverse();                                     // top-by-market-cap names into ASSETS + dropdown
   renderSnapshotStatus();
-  const c=readCache(DUI.key);
+  const c=readCache(discKey());
   if(c){
-    renderSuggestions(DUI.list, c.results);
+    renderSuggestions(DUI.list, c.results.slice(0,DUI.show));
     $('scanStatus').textContent='cached '+new Date(c.t).toLocaleTimeString()+' · Scan to refresh';
     $('scanBar').style.width='100%';
-    if(Date.now()-c.t > SCAN_TTL) scan(DISCOVER_TICKERS, DUI);   // stale → refresh in background
+    if(Date.now()-c.t > SCAN_TTL) scan(discoverTickers(), DUI, discKey());   // stale → refresh in background
   } else {
-    scan(DISCOVER_TICKERS, DUI);                       // first ever load → scan now
+    scan(discoverTickers(), DUI, discKey());           // first ever load → scan now
   }
 })();
 </script>
