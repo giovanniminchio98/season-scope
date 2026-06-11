@@ -170,6 +170,11 @@
   .chart-tip{position:absolute; pointer-events:none; background:var(--card); border:1px solid var(--accent); border-radius:8px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; transform:translate(-50%,-130%); z-index:5; box-shadow:0 4px 14px rgba(0,0,0,0.4)}
   @media(max-width:560px){ #priceChart{height:240px} #lwc{height:300px} }
   #fcChart{width:100%; height:320px; display:block; touch-action:none}
+  .lwc-info{position:absolute; top:8px; left:10px; z-index:4; pointer-events:none; background:rgba(22,22,22,0.82); border:1px solid var(--border); border-radius:8px; padding:5px 9px; font-size:11px; color:var(--muted); white-space:nowrap; backdrop-filter:blur(2px)}
+  .lwc-info b{color:var(--text); font-weight:500} .lwc-info .o{color:var(--bull)} .lwc-info .d{color:var(--bear)} .lwc-info .nm{color:var(--accent)}
+  .fc-legend{display:flex; gap:14px; flex-wrap:wrap; font-size:10.5px; color:var(--muted); margin-top:6px}
+  .fc-legend span{display:inline-flex; align-items:center; gap:5px}
+  .fc-legend i{width:14px; height:0; border-top:2px solid; display:inline-block} .fc-legend i.b{height:9px; border:none; border-radius:2px}
   .fc-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:8px 18px; margin-top:14px}
   .fc-stat{display:flex; flex-direction:column; gap:1px; font-size:12px}
   .fc-stat .l{font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted)}
@@ -441,6 +446,7 @@
           </span>
         </div>
         <div class="chart-wrap" id="chartWrap">
+          <div id="lwcInfo" class="lwc-info hidden"></div>
           <div id="lwc"></div>
           <svg id="priceChart" class="hidden" viewBox="0 0 1000 360" preserveAspectRatio="none"></svg>
           <div class="chart-tip hidden" id="chartTip"></div>
@@ -467,7 +473,8 @@
             </span>
           </div>
         </div>
-        <div class="chart-wrap"><svg id="fcChart" viewBox="0 0 1000 380" preserveAspectRatio="none"></svg></div>
+        <div class="chart-wrap" id="fcWrap"><svg id="fcChart"></svg><div id="fcTip" class="chart-tip hidden"></div></div>
+        <div class="fc-legend" id="fcLegend"></div>
         <div id="fcStats" class="fc-stats"></div>
         <div class="note" id="fcNote"></div>
       </div>
@@ -607,7 +614,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v21 · Tab fix';
+const BUILD = 'v22 · Charts polish';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1591,6 +1598,22 @@ function renderProChart(asset, win){
   pts.forEach(p=> cs.createPriceLine({price:p.price, color:p.color, lineWidth:1, lineStyle:p.solid?0:2, axisLabelVisible:true, title:circled(p.n)+' '+p.label}));
   cs.setMarkers([{time:lastCandle.time, position:'inBar', color:'#f0ede8', shape:'circle', text:'①'}]);
   chart.timeScale().fitContent();
+  // OHLC details readout (top-left) — updates on hover, defaults to last candle
+  const info=$('lwcInfo');
+  const showOHLC=(c,time)=>{
+    if(!c){ info.classList.add('hidden'); return; }
+    const up=c.close>=c.open, cls=up?'o':'d';
+    info.innerHTML='<span class="nm">'+esc(asset.n)+'</span> · '+time+
+      ' &nbsp; O<b>'+c.open.toFixed(2)+'</b> H<b>'+c.high.toFixed(2)+'</b> L<b>'+c.low.toFixed(2)+'</b> C<b class="'+cls+'">'+c.close.toFixed(2)+'</b>';
+    info.classList.remove('hidden');
+  };
+  showOHLC(lastCandle, lastCandle.time);
+  chart.subscribeCrosshairMove(param=>{
+    if(!param || !param.time || !param.seriesData){ showOHLC(lastCandle, lastCandle.time); return; }
+    const c=param.seriesData.get(cs);
+    if(c && c.open!=null) showOHLC(c, typeof param.time==='string'?param.time:lastCandle.time);
+    else showOHLC(lastCandle, lastCandle.time);
+  });
   LW={chart, ro:new ResizeObserver(()=>chart.applyOptions({width:el.clientWidth, height:chartH()}))};
   LW.ro.observe(el);
   renderPointsList(pts);
@@ -1610,6 +1633,7 @@ async function renderPriceSection(asset, win){
     }catch(e){ /* fall through to SVG */ }
   }
   // Fallback: built-in SVG chart + S/R-only points
+  $('lwcInfo').classList.add('hidden');
   if(LW){ if(LW.ro)LW.ro.disconnect(); if(LW.chart)LW.chart.remove(); LW=null; }
   $('lwc').classList.add('hidden'); $('priceChart').classList.remove('hidden');
   renderChart(win);
@@ -1673,52 +1697,91 @@ function renderFcStats(f){
     st('Median return', sgn(med), med>=0?'bull':'bear')+
     st('Horizon', mo+' months');
 }
+let FC_MODEL_CACHE=null;
+function niceStep(range, target){ const raw=range/target; const mag=Math.pow(10,Math.floor(Math.log10(raw))); const n=raw/mag; const m=n<1.5?1:n<3?2:n<7?5:10; return m*mag; }
 function renderForecastChart(){
   const svg=$('fcChart'), daily=FC_DAILY;
-  if(!daily || daily.length<60){ svg.innerHTML=''; $('fcStats').innerHTML=''; $('fcNote').textContent='Not enough history for a forecast in this window.'; return; }
+  if(!daily || daily.length<60){ svg.innerHTML=''; $('fcStats').innerHTML=''; $('fcLegend').innerHTML=''; $('fcNote').textContent='Not enough history for a forecast in this window.'; FC_MODEL_CACHE=null; return; }
   const steps=FC_HORIZON;
   const f=forecastSim(daily, steps, 400, FC_MODEL);
-  if(!f){ svg.innerHTML=''; $('fcStats').innerHTML=''; $('fcNote').textContent='Not enough return history to model this asset.'; return; }
+  if(!f){ svg.innerHTML=''; $('fcStats').innerHTML=''; $('fcLegend').innerHTML=''; $('fcNote').textContent='Not enough return history to model this asset.'; return; }
   const histN=Math.min(daily.length, Math.round(steps*0.7));
-  const hist=daily.slice(-histN).map(r=>r.close);
+  const hist=daily.slice(-histN);
   const total=histN+steps;
-  let ymin=Math.min(Math.min.apply(null,hist), Math.min.apply(null,f.p5));
-  let ymax=Math.max(Math.max.apply(null,hist), Math.max.apply(null,f.p95));
+  // Render at the container's real pixel size so nothing is stretched/distorted.
+  const W=Math.max(320, Math.round($('fcWrap').clientWidth||720)), H=window.innerWidth<560?280:320;
+  svg.setAttribute('viewBox','0 0 '+W+' '+H); svg.setAttribute('preserveAspectRatio','none');
+  let ymin=Math.min(Math.min.apply(null,hist.map(r=>r.close)), Math.min.apply(null,f.p5));
+  let ymax=Math.max(Math.max.apply(null,hist.map(r=>r.close)), Math.max.apply(null,f.p95));
   const pad=(ymax-ymin)*0.06||1; ymin-=pad; ymax+=pad;
-  const L=10,Rp=72,T=14,B=26,PW=1000-L-Rp,PH=380-T-B;
+  const L=8,Rp=66,T=10,B=22,PW=W-L-Rp,PH=H-T-B;
   const X=i=>L+i/(total-1)*PW, Y=p=>T+(1-(p-ymin)/(ymax-ymin))*PH, J=histN-1, xf=j=>X(J+j);
+  let s='';
+  // horizontal gridlines + right price axis
+  const gstep=niceStep(ymax-ymin, 4);
+  for(let p=Math.ceil(ymin/gstep)*gstep; p<ymax; p+=gstep){ const y=Y(p).toFixed(1);
+    s+='<line x1="'+L+'" x2="'+(W-Rp)+'" y1="'+y+'" y2="'+y+'" stroke="rgba(255,255,255,0.05)"/>'+
+       '<text x="'+(W-Rp+5)+'" y="'+(+y+3.5)+'" fill="var(--muted)" font-size="10">'+p.toFixed(p<10?2:1)+'</text>'; }
   const band=(up,lo,fill)=>{
     let d='M'+xf(0).toFixed(1)+' '+Y(f.last).toFixed(1);
     for(let j=0;j<steps;j++) d+=' L'+xf(j+1).toFixed(1)+' '+Y(up[j]).toFixed(1);
     for(let j=steps-1;j>=0;j--) d+=' L'+xf(j+1).toFixed(1)+' '+Y(lo[j]).toFixed(1);
     return '<path d="'+d+' Z" fill="'+fill+'"/>';
   };
-  let s=band(f.p95,f.p5,'rgba(96,200,240,0.12)')+band(f.p75,f.p25,'rgba(96,200,240,0.22)');
+  s+=band(f.p95,f.p5,'rgba(96,200,240,0.12)')+band(f.p75,f.p25,'rgba(96,200,240,0.24)');
   let md='M'+xf(0).toFixed(1)+' '+Y(f.last).toFixed(1);
   for(let j=0;j<steps;j++) md+=' L'+xf(j+1).toFixed(1)+' '+Y(f.p50[j]).toFixed(1);
-  s+='<path d="'+md+'" fill="none" stroke="#60c8f0" stroke-width="1.8" stroke-dasharray="5 3"/>';
-  let hd='M'+X(0).toFixed(1)+' '+Y(hist[0]).toFixed(1);
-  for(let i=1;i<histN;i++) hd+=' L'+X(i).toFixed(1)+' '+Y(hist[i]).toFixed(1);
+  s+='<path d="'+md+'" fill="none" stroke="#60c8f0" stroke-width="2" stroke-dasharray="5 3"/>';
+  let hd='M'+X(0).toFixed(1)+' '+Y(hist[0].close).toFixed(1);
+  for(let i=1;i<histN;i++) hd+=' L'+X(i).toFixed(1)+' '+Y(hist[i].close).toFixed(1);
   s+='<path d="'+hd+'" fill="none" stroke="#f0ede8" stroke-width="1.6"/>';
   s+='<line x1="'+X(J).toFixed(1)+'" x2="'+X(J).toFixed(1)+'" y1="'+T+'" y2="'+(T+PH)+'" stroke="var(--border)" stroke-dasharray="2 3"/>';
-  // current price dot + terminal $ targets (median / upside / downside)
   s+='<circle cx="'+X(J).toFixed(1)+'" cy="'+Y(f.last).toFixed(1)+'" r="3" fill="#f0ede8"/>';
-  const endX=xf(steps);
-  const tl=(val,col,tag)=>{ const y=Y(val); return '<circle cx="'+endX.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="2.6" fill="'+col+'"/>'+
-    '<text x="'+(endX+5).toFixed(1)+'" y="'+(y+3.5).toFixed(1)+'" fill="'+col+'" font-size="10.5" font-weight="500">'+tag+val.toFixed(2)+'</text>'; };
-  s+=tl(f.p95[steps-1],'#c8f060','▲ ')+tl(f.p50[steps-1],'#60c8f0','• ')+tl(f.p5[steps-1],'#ff6b6b','▼ ');
-  // x-axis date labels: window start · now · horizon end
-  const dl=(x,txt,anchor)=>'<text x="'+x.toFixed(1)+'" y="374" fill="var(--muted)" font-size="10" text-anchor="'+anchor+'">'+txt+'</text>';
+  // terminal $ targets (median / upside / downside), nudged apart so they don't overlap
+  const endX=xf(steps); const ys={hi:Y(f.p95[steps-1]),md:Y(f.p50[steps-1]),lo:Y(f.p5[steps-1])};
+  if(ys.md-ys.hi<12) ys.hi=ys.md-12; if(ys.lo-ys.md<12) ys.lo=ys.md+12;
+  const tl=(val,col,tag,yy)=>'<text x="'+(endX-4).toFixed(1)+'" y="'+(yy+3.5).toFixed(1)+'" fill="'+col+'" font-size="10.5" font-weight="500" text-anchor="end">'+tag+val.toFixed(2)+'</text>';
+  s+=tl(f.p95[steps-1],'#c8f060','▲ ',ys.hi)+tl(f.p50[steps-1],'#60c8f0','◆ ',ys.md)+tl(f.p5[steps-1],'#ff6b6b','▼ ',ys.lo);
+  // x-axis dates
+  const dl=(x,txt,anchor)=>'<text x="'+x.toFixed(1)+'" y="'+(H-6)+'" fill="var(--muted)" font-size="10" text-anchor="'+anchor+'">'+txt+'</text>';
   const fmtShort=t=>t.toLocaleDateString(undefined,{month:'short',year:'2-digit'});
   const endDate=new Date(daily[daily.length-1].t.getTime()); endDate.setDate(endDate.getDate()+Math.round(steps*1.4));
-  s+=dl(X(0),fmtShort(daily[daily.length-histN].t),'start')+dl(X(J),'now','middle')+dl(endX,fmtShort(endDate),'end');
+  s+=dl(X(0),fmtShort(hist[0].t),'start')+dl(X(J),'now','middle')+dl(endX,fmtShort(endDate),'end');
+  // crosshair holders
+  s+='<line id="fcx" x1="0" x2="0" y1="'+T+'" y2="'+(T+PH)+'" stroke="var(--accent3)" stroke-width="0.8" opacity="0"/>';
   svg.innerHTML=s;
+  // store geometry for hover
+  FC_MODEL_CACHE={f, histN, steps, total, J, W, H, L, PW, T, PH, ymin, ymax, daily, hist,
+    Xf:i=>L+i/(total-1)*PW, Yf:Y, endDate};
   renderFcStats(f);
+  $('fcLegend').innerHTML='<span><i style="border-color:#f0ede8"></i>Actual</span>'+
+    '<span><i style="border-color:#60c8f0"></i>Median path</span>'+
+    '<span><i class="b" style="background:rgba(96,200,240,0.24)"></i>50% range</span>'+
+    '<span><i class="b" style="background:rgba(96,200,240,0.12)"></i>90% range</span>';
   const names={ensemble:'Ensemble (GARCH-t + bootstrap)', garch:'GARCH(1,1) · Student-t shocks', boot:'Historical block bootstrap'};
-  $('fcNote').innerHTML='Model: <strong>'+names[FC_MODEL]+'</strong> · '+Math.round(steps/21)+'-month horizon · 400 simulated paths. Shaded = 50% (inner) &amp; 90% (outer) probability ranges; dashed = median path; white = recent actual price. Models volatility clustering &amp; fat tails — an illustration of <em>uncertainty</em>, not a prediction. Not advice.';
+  $('fcNote').innerHTML='Model: <strong>'+names[FC_MODEL]+'</strong> · '+Math.round(steps/21)+'-month horizon · 400 simulated paths. An illustration of <em>uncertainty</em> (volatility clustering &amp; fat tails), not a prediction. Hover for the projected range on a date. Not advice.';
 }
+// hover tooltip for the forecast fan
+(function bindFc(){
+  const svg=$('fcChart'), tip=$('fcTip');
+  svg.addEventListener('pointermove', e=>{
+    const C=FC_MODEL_CACHE; if(!C){ return; }
+    const rect=svg.getBoundingClientRect(); const xv=(e.clientX-rect.left)/rect.width*C.W;
+    let i=Math.round((xv-C.L)/C.PW*(C.total-1)); i=Math.max(0,Math.min(C.total-1,i));
+    const cx=C.Xf(i); const cxl=svg.querySelector('#fcx'); if(cxl){ cxl.setAttribute('x1',cx); cxl.setAttribute('x2',cx); cxl.setAttribute('opacity','0.6'); }
+    let html, date;
+    if(i<=C.J){ const h=C.hist[i]; date=h.t.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'2-digit'}); html='<strong>$'+h.close.toFixed(2)+'</strong> · '+date+' · actual'; }
+    else { const j=i-C.J-1; const d=new Date(C.daily[C.daily.length-1].t.getTime()); d.setDate(d.getDate()+Math.round((j+1)*1.4));
+      date=d.toLocaleDateString(undefined,{month:'short',year:'2-digit'});
+      html='<strong>$'+C.f.p50[j].toFixed(2)+'</strong> median · '+date+'<br><span style="color:var(--muted)">90%: $'+C.f.p5[j].toFixed(2)+' – $'+C.f.p95[j].toFixed(2)+'</span>'; }
+    tip.classList.remove('hidden'); tip.innerHTML=html;
+    tip.style.left=(cx/C.W*100)+'%'; tip.style.top=(C.Yf(i<=C.J?C.hist[i].close:C.f.p50[i-C.J-1])/C.H*100)+'%';
+  });
+  svg.addEventListener('pointerleave', ()=>{ const c=$('fcChart').querySelector('#fcx'); if(c)c.setAttribute('opacity','0'); $('fcTip').classList.add('hidden'); });
+})();
 document.querySelectorAll('#fcModel .tfbtn').forEach(b=>b.addEventListener('click',()=>{ FC_MODEL=b.dataset.m; document.querySelectorAll('#fcModel .tfbtn').forEach(x=>x.classList.toggle('active',x===b)); renderForecastChart(); }));
 document.querySelectorAll('#fcHorizon .tfbtn').forEach(b=>b.addEventListener('click',()=>{ FC_HORIZON=+b.dataset.h; document.querySelectorAll('#fcHorizon .tfbtn').forEach(x=>x.classList.toggle('active',x===b)); renderForecastChart(); }));
+let fcResizeT; window.addEventListener('resize', ()=>{ clearTimeout(fcResizeT); fcResizeT=setTimeout(()=>{ if(FC_DAILY) renderForecastChart(); }, 200); });
 
 /* Render everything from already-fetched rows for the chosen year window.
    No network here — pure recompute, so changing the year range is instant. */
