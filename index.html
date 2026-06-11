@@ -234,7 +234,15 @@
   .maintabs label:hover{color:var(--text); border-color:#3a3a3a}
   #tabDiscover:checked ~ label[for=tabDiscover],
   #tabAnalyze:checked ~ label[for=tabAnalyze],
-  #tabPulse:checked ~ label[for=tabPulse]{background:var(--accent); color:#0e0e0e; font-weight:500; border-color:var(--accent)}
+  #tabPulse:checked ~ label[for=tabPulse],
+  #tabBrowse:checked ~ label[for=tabBrowse]{background:var(--accent); color:#0e0e0e; font-weight:500; border-color:var(--accent)}
+  .search{width:100%; background:var(--surface); border:1px solid var(--border); border-radius:10px; color:var(--text); font-family:'DM Mono',monospace; font-size:14px; padding:12px 14px; outline:none; margin-bottom:14px; -webkit-appearance:none}
+  .search:focus{border-color:var(--accent)}
+  .browse-grp{font-size:10px; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent2); margin:18px 0 10px; display:flex; align-items:center; gap:10px}
+  .browse-grp::after{content:''; flex:1; height:1px; background:var(--border)}
+  .browse-grp:first-child{margin-top:0}
+  .sg-cap{font-size:13px; color:var(--text); font-weight:500; white-space:nowrap}
+  .sg-tk{font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase}
   @media(max-width:560px){ .maintabs{gap:6px} .maintabs label{padding:12px 6px; font-size:11px; letter-spacing:0.04em} }
   @media(max-width:380px){ .maintabs label{font-size:10px; letter-spacing:0} }
   .panel{animation:fadeUp 0.4s ease both}
@@ -353,6 +361,7 @@
     <input type="radio" name="maintab" id="tabDiscover" checked><label for="tabDiscover">◎ Discover</label>
     <input type="radio" name="maintab" id="tabAnalyze"><label for="tabAnalyze">⌕ Analyze</label>
     <input type="radio" name="maintab" id="tabPulse"><label for="tabPulse">◴ Pulse</label>
+    <input type="radio" name="maintab" id="tabBrowse"><label for="tabBrowse">≣ Markets</label>
   </div>
 
   <div id="panel-discover" class="panel">
@@ -386,6 +395,15 @@
         <div class="card-title accent2">▼ Momentum Laggards · 3-mo</div>
         <div id="pulseLaggards" class="disc-list"></div>
       </div>
+    </div>
+  </div>
+
+  <div id="panel-browse" class="panel hidden">
+    <div class="card" style="animation-delay:.05s">
+      <div class="card-title accent2">≣ Companies &amp; Markets <button class="infobtn" data-info="browse">ⓘ</button></div>
+      <input id="browseSearch" class="search" type="search" placeholder="Search a stock by name or ticker…" autocomplete="off">
+      <div class="snapline" id="browseNote">—</div>
+      <div id="browseList"></div>
     </div>
   </div>
 
@@ -616,7 +634,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v25 · Layout consistency';
+const BUILD = 'v26 · Markets tab';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1703,14 +1721,18 @@ function niceStep(range, target){ const raw=range/target; const mag=Math.pow(10,
 function renderForecastChart(){
   const svg=$('fcChart'), daily=FC_DAILY;
   if(!daily || daily.length<60){ svg.innerHTML=''; $('fcStats').innerHTML=''; $('fcLegend').innerHTML=''; $('fcNote').textContent='Not enough history for a forecast in this window.'; FC_MODEL_CACHE=null; return; }
+  // Render at the container's REAL pixel width so viewBox units == screen px
+  // (scale exactly 1, text never stretches). If the panel isn't laid out yet
+  // (width ~0), defer one frame so the first render matches later re-renders.
+  const W=Math.round($('fcWrap').clientWidth||0);
+  if(W<80){ requestAnimationFrame(renderForecastChart); return; }
+  const H=window.innerWidth<560?280:320;
   const steps=FC_HORIZON;
   const f=forecastSim(daily, steps, 400, FC_MODEL);
   if(!f){ svg.innerHTML=''; $('fcStats').innerHTML=''; $('fcLegend').innerHTML=''; $('fcNote').textContent='Not enough return history to model this asset.'; return; }
   const histN=Math.min(daily.length, Math.round(steps*0.7));
   const hist=daily.slice(-histN);
   const total=histN+steps;
-  // Render at the container's real pixel size so nothing is stretched/distorted.
-  const W=Math.max(320, Math.round($('fcWrap').clientWidth||720)), H=window.innerWidth<560?280:320;
   svg.setAttribute('viewBox','0 0 '+W+' '+H); svg.setAttribute('preserveAspectRatio','none');
   let ymin=Math.min(Math.min.apply(null,hist.map(r=>r.close)), Math.min.apply(null,f.p5));
   let ymax=Math.max(Math.max.apply(null,hist.map(r=>r.close)), Math.max.apply(null,f.p95));
@@ -1979,13 +2001,48 @@ document.querySelectorAll('#capToggle .tfbtn').forEach(b=>b.addEventListener('cl
 }));
 
 /* ===========================  TABS + LAZY INIT  =========================== */
-let analyzeLoaded=false, pulseInit=false;
+let analyzeLoaded=false, pulseInit=false, browseInit=false;
 function showPanel(which){
-  ['discover','analyze','pulse'].forEach(p=>$('panel-'+p).classList.toggle('hidden', p!==which));
+  ['discover','analyze','pulse','browse'].forEach(p=>$('panel-'+p).classList.toggle('hidden', p!==which));
 }
 $('tabDiscover').addEventListener('change', ()=>showPanel('discover'));
 $('tabAnalyze').addEventListener('change', ()=>{ showPanel('analyze'); if(!analyzeLoaded){ analyzeLoaded=true; run(); } });
 $('tabPulse').addEventListener('change', ()=>{ showPanel('pulse'); if(!pulseInit){ pulseInit=true; renderPulse(); } });
+$('tabBrowse').addEventListener('change', ()=>{ showPanel('browse'); if(!browseInit){ browseInit=true; renderBrowse(); } });
+
+/* ===========================  BROWSE · companies & market caps  =========================== */
+function fmtCap(v){ if(!v) return ''; if(v>=1e12) return '$'+(v/1e12).toFixed(2)+'T'; if(v>=1e9) return '$'+(v/1e9).toFixed(1)+'B'; if(v>=1e6) return '$'+(v/1e6).toFixed(0)+'M'; return '$'+Math.round(v); }
+function browseRows(items, mc){
+  return '<div class="disc-list">'+items.map(a=>{
+    const cap=mc[a.t];
+    return '<div class="sg" data-t="'+a.t+'"><div class="sg-lead" style="width:34px"><span class="sg-rank" style="font-size:13px">'+esc(a.g.charAt(0))+'</span></div>'+
+      '<div class="sg-body"><div class="sg-name">'+esc(a.n)+' <span class="sg-grp">'+esc(a.g)+'</span></div><div class="sg-tk">'+esc(a.t)+'</div></div>'+
+      '<div class="sg-end"><span class="sg-cap">'+(cap?fmtCap(cap):'<span style="color:var(--muted);font-size:11px">—</span>')+'</span><span class="sg-go">Analyze →</span></div></div>';
+  }).join('')+'</div>';
+}
+function renderBrowse(){
+  const mc={}; if(UNIV && UNIV.stocks) UNIV.stocks.forEach(s=>{ mc[s.t]=s.mktCap||0; });
+  $('browseNote').textContent = (UNIV&&UNIV.stocks&&UNIV.stocks.length)? '● Market caps from the nightly snapshot · '+UNIV.stocks.length+' ranked companies' : '○ Market caps appear after the nightly snapshot runs';
+  const q=($('browseSearch').value||'').trim().toLowerCase();
+  let html='';
+  if(q){
+    const hits=ASSETS.filter(a=>a.n.toLowerCase().includes(q)||a.t.toLowerCase().includes(q))
+      .sort((a,b)=>(mc[b.t]||0)-(mc[a.t]||0)||a.n.localeCompare(b.n));
+    html = hits.length? browseRows(hits, mc) : '<div class="scanstat">No match for "'+esc(q)+'". Add the ticker to the ASSETS list to track it.</div>';
+  } else {
+    const order=['Stocks','ETFs','Indices','Forex','Commodities','Penny'];
+    const groups={}; ASSETS.forEach(a=>{(groups[a.g]=groups[a.g]||[]).push(a);});
+    const keys=order.filter(g=>groups[g]).concat(Object.keys(groups).filter(g=>!order.includes(g)));
+    keys.forEach(g=>{
+      const list=groups[g].slice();
+      if(g==='Stocks') list.sort((a,b)=>(mc[b.t]||0)-(mc[a.t]||0)||a.n.localeCompare(b.n));
+      html+='<div class="browse-grp">'+esc(g)+' · '+list.length+'</div>'+browseRows(list, mc);
+    });
+  }
+  $('browseList').innerHTML=html;
+  $('browseList').querySelectorAll('.sg').forEach(d=>d.addEventListener('click',()=>openInAnalyze(d.dataset.t)));
+}
+$('browseSearch').addEventListener('input', renderBrowse);
 
 /* ===========================  MARKET PULSE  =========================== */
 const PULSE_MACRO=[
@@ -2030,6 +2087,7 @@ async function renderPulse(){
 const INFO={
   discover:{t:'Suggested to Monitor',h:'<p><strong>Dynamic membership:</strong> the top 50 / 100 companies by market cap (refreshed nightly) plus forex, commodities, indices &amp; ETFs.</p><p>Each is scored on an <strong>Opportunity / timing</strong> grade — <em>seasonal edge</em> (months ahead historically strong), <em>momentum</em> (3/6-mo trend + RSI), <em>value / entry</em> (drawdown from highs, 52-wk range, vs 200-day trend), plus an analyst-target tilt. It answers "is this an attractive entry right now?" and is different from the long-term <strong>Quality</strong> rating in Analyze.</p><p>Everything recomputes when the nightly data updates — no manual refresh. Not investment advice.</p>'},
   pulse:{t:'Market Pulse',h:'<p>A daily snapshot of the market: major indices, the VIX "fear gauge", world &amp; semiconductor ETFs, gold, oil, Bitcoin and key FX — each with 1-week, 1-month and year-to-date moves.</p><p>Below, <strong>Leaders &amp; Laggards</strong> rank the largest companies by 3-month momentum. Tap any row to open it in Analyze. Refreshes with the nightly snapshot.</p>'},
+  browse:{t:'Companies & Markets',h:'<p>Everything the app tracks, grouped by market — stocks (ordered by <strong>market cap</strong>, shown on the right), ETFs, indices, forex and commodities.</p><p><strong>Search</strong> any name or ticker to jump to it, then tap a row to open it in Analyze. Market-cap values come from the nightly snapshot. To track a symbol that isn\'t listed, add it to the ASSETS array in the code.</p>'},
   chart:{t:'Price, Levels & Projection',h:'<p>Candlestick price history (toggle 1D / 1W / 1M). Dashed lines are auto-detected <strong>support</strong> (green) and <strong>resistance</strong> (red) from swing pivots.</p><p>The right side shows a 6-month <strong>Monte-Carlo projection</strong> — median path plus a 5–95% cone — and the numbered points (Now, Support, Resistance, projected median/downside/upside) are listed beneath the chart. Educational, not advice.</p>'},
   forecast:{t:'Probabilistic Forecast',h:'<p>A forward simulation of where the price could go, shown as probability bands (inner = 50% of outcomes, outer = 90%) around a median path.</p><p><strong>Models:</strong> <em>GARCH(1,1) with Student-t shocks</em> captures volatility clustering and fat tails; <em>historical block bootstrap</em> resamples the asset\'s own real return blocks; <em>Ensemble</em> blends both. 400 simulated paths, 3M/6M/1Y horizon.</p><p>This illustrates <strong>uncertainty</strong> — it is not a prediction and not advice.</p>'},
   matrix:{t:'Seasonality Matrix',h:'<p>Years in rows, months in columns. Each cell is that month\'s % price change (green up / red down, intensity = size). The FY column compounds the year. The bottom row is the average across the selected years — that\'s where a seasonal pattern shows up.</p><p>Toggle <strong>% Return ↔ Win-rate</strong>: return shows magnitude, win-rate shows how often the month was positive (reliability).</p>'},
