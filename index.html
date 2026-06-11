@@ -156,7 +156,8 @@
   @media(max-width:560px){ .rating-split{grid-template-columns:1fr} }
 
   .card-title.noline::after{content:none}
-  .chart-head{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; flex-wrap:wrap}
+  .chart-head{display:flex; align-items:center; justify-content:space-between; gap:10px 14px; margin-bottom:14px; flex-wrap:wrap}
+  .chart-head > div:first-child{min-width:0}
   .chart-tf{display:flex; gap:6px}
   .tfbtn{font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:6px 13px; cursor:pointer; transition:all .15s}
   .tfbtn:hover{color:var(--text)}
@@ -164,11 +165,11 @@
   .chart-price{font-size:13px; color:var(--text); font-weight:500}
   .chart-price .chg.up{color:var(--bull)} .chart-price .chg.down{color:var(--bear)} .chart-price .chg{font-size:11px}
   .chart-wrap{position:relative; width:100%}
-  #lwc{width:100%; height:460px}
+  #lwc{width:100%; height:380px}
   #priceChart{width:100%; height:300px; display:block; touch-action:none; cursor:crosshair}
   .chart-tip{position:absolute; pointer-events:none; background:var(--card); border:1px solid var(--accent); border-radius:8px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; transform:translate(-50%,-130%); z-index:5; box-shadow:0 4px 14px rgba(0,0,0,0.4)}
-  @media(max-width:560px){ #priceChart{height:240px} #lwc{height:340px} }
-  #fcChart{width:100%; height:360px; display:block; touch-action:none}
+  @media(max-width:560px){ #priceChart{height:240px} #lwc{height:300px} }
+  #fcChart{width:100%; height:320px; display:block; touch-action:none}
   .fc-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:8px 18px; margin-top:14px}
   .fc-stat{display:flex; flex-direction:column; gap:1px; font-size:12px}
   .fc-stat .l{font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted)}
@@ -543,8 +544,6 @@
 
   </div>
 
-  </div><!-- /panel-analyze -->
-
   <div class="grid-full">
     <div class="card" style="animation-delay:.3s">
       <div class="card-title accent3">Famous Seasonal Patterns · Reference</div>
@@ -558,6 +557,8 @@
       <ul class="sugg" id="tipsList"></ul>
     </div>
   </div>
+
+  </div><!-- /panel-analyze -->
 
   <div id="modal" class="modal hidden">
     <div class="modal-box">
@@ -603,7 +604,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v19 · Pulse + popups';
+const BUILD = 'v20 · Layout fixes';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1488,7 +1489,7 @@ function whenLWC(){
   });
   return LWC_READY;
 }
-function chartH(){ return window.innerWidth<560?340:460; }
+function chartH(){ return window.innerWidth<560?300:380; }
 
 /* OHLC resampling to daily / weekly / monthly candles. */
 function resampleOHLC(daily, tf){
