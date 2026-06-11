@@ -229,10 +229,10 @@ async function main(){
   }
 
   // ---- universe: rank non-penny US stocks by market cap, take top 100 ----
-  const pennySet = new Set(assets.filter(a => a.g === 'Penny').map(a => a.t));
+  const excl = new Set(assets.filter(a => a.g === 'Penny' || a.g === 'ETFs').map(a => a.t));   // not "companies"
   const okSet = new Set(pricesOk);
   const ranked = usStocks
-    .filter(a => !pennySet.has(a.t) && okSet.has(a.t))      // need a price snapshot to be scannable
+    .filter(a => !excl.has(a.t) && okSet.has(a.t))         // need a price snapshot to be scannable
     .map(a => ({ t: a.t, n: (bySymbol[a.t] && bySymbol[a.t].name) || a.n, mktCap: (bySymbol[a.t] && bySymbol[a.t].mktCap) || 0 }))
     .sort((x, y) => y.mktCap - x.mktCap)
     .slice(0, 100);
