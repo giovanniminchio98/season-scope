@@ -165,7 +165,9 @@
   .chart-price{font-size:13px; color:var(--text); font-weight:500}
   .chart-price .chg.up{color:var(--bull)} .chart-price .chg.down{color:var(--bear)} .chart-price .chg{font-size:11px}
   .chart-wrap{position:relative; width:100%}
-  #lwc{width:100%; height:380px}
+  #lwc{width:100%; height:380px; max-width:100%; overflow:hidden}
+  .panel,.card,.grid-2,.grid-full{max-width:100%; min-width:0}
+  .grid-2{min-width:0}
   #priceChart{width:100%; height:300px; display:block; touch-action:none; cursor:crosshair}
   .chart-tip{position:absolute; pointer-events:none; background:var(--card); border:1px solid var(--accent); border-radius:8px; padding:6px 10px; font-size:11px; color:var(--text); white-space:nowrap; transform:translate(-50%,-130%); z-index:5; box-shadow:0 4px 14px rgba(0,0,0,0.4)}
   @media(max-width:560px){ #priceChart{height:240px} #lwc{height:300px} }
@@ -614,7 +616,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v22 · Charts polish';
+const BUILD = 'v23 · Analyze width fix';
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1575,7 +1577,7 @@ function renderProChart(asset, win){
   if(candles.length<5) throw new Error('not enough candles');
   const LWlib=window.LightweightCharts;
   const chart=LWlib.createChart(el, {
-    width: el.clientWidth, height: chartH(),
+    autoSize: true,                                   // track the container; never overflow the card
     layout:{background:{type:'solid',color:'#161616'}, textColor:'#9a9a9a', fontFamily:"'DM Mono',monospace"},
     grid:{vertLines:{color:'rgba(255,255,255,0.04)'}, horzLines:{color:'rgba(255,255,255,0.05)'}},
     rightPriceScale:{borderColor:'#2a2a2a'},
@@ -1614,8 +1616,7 @@ function renderProChart(asset, win){
     if(c && c.open!=null) showOHLC(c, typeof param.time==='string'?param.time:lastCandle.time);
     else showOHLC(lastCandle, lastCandle.time);
   });
-  LW={chart, ro:new ResizeObserver(()=>chart.applyOptions({width:el.clientWidth, height:chartH()}))};
-  LW.ro.observe(el);
+  LW={chart};                                          // autoSize handles resizing
   renderPointsList(pts);
   $('chartNote').innerHTML='Candles ('+({d:'daily',w:'weekly',m:'monthly'}[CHART_TF])+') with numbered support/resistance, and a 6-month <strong>Monte-Carlo projection</strong> (median + 5–95% range) extending right. Drag to pan, scroll/pinch to zoom. Points explained below — educational, not advice.';
 }
