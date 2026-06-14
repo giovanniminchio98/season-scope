@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-06-13T07:10:53.434Z",
+ "updatedAt": "2026-06-14T08:01:38.746Z",
  "source": "yahoo",
  "bySymbol": {
   "aapl.us": {
@@ -369,13 +369,13 @@
    "mktCap": 834166325248,
    "name": "Advanced Micro Devices, Inc.",
    "price": 511.57,
-   "fair": 483.94,
+   "fair": 486.33,
    "fairLabel": "analyst target",
-   "gapPct": -5.4,
+   "gapPct": -4.9,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 41,
-    "hold": 10,
+    "buy": 42,
+    "hold": 9,
     "sell": 0
    }
   },
@@ -592,7 +592,7 @@
    }
   },
   "chpt.us": {
-   "mktCap": 174331920,
+   "mktCap": 184909088,
    "name": "ChargePoint Holdings, Inc.",
    "price": 7.14,
    "fair": 6.33,
@@ -931,9 +931,9 @@
    "mktCap": 139600117760,
    "name": "Honeywell International Inc.",
    "price": 220.31,
-   "fair": 247.25,
+   "fair": 246.67,
    "fairLabel": "analyst target",
-   "gapPct": 12.2,
+   "gapPct": 12,
    "ratingLabel": "buy",
    "rec": {
     "buy": 15,
@@ -956,7 +956,7 @@
    }
   },
   "low.us": {
-   "mktCap": 123857575936,
+   "mktCap": 123792908288,
    "name": "Lowe's Companies, Inc.",
    "price": 220.78,
    "fair": 263.73,
@@ -1155,12 +1155,12 @@
    "mktCap": 155928756224,
    "name": "Gilead Sciences, Inc.",
    "price": 125.59,
-   "fair": 157.83,
+   "fair": 157.57,
    "fairLabel": "analyst target",
-   "gapPct": 25.7,
+   "gapPct": 25.5,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 24,
+    "buy": 23,
     "hold": 7,
     "sell": 0
    }
@@ -1584,7 +1584,7 @@
    }
   },
   "de.us": {
-   "mktCap": 155981561856,
+   "mktCap": 155883470848,
    "name": "Deere & Company",
    "price": 577.48,
    "fair": 644.21,
