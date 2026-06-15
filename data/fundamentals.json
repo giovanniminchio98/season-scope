@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-06-14T08:01:38.746Z",
+ "updatedAt": "2026-06-15T09:42:37.213Z",
  "source": "yahoo",
  "bySymbol": {
   "aapl.us": {
@@ -341,13 +341,13 @@
    "mktCap": 82464882688,
    "name": "Adobe Inc.",
    "price": 204.02,
-   "fair": 289.68,
+   "fair": 288.48,
    "fairLabel": "analyst target",
-   "gapPct": 42,
+   "gapPct": 41.4,
    "ratingLabel": "hold",
    "rec": {
     "buy": 12,
-    "hold": 23,
+    "hold": 24,
     "sell": 3
    }
   },
@@ -509,9 +509,9 @@
    "mktCap": 223152881664,
    "name": "QUALCOMM Incorporated",
    "price": 211.72,
-   "fair": 180.48,
+   "fair": 182.74,
    "fairLabel": "analyst target",
-   "gapPct": -14.8,
+   "gapPct": -13.7,
    "ratingLabel": "hold",
    "rec": {
     "buy": 12,
@@ -628,8 +628,8 @@
    "gapPct": 8.3,
    "ratingLabel": "hold",
    "rec": {
-    "buy": 12,
-    "hold": 9,
+    "buy": 11,
+    "hold": 10,
     "sell": 5
    }
   },
@@ -1239,12 +1239,12 @@
    "mktCap": 82574532608,
    "name": "3M Company",
    "price": 158.32,
-   "fair": 169.91,
+   "fair": 170.97,
    "fairLabel": "analyst target",
-   "gapPct": 7.3,
+   "gapPct": 8,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 9,
+    "buy": 10,
     "hold": 7,
     "sell": 3
    }
@@ -1448,9 +1448,9 @@
    "mktCap": 1106994921472,
    "name": "Micron Technology, Inc.",
    "price": 981.61,
-   "fair": 828.73,
+   "fair": 866.6,
    "fairLabel": "analyst target",
-   "gapPct": -15.6,
+   "gapPct": -11.7,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 39,
