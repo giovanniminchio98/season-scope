@@ -127,6 +127,35 @@ async function yahooSession(){
   }catch(e){ console.warn('  Yahoo session (cookie/crumb) unavailable: ' + e.message); return null; }
 }
 
+/* Auto-discover the current largest US companies by market cap via Yahoo's
+   screener (sorted desc). This is what makes the top-100 self-updating — new
+   names that climb into the top automatically appear, with no hand-editing.
+   Returns [{t (stooq), ys, n, mktCap}]; [] if unavailable (falls back to the
+   static candidate list). */
+async function fetchTopByMktCap(sess, size = 120){
+  if(!sess) return [];
+  try{
+    const url = `https://query1.finance.yahoo.com/v1/finance/screener?crumb=${encodeURIComponent(sess.crumb)}&lang=en-US&region=US&formatted=false`;
+    const body = JSON.stringify({
+      size, offset: 0, sortField: 'intradaymarketcap', sortType: 'DESC', quoteType: 'EQUITY',
+      query: { operator: 'AND', operands: [ { operator: 'EQ', operands: ['region', 'us'] } ] },
+      userId: '', userIdType: 'guid',
+    });
+    const r = await fetch(url, { method: 'POST', headers: { 'user-agent': UA, 'content-type': 'application/json', cookie: sess.cookie }, body });
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const j = await r.json();
+    const quotes = (j && j.finance && j.finance.result && j.finance.result[0] && j.finance.result[0].quotes) || [];
+    const out = [];
+    for(const q of quotes){
+      const ys = q.symbol;
+      if(!ys || /[\^=.]/.test(ys)) continue;             // skip indices / FX / dotted symbols
+      const mc = (q.marketCap && q.marketCap.raw != null) ? q.marketCap.raw : (typeof q.marketCap === 'number' ? q.marketCap : null);
+      out.push({ t: ys.toLowerCase() + '.us', ys, n: q.shortName || q.longName || ys, mktCap: mc });
+    }
+    return out;
+  }catch(e){ console.warn('  screener (top by market cap) unavailable: ' + e.message + ' — using static candidate list'); return []; }
+}
+
 async function fetchYahooFundamentals(ys, sess){
   const url = `https://query1.finance.yahoo.com/v10/finance/quoteSummary/${encodeURIComponent(ys)}`
     + `?modules=financialData,recommendationTrend,price&crumb=${encodeURIComponent(sess.crumb)}`;
@@ -189,11 +218,17 @@ const CANDIDATES_EXTRA = [
 async function main(){
   fs.mkdirSync(PRICES, { recursive: true });
   const assets = parseAssets(fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8'));
-  // Build the price-snapshot pool = app assets + extra large-cap candidates (dedup by ticker).
-  const pool = []; const seen = new Set();
-  for(const a of assets){ if(!seen.has(a.t)){ seen.add(a.t); pool.push({ t: a.t, n: a.n, g: a.g }); } }
-  for(const e of CANDIDATES_EXTRA){ if(!seen.has(e.t)){ seen.add(e.t); pool.push({ t: e.t, n: e.n, g: 'Stocks' }); } }
-  console.log(`Assets: ${assets.length} · pool (with candidates): ${pool.length}`);
+  const sess = await yahooSession();
+
+  // Build the price-snapshot pool = app assets + extra candidates + the LIVE
+  // top-by-market-cap names from Yahoo's screener (so new entrants auto-appear).
+  const pool = []; const seen = new Set(); const screenerCap = {};
+  const add = (t, n, g) => { if(t && !seen.has(t)){ seen.add(t); pool.push({ t, n, g }); } };
+  for(const a of assets) add(a.t, a.n, a.g);
+  for(const e of CANDIDATES_EXTRA) add(e.t, e.n, 'Stocks');
+  const top = await fetchTopByMktCap(sess, 120);
+  for(const q of top){ if(q.mktCap != null) screenerCap[q.t] = q.mktCap; add(q.t, q.n, 'Stocks'); }
+  console.log(`Assets: ${assets.length} · screener top: ${top.length} · pool: ${pool.length}`);
 
   // ---- prices (Yahoo chart, keyless) — whole pool ----
   const pricesOk = [], pricesFailed = [];
@@ -205,16 +240,28 @@ async function main(){
   }
   console.log(`Prices: ${pricesOk.length} ok, ${pricesFailed.length} failed${pricesFailed.length ? ' (' + pricesFailed.slice(0, 20).join(', ') + (pricesFailed.length > 20 ? '…' : '') + ')' : ''}`);
 
-  // ---- analyst data + market cap (Yahoo quoteSummary, keyless; best-effort) ----
+  if(pricesOk.length === 0){
+    console.error('All price fetches failed — keeping previous snapshot, marking run failed.');
+    process.exit(1);
+  }
+
+  // ---- rank companies by market cap (screener caps first) ----
+  const excl = new Set(assets.filter(a => a.g === 'Penny' || a.g === 'ETFs').map(a => a.t));   // not "companies"
+  const okSet = new Set(pricesOk);
+  const candidates = pool
+    .filter(a => a.t.endsWith('.us') && !excl.has(a.t) && okSet.has(a.t))
+    .map(a => ({ t: a.t, n: a.n, mktCap: screenerCap[a.t] || 0 }))
+    .sort((x, y) => y.mktCap - x.mktCap);
+
+  // ---- analyst data + market-cap refinement for the top names (bounded) ----
   const bySymbol = {};
   let fundErrors = 0;
-  const usStocks = pool.filter(a => a.t.endsWith('.us'));   // every US stock in the pool
-  const sess = await yahooSession();
+  const head = candidates.slice(0, 110);                  // only the largest need analyst data
   if(sess){
-    for(const a of usStocks){
+    for(const a of head){
       try{
         const f = await fetchYahooFundamentals(toYahoo(a.t), sess);
-        if(f) bySymbol[a.t] = f;
+        if(f){ bySymbol[a.t] = f; if(f.mktCap) a.mktCap = f.mktCap; if(f.name) a.n = f.name; }
       }catch(e){ fundErrors++; if(fundErrors <= 6) console.warn(`  fund ${a.t}: ${e.message}`); }
       await sleep(300);
     }
@@ -223,29 +270,19 @@ async function main(){
     JSON.stringify({ updatedAt: new Date().toISOString(), source: 'yahoo', bySymbol }, null, 1));
   console.log(`Analyst data: ${Object.keys(bySymbol).length} symbols${sess ? '' : ' (no session — skipped)'}, ${fundErrors} errors`);
 
-  if(pricesOk.length === 0){
-    console.error('All price fetches failed — keeping previous snapshot, marking run failed.');
-    process.exit(1);
-  }
-
-  // ---- universe: rank non-penny US stocks by market cap, take top 100 ----
-  const excl = new Set(assets.filter(a => a.g === 'Penny' || a.g === 'ETFs').map(a => a.t));   // not "companies"
-  const okSet = new Set(pricesOk);
-  const ranked = usStocks
-    .filter(a => !excl.has(a.t) && okSet.has(a.t))         // need a price snapshot to be scannable
-    .map(a => ({ t: a.t, n: (bySymbol[a.t] && bySymbol[a.t].name) || a.n, mktCap: (bySymbol[a.t] && bySymbol[a.t].mktCap) || 0 }))
-    .sort((x, y) => y.mktCap - x.mktCap)
-    .slice(0, 100);
+  // ---- universe = top 100 by (refined) market cap ----
+  const ranked = candidates.sort((x, y) => y.mktCap - x.mktCap).slice(0, 100);
   fs.writeFileSync(path.join(DATA, 'universe.json'),
-    JSON.stringify({ updatedAt: new Date().toISOString(), ranked: ranked.some(r => r.mktCap > 0), stocks: ranked }, null, 1));
-  console.log(`Universe: ${ranked.length} stocks ranked by market cap (top: ${ranked.slice(0, 3).map(r => r.t).join(', ')})`);
+    JSON.stringify({ updatedAt: new Date().toISOString(), source: top.length ? 'yahoo-screener' : 'static',
+      ranked: ranked.some(r => r.mktCap > 0), stocks: ranked }, null, 1));
+  console.log(`Universe: ${ranked.length} stocks (top: ${ranked.slice(0, 5).map(r => r.t).join(', ')})`);
 
   fs.writeFileSync(path.join(DATA, 'meta.json'), JSON.stringify({
     updatedAt: new Date().toISOString(),
     source: 'Yahoo Finance',
     prices: { ok: pricesOk.length, failed: pricesFailed },
     analyst: { symbols: Object.keys(bySymbol).length },
-    universe: { stocks: ranked.length },
+    universe: { stocks: ranked.length, autoDiscovered: top.length },
   }, null, 1));
   console.log('Snapshot complete.');
 }
