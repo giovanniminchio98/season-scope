@@ -1,172 +1,177 @@
 {
- "updatedAt": "2026-06-17T08:42:04.036Z",
+ "updatedAt": "2026-06-18T08:24:32.673Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
   {
    "t": "nvda.us",
    "n": "NVIDIA Corporation",
-   "mktCap": 5023677808640
+   "mktCap": 4956827418624
   },
   {
    "t": "googl.us",
    "n": "Alphabet Inc.",
-   "mktCap": 4554610442240
+   "mktCap": 4439174283264
   },
   {
    "t": "goog.us",
    "n": "Alphabet Inc.",
-   "mktCap": 4528375070720
+   "mktCap": 4418551939072
   },
   {
    "t": "aapl.us",
    "n": "Apple Inc.",
-   "mktCap": 4395044175872
+   "mktCap": 4346723172352
   },
   {
    "t": "msft.us",
    "n": "Microsoft Corporation",
-   "mktCap": 2925540409344
+   "mktCap": 2814708285440
   },
   {
    "t": "amzn.us",
    "n": "Amazon.com, Inc.",
-   "mktCap": 2646249046016
+   "mktCap": 2554813480960
   },
   {
    "t": "tsm.us",
    "n": "Taiwan Semiconductor Manufacturing Company Limited",
-   "mktCap": 2208556122112
+   "mktCap": 2241334607872
   },
   {
    "t": "avgo.us",
    "n": "Broadcom Inc.",
-   "mktCap": 1792228065280
-  },
-  {
-   "t": "meta.us",
-   "n": "Meta Platforms, Inc.",
-   "mktCap": 1523587088384
+   "mktCap": 1869253312512
   },
   {
    "t": "tsla.us",
    "n": "Tesla, Inc.",
-   "mktCap": 1519791243264
+   "mktCap": 1488693755904
+  },
+  {
+   "t": "meta.us",
+   "n": "Meta Platforms, Inc.",
+   "mktCap": 1440758366208
   },
   {
    "t": "mu.us",
    "n": "Micron Technology, Inc.",
-   "mktCap": 1151145738240
-  },
-  {
-   "t": "brk-b.us",
-   "n": "Berkshire Hathaway Inc.",
-   "mktCap": 1067534778368
+   "mktCap": 1176440799232
   },
   {
    "t": "brk-a.us",
    "n": "Berkshire Hathaway Inc.",
-   "mktCap": 1067479072768
+   "mktCap": 1060165910528
+  },
+  {
+   "t": "brk-b.us",
+   "n": "Berkshire Hathaway Inc.",
+   "mktCap": 1059619143680
   },
   {
    "t": "lly.us",
    "n": "Eli Lilly and Company",
-   "mktCap": 1000979693568
+   "mktCap": 991616434176
   },
   {
    "t": "wmt.us",
    "n": "Walmart Inc.",
-   "mktCap": 963166273536
+   "mktCap": 940087836672
   },
   {
    "t": "jpm.us",
    "n": "JPMorgan Chase & Co.",
-   "mktCap": 887293411328
+   "mktCap": 893509828608
   },
   {
    "t": "amd.us",
    "n": "Advanced Micro Devices, Inc.",
-   "mktCap": 827187396608
-  },
-  {
-   "t": "asml.us",
-   "n": "ASML Holding N.V.",
-   "mktCap": 695251107840
+   "mktCap": 835650125824
   },
   {
    "t": "asmlf.us",
    "n": "ASML Holding N.V.",
-   "mktCap": 695027564544
+   "mktCap": 732293562368
+  },
+  {
+   "t": "asml.us",
+   "n": "ASML Holding N.V.",
+   "mktCap": 719894675456
   },
   {
    "t": "v.us",
    "n": "Visa Inc.",
-   "mktCap": 633508855808
+   "mktCap": 628298088448
   },
   {
    "t": "intc.us",
    "n": "Intel Corporation",
-   "mktCap": 588293275648
+   "mktCap": 608648560640
   },
   {
    "t": "xom.us",
    "n": "Exxon Mobil Corporation",
-   "mktCap": 588002230272
+   "mktCap": 583359922176
   },
   {
    "t": "jnj.us",
    "n": "Johnson & Johnson",
-   "mktCap": 566129262592
+   "mktCap": 563770163200
   },
   {
    "t": "orcl.us",
    "n": "Oracle Corporation",
-   "mktCap": 541645766656
-  },
-  {
-   "t": "tcehy.us",
-   "n": "Tencent Holdings Limited",
-   "mktCap": 515928784896
+   "mktCap": 527840739328
   },
   {
    "t": "tctzf.us",
    "n": "Tencent Holdings Limited",
-   "mktCap": 515748462592
+   "mktCap": 506822000640
   },
   {
-   "t": "dogef.us",
-   "n": "Ørsted A/S",
-   "mktCap": 477615063040
-  },
-  {
-   "t": "csco.us",
-   "n": "Cisco Systems, Inc.",
-   "mktCap": 471277338624
-  },
-  {
-   "t": "lrcx.us",
-   "n": "Lam Research Corporation",
-   "mktCap": 461885898752
+   "t": "tcehy.us",
+   "n": "Tencent Holdings Limited",
+   "mktCap": 502494068736
   },
   {
    "t": "amat.us",
    "n": "Applied Materials, Inc.",
-   "mktCap": 451151560704
+   "mktCap": 470754394112
   },
   {
-   "t": "ma.us",
-   "n": "Mastercard Incorporated",
-   "mktCap": 442967097344
+   "t": "lrcx.us",
+   "n": "Lam Research Corporation",
+   "mktCap": 467938639872
   },
   {
-   "t": "cost.us",
-   "n": "Costco Wholesale Corporation",
-   "mktCap": 437571682304
+   "t": "csco.us",
+   "n": "Cisco Systems, Inc.",
+   "mktCap": 462448525312
+  },
+  {
+   "t": "arm.us",
+   "n": "Arm Holdings plc",
+   "mktCap": 447396839424
+  },
+  {
+   "t": "dogef.us",
+   "n": "Ørsted A/S",
+   "mktCap": 442847625216
   },
   {
    "t": "cat.us",
    "n": "Caterpillar Inc.",
-   "mktCap": 435471286272
+   "mktCap": 440289067008
+  },
+  {
+   "t": "ma.us",
+   "n": "Mastercard Incorporated",
+   "mktCap": 435598000128
+  },
+  {
+   "t": "cost.us",
+   "n": "Costco Wholesale Corporation",
+   "mktCap": 428218712064
   },
   {
    "t": "ssnlf.us",
@@ -174,124 +179,119 @@
    "mktCap": 428205604864
   },
   {
-   "t": "idcby.us",
-   "n": "Industrial and Commercial Bank of China Limited",
-   "mktCap": 427210506240
-  },
-  {
    "t": "idcbf.us",
    "n": "Industrial and Commercial Bank of China Limited",
    "mktCap": 424376664064
   },
   {
-   "t": "arm.us",
-   "n": "Arm Holdings plc",
-   "mktCap": 423322353664
-  },
-  {
    "t": "cyaty.us",
    "n": "CONTEMPORARY AMPEREX TECHNOLOGY",
-   "mktCap": 421023055872
+   "mktCap": 417506820096
+  },
+  {
+   "t": "idcby.us",
+   "n": "Industrial and Commercial Bank of China Limited",
+   "mktCap": 417432371200
   },
   {
    "t": "bac.us",
    "n": "Bank of America Corporation",
-   "mktCap": 403370213376
+   "mktCap": 401170268160
   },
   {
    "t": "abbv.us",
    "n": "AbbVie Inc.",
-   "mktCap": 393058418688
-  },
-  {
-   "t": "unh.us",
-   "n": "UnitedHealth Group Incorporated",
-   "mktCap": 370205065216
+   "mktCap": 390867582976
   },
   {
    "t": "ge.us",
    "n": "GE Aerospace",
-   "mktCap": 367497936896
+   "mktCap": 373035532288
   },
   {
-   "t": "cvx.us",
-   "n": "Chevron Corporation",
-   "mktCap": 358706675712
-  },
-  {
-   "t": "pg.us",
-   "n": "The Procter & Gamble Company",
-   "mktCap": 355088072704
+   "t": "unh.us",
+   "n": "UnitedHealth Group Incorporated",
+   "mktCap": 362830921728
   },
   {
    "t": "ms.us",
    "n": "Morgan Stanley",
-   "mktCap": 348311814144
+   "mktCap": 354826027008
+  },
+  {
+   "t": "cvx.us",
+   "n": "Chevron Corporation",
+   "mktCap": 353667907584
+  },
+  {
+   "t": "pg.us",
+   "n": "The Procter & Gamble Company",
+   "mktCap": 350593875968
   },
   {
    "t": "ko.us",
    "n": "The Coca-Cola Company",
-   "mktCap": 345403293696
-  },
-  {
-   "t": "hd.us",
-   "n": "The Home Depot, Inc.",
-   "mktCap": 336118054912
-  },
-  {
-   "t": "rhhbf.us",
-   "n": "Roche Holding AG",
-   "mktCap": 331613437952
-  },
-  {
-   "t": "nflx.us",
-   "n": "Netflix, Inc.",
-   "mktCap": 331474075648
+   "mktCap": 343897407488
   },
   {
    "t": "rhhby.us",
    "n": "Roche Holding AG",
-   "mktCap": 329322627072
-  },
-  {
-   "t": "rhhvf.us",
-   "n": "Roche Holding AG",
-   "mktCap": 325129994240
+   "mktCap": 328871772160
   },
   {
    "t": "hsbc.us",
    "n": "HSBC Holdings plc",
-   "mktCap": 323929669632
+   "mktCap": 326604816384
+  },
+  {
+   "t": "hd.us",
+   "n": "The Home Depot, Inc.",
+   "mktCap": 326535774208
+  },
+  {
+   "t": "rhhvf.us",
+   "n": "Roche Holding AG",
+   "mktCap": 324582998016
   },
   {
    "t": "gs.us",
    "n": "The Goldman Sachs Group, Inc.",
-   "mktCap": 321755774976
+   "mktCap": 324254466048
   },
   {
-   "t": "pltr.us",
-   "n": "Palantir Technologies Inc.",
-   "mktCap": 319441829888
+   "t": "nflx.us",
+   "n": "Netflix, Inc.",
+   "mktCap": 324063068160
   },
   {
-   "t": "hbcyf.us",
-   "n": "HSBC Holdings plc",
-   "mktCap": 311411474432
-  },
-  {
-   "t": "klac.us",
-   "n": "KLA Corporation",
-   "mktCap": 310018310144
+   "t": "rhhbf.us",
+   "n": "Roche Holding AG",
+   "mktCap": 321429536768
   },
   {
    "t": "kxiay.us",
    "n": "KIOXIA HLDGS CORP",
-   "mktCap": 308047183872
+   "mktCap": 316729950208
+  },
+  {
+   "t": "hbcyf.us",
+   "n": "HSBC Holdings plc",
+   "mktCap": 313812221952
+  },
+  {
+   "t": "pltr.us",
+   "n": "Palantir Technologies Inc.",
+   "mktCap": 313160892416
+  },
+  {
+   "t": "klac.us",
+   "n": "KLA Corporation",
+   "mktCap": 311847059456
   },
   {
    "t": "pccyf.us",
    "n": "PetroChina Company Limited",
-   "mktCap": 307957989376
+   "mktCap": 305494327296
   },
   {
    "t": "cgxyy.us",
@@ -299,59 +299,64 @@
    "mktCap": 302554906624
   },
   {
-   "t": "lvmuy.us",
-   "n": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
-   "mktCap": 298265673728
-  },
-  {
-   "t": "lvmhf.us",
-   "n": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
-   "mktCap": 297209430016
-  },
-  {
-   "t": "cichy.us",
-   "n": "China Construction Bank Corporation",
-   "mktCap": 296524021760
-  },
-  {
    "t": "sndk.us",
    "n": "Sandisk Corporation",
-   "mktCap": 294928154624
+   "mktCap": 290078228480
   },
   {
    "t": "nvs.us",
    "n": "Novartis AG",
-   "mktCap": 287988285440
+   "mktCap": 287892930560
   },
   {
-   "t": "pm.us",
-   "n": "Philip Morris International Inc.",
-   "mktCap": 286868340736
+   "t": "cichy.us",
+   "n": "China Construction Bank Corporation",
+   "mktCap": 287629606912
+  },
+  {
+   "t": "lvmuy.us",
+   "n": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
+   "mktCap": 286493966336
   },
   {
    "t": "mrk.us",
    "n": "Merck & Co., Inc.",
-   "mktCap": 284449669120
+   "mktCap": 285116563456
   },
   {
-   "t": "nvsef.us",
-   "n": "Novartis AG",
-   "mktCap": 280623087616
+   "t": "lvmhf.us",
+   "n": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
+   "mktCap": 283680636928
+  },
+  {
+   "t": "gev.us",
+   "n": "GE Vernova Inc.",
+   "mktCap": 281849659392
+  },
+  {
+   "t": "pm.us",
+   "n": "Philip Morris International Inc.",
+   "mktCap": 279667802112
   },
   {
    "t": "ry.us",
    "n": "Royal Bank of Canada",
-   "mktCap": 279502782464
+   "mktCap": 278905225216
   },
   {
-   "t": "txn.us",
-   "n": "Texas Instruments Incorporated",
-   "mktCap": 278224470016
+   "t": "nvsef.us",
+   "n": "Novartis AG",
+   "mktCap": 276673331200
   },
   {
    "t": "azn.us",
    "n": "AstraZeneca PLC",
-   "mktCap": 277154594816
+   "mktCap": 275882868736
+  },
+  {
+   "t": "txn.us",
+   "n": "Texas Instruments Incorporated",
+   "mktCap": 274738823168
   },
   {
    "t": "cichf.us",
@@ -359,34 +364,19 @@
    "mktCap": 274680381440
   },
   {
-   "t": "acgby.us",
-   "n": "Agricultural Bank of China Limited",
-   "mktCap": 268926943232
-  },
-  {
-   "t": "baba.us",
-   "n": "Alibaba Group Holding Limited",
-   "mktCap": 266231889920
-  },
-  {
-   "t": "gev.us",
-   "n": "GE Vernova Inc.",
-   "mktCap": 263977091072
-  },
-  {
-   "t": "babaf.us",
-   "n": "Alibaba Group Holding Limited",
-   "mktCap": 263904739328
-  },
-  {
    "t": "dell.us",
    "n": "Dell Technologies Inc.",
-   "mktCap": 261887459328
+   "mktCap": 271764635648
   },
   {
-   "t": "wfc.us",
-   "n": "Wells Fargo & Company",
-   "mktCap": 260269113344
+   "t": "acgby.us",
+   "n": "Agricultural Bank of China Limited",
+   "mktCap": 260247388160
+  },
+  {
+   "t": "rtx.us",
+   "n": "RTX Corporation",
+   "mktCap": 259344285696
   },
   {
    "t": "acgbf.us",
@@ -394,114 +384,124 @@
    "mktCap": 258987458560
   },
   {
-   "t": "nsrgy.us",
-   "n": "Nestlé S.A.",
-   "mktCap": 257427767296
+   "t": "baba.us",
+   "n": "Alibaba Group Holding Limited",
+   "mktCap": 257762951168
   },
   {
-   "t": "ibm.us",
-   "n": "International Business Machines Corporation",
-   "mktCap": 254530338816
+   "t": "wfc.us",
+   "n": "Wells Fargo & Company",
+   "mktCap": 256474464256
   },
   {
-   "t": "nsrgf.us",
-   "n": "Nestlé S.A.",
-   "mktCap": 251537391616
-  },
-  {
-   "t": "rtx.us",
-   "n": "RTX Corporation",
-   "mktCap": 251520057344
-  },
-  {
-   "t": "sftby.us",
-   "n": "SoftBank Group Corp.",
-   "mktCap": 249612845056
-  },
-  {
-   "t": "sftbf.us",
-   "n": "SoftBank Group Corp.",
-   "mktCap": 249270927360
-  },
-  {
-   "t": "c.us",
-   "n": "Citigroup Inc.",
-   "mktCap": 243880460288
+   "t": "babaf.us",
+   "n": "Alibaba Group Holding Limited",
+   "mktCap": 255171887104
   },
   {
    "t": "mrvl.us",
    "n": "Marvell Technology, Inc.",
-   "mktCap": 243780534272
+   "mktCap": 253289594880
   },
   {
-   "t": "siegy.us",
-   "n": "Siemens Aktiengesellschaft",
-   "mktCap": 242600329216
+   "t": "nsrgy.us",
+   "n": "Nestlé S.A.",
+   "mktCap": 252720611328
   },
   {
-   "t": "lin.us",
-   "n": "Linde plc",
-   "mktCap": 239574482944
+   "t": "sftbf.us",
+   "n": "SoftBank Group Corp.",
+   "mktCap": 252177367040
   },
   {
-   "t": "lrlcy.us",
-   "n": "L'Oréal S.A.",
-   "mktCap": 239375859712
+   "t": "nsrgf.us",
+   "n": "Nestlé S.A.",
+   "mktCap": 252077555712
   },
   {
-   "t": "smawf.us",
-   "n": "Siemens Aktiengesellschaft",
-   "mktCap": 238387822592
+   "t": "sftby.us",
+   "n": "SoftBank Group Corp.",
+   "mktCap": 249156943872
   },
   {
-   "t": "bhp.us",
-   "n": "BHP Group Limited",
-   "mktCap": 235007328256
+   "t": "ibm.us",
+   "n": "International Business Machines Corporation",
+   "mktCap": 246578921472
   },
   {
    "t": "wdc.us",
    "n": "Western Digital Corporation",
-   "mktCap": 234756112384
+   "mktCap": 245458501632
   },
   {
-   "t": "lrlcf.us",
-   "n": "L'Oréal S.A.",
-   "mktCap": 233819160576
+   "t": "c.us",
+   "n": "Citigroup Inc.",
+   "mktCap": 245227847680
   },
   {
    "t": "stx.us",
    "n": "Seagate Technology Holdings plc",
-   "mktCap": 233342844928
+   "mktCap": 241200578560
   },
   {
-   "t": "bhplf.us",
-   "n": "BHP Group Limited",
-   "mktCap": 233254486016
+   "t": "siegy.us",
+   "n": "Siemens Aktiengesellschaft",
+   "mktCap": 241031282688
   },
   {
-   "t": "axp.us",
-   "n": "American Express Company",
-   "mktCap": 232495906816
+   "t": "lin.us",
+   "n": "Linde plc",
+   "mktCap": 238501838848
   },
   {
-   "t": "mbfjf.us",
-   "n": "Mitsubishi UFJ Financial Group, Inc.",
-   "mktCap": 229484363776
+   "t": "smawf.us",
+   "n": "Siemens Aktiengesellschaft",
+   "mktCap": 236961497088
+  },
+  {
+   "t": "lrlcf.us",
+   "n": "L'Oréal S.A.",
+   "mktCap": 234096721920
   },
   {
    "t": "mufg.us",
    "n": "Mitsubishi UFJ Financial Group, Inc.",
-   "mktCap": 228920508416
+   "mktCap": 233995108352
   },
   {
-   "t": "rydaf.us",
-   "n": "Shell plc",
-   "mktCap": 228413325312
+   "t": "lrlcy.us",
+   "n": "L'Oréal S.A.",
+   "mktCap": 232997126144
+  },
+  {
+   "t": "axp.us",
+   "n": "American Express Company",
+   "mktCap": 232359460864
   },
   {
    "t": "panw.us",
    "n": "Palo Alto Networks, Inc.",
-   "mktCap": 228118495232
+   "mktCap": 229935955968
+  },
+  {
+   "t": "mbfjf.us",
+   "n": "Mitsubishi UFJ Financial Group, Inc.",
+   "mktCap": 229935431680
+  },
+  {
+   "t": "bhp.us",
+   "n": "BHP Group Limited",
+   "mktCap": 229545590784
+  },
+  {
+   "t": "rydaf.us",
+   "n": "Shell plc",
+   "mktCap": 225086914560
+  },
+  {
+   "t": "bhplf.us",
+   "n": "BHP Group Limited",
+   "mktCap": 224566509568
   }
  ]
 }
