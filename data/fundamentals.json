@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-06-20T07:13:23.069Z",
+ "updatedAt": "2026-06-21T08:15:39.143Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -330,12 +330,12 @@
    }
   },
   "tcehy.us": {
-   "mktCap": 505830178816,
+   "mktCap": 505642582016,
    "name": "Tencent Holdings Limited",
    "price": 56.1,
-   "fair": 97.54,
+   "fair": 97.59,
    "fairLabel": "analyst target",
-   "gapPct": 73.9,
+   "gapPct": 74,
    "rec": {
     "buy": 3,
     "hold": 0,
@@ -343,7 +343,7 @@
    }
   },
   "tctzf.us": {
-   "mktCap": 504928534528,
+   "mktCap": 504741265408,
    "name": "Tencent Holdings Limited",
    "price": 56
   },
@@ -464,7 +464,7 @@
    "mktCap": 417691893760,
    "name": "CONTEMPORARY AMPEREX TECHNOLOGY",
    "price": 22.57,
-   "fair": 30.03,
+   "fair": 30.05,
    "fairLabel": "analyst target",
    "gapPct": 33.1,
    "ratingLabel": "buy",
@@ -765,7 +765,7 @@
    }
   },
   "lvmuy.us": {
-   "mktCap": 289159282688,
+   "mktCap": 289112424448,
    "name": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
    "price": 117.17,
    "fair": 126.67,
@@ -779,7 +779,7 @@
    }
   },
   "lvmhf.us": {
-   "mktCap": 288502841344,
+   "mktCap": 288456081408,
    "name": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
    "price": 584.52
   },
@@ -906,7 +906,7 @@
    }
   },
   "dell.us": {
-   "mktCap": 265400205312,
+   "mktCap": 264595308544,
    "name": "Dell Technologies Inc.",
    "price": 409.5,
    "fair": 483.83,
@@ -947,9 +947,9 @@
    "mktCap": 256947240960,
    "name": "Alibaba Group Holding Limited",
    "price": 107.1,
-   "fair": 191.51,
+   "fair": 191.61,
    "fairLabel": "analyst target",
-   "gapPct": 78.8,
+   "gapPct": 78.9,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
