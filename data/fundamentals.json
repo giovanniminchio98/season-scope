@@ -1,17 +1,17 @@
 {
- "updatedAt": "2026-06-27T06:43:03.501Z",
+ "updatedAt": "2026-06-28T07:14:50.535Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
    "mktCap": 4663269130240,
    "name": "NVIDIA Corporation",
    "price": 192.53,
-   "fair": 298.93,
+   "fair": 300.59,
    "fairLabel": "analyst target",
-   "gapPct": 55.3,
+   "gapPct": 56.1,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 59,
+    "buy": 58,
     "hold": 2,
     "sell": 1
    }
@@ -26,8 +26,8 @@
    "ratingLabel": "buy",
    "rec": {
     "buy": 28,
-    "hold": 15,
-    "sell": 4
+    "hold": 16,
+    "sell": 3
    }
   },
   "googl.us": {
@@ -39,7 +39,7 @@
    "gapPct": 28.3,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 56,
+    "buy": 57,
     "hold": 7,
     "sell": 0
    }
@@ -146,14 +146,14 @@
    "mktCap": 1278845648896,
    "name": "Micron Technology, Inc.",
    "price": 1132.33,
-   "fair": 1365.08,
+   "fair": 1410.45,
    "fairLabel": "analyst target",
-   "gapPct": 20.6,
+   "gapPct": 24.6,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
-    "hold": 5,
-    "sell": 0
+    "hold": 4,
+    "sell": 1
    }
   },
   "lly.us": {
@@ -200,13 +200,13 @@
    "mktCap": 920670175232,
    "name": "Walmart Inc.",
    "price": 115.69,
-   "fair": 138.95,
+   "fair": 138.59,
    "fairLabel": "analyst target",
-   "gapPct": 20.1,
-   "ratingLabel": "strong buy",
+   "gapPct": 19.8,
+   "ratingLabel": "buy",
    "rec": {
     "buy": 37,
-    "hold": 4,
+    "hold": 5,
     "sell": 1
    }
   },
@@ -214,9 +214,9 @@
    "mktCap": 881693163520,
    "name": "JPMorgan Chase & Co.",
    "price": 329.05,
-   "fair": 342.9,
+   "fair": 343.48,
    "fairLabel": "analyst target",
-   "gapPct": 4.2,
+   "gapPct": 4.4,
    "ratingLabel": "buy",
    "rec": {
     "buy": 12,
@@ -278,6 +278,7 @@
    "fair": 398.83,
    "fairLabel": "analyst target",
    "gapPct": 18.6,
+   "ratingLabel": "strong buy",
    "rec": {
     "buy": 36,
     "hold": 3,
@@ -288,9 +289,9 @@
    "mktCap": 613021843456,
    "name": "Johnson & Johnson",
    "price": 254.66,
-   "fair": 257.32,
+   "fair": 257.5,
    "fairLabel": "analyst target",
-   "gapPct": 1,
+   "gapPct": 1.1,
    "ratingLabel": "buy",
    "rec": {
     "buy": 15,
@@ -302,9 +303,9 @@
    "mktCap": 565951070208,
    "name": "Exxon Mobil Corporation",
    "price": 136.54,
-   "fair": 170.43,
+   "fair": 170.29,
    "fairLabel": "analyst target",
-   "gapPct": 24.8,
+   "gapPct": 24.7,
    "ratingLabel": "buy",
    "rec": {
     "buy": 11,
@@ -316,9 +317,9 @@
    "mktCap": 497685561344,
    "name": "Applied Materials, Inc.",
    "price": 626.84,
-   "fair": 532.34,
+   "fair": 551.91,
    "fairLabel": "analyst target",
-   "gapPct": -15.1,
+   "gapPct": -12,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 32,
@@ -362,9 +363,9 @@
    "mktCap": 459426660352,
    "name": "Caterpillar Inc.",
    "price": 997.47,
-   "fair": 949.68,
+   "fair": 951.02,
    "fairLabel": "analyst target",
-   "gapPct": -4.8,
+   "gapPct": -4.7,
    "ratingLabel": "buy",
    "rec": {
     "buy": 15,
@@ -456,9 +457,9 @@
    "mktCap": 410750681088,
    "name": "Bank of America Corporation",
    "price": 57.88,
-   "fair": 63.57,
+   "fair": 63.7,
    "fairLabel": "analyst target",
-   "gapPct": 9.8,
+   "gapPct": 10.1,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 22,
@@ -473,7 +474,6 @@
    "fair": 29.94,
    "fairLabel": "analyst target",
    "gapPct": 37.6,
-   "ratingLabel": "buy",
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -564,7 +564,7 @@
    "mktCap": 347007844352,
    "name": "The Procter & Gamble Company",
    "price": 149.02,
-   "fair": 163.43,
+   "fair": 163.52,
    "fairLabel": "analyst target",
    "gapPct": 9.7,
    "ratingLabel": "buy",
@@ -578,9 +578,9 @@
    "mktCap": 340682702848,
    "name": "Chevron Corporation",
    "price": 171.06,
-   "fair": 217.32,
+   "fair": 217.14,
    "fairLabel": "analyst target",
-   "gapPct": 27,
+   "gapPct": 26.9,
    "ratingLabel": "buy",
    "rec": {
     "buy": 18,
@@ -592,9 +592,9 @@
    "mktCap": 334431715328,
    "name": "Morgan Stanley",
    "price": 212.03,
-   "fair": 206.1,
+   "fair": 206.67,
    "fairLabel": "analyst target",
-   "gapPct": -2.8,
+   "gapPct": -2.5,
    "ratingLabel": "buy",
    "rec": {
     "buy": 10,
@@ -676,8 +676,8 @@
    "ratingLabel": "buy",
    "rec": {
     "buy": 20,
-    "hold": 10,
-    "sell": 0
+    "hold": 9,
+    "sell": 1
    }
   },
   "kxiay.us": {
@@ -703,9 +703,9 @@
    "mktCap": 309612740608,
    "name": "Sandisk Corporation",
    "price": 2090.71,
-   "fair": 1751.32,
+   "fair": 1772.91,
    "fairLabel": "analyst target",
-   "gapPct": -16.2,
+   "gapPct": -15.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 18,
@@ -739,7 +739,6 @@
    "fair": 153.87,
    "fairLabel": "analyst target",
    "gapPct": -1,
-   "ratingLabel": "hold",
    "rec": {
     "buy": 5,
     "hold": 5,
@@ -910,9 +909,9 @@
    "mktCap": 256627490816,
    "name": "Wells Fargo & Company",
    "price": 83.86,
-   "fair": 96.11,
+   "fair": 96.3,
    "fairLabel": "analyst target",
-   "gapPct": 14.6,
+   "gapPct": 14.8,
    "ratingLabel": "buy",
    "rec": {
     "buy": 15,
@@ -952,12 +951,12 @@
    "mktCap": 247923015680,
    "name": "Palo Alto Networks, Inc.",
    "price": 304.2,
-   "fair": 310.32,
+   "fair": 309.31,
    "fairLabel": "analyst target",
-   "gapPct": 2,
+   "gapPct": 1.7,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 44,
+    "buy": 43,
     "hold": 10,
     "sell": 1
    }
@@ -966,9 +965,9 @@
    "mktCap": 241782587392,
    "name": "Citigroup Inc.",
    "price": 141.76,
-   "fair": 148.02,
+   "fair": 148.55,
    "fairLabel": "analyst target",
-   "gapPct": 4.4,
+   "gapPct": 4.8,
    "ratingLabel": "buy",
    "rec": {
     "buy": 18,
@@ -1031,9 +1030,9 @@
    "mktCap": 233571303424,
    "name": "Marvell Technology, Inc.",
    "price": 266.77,
-   "fair": 242.5,
+   "fair": 244.7,
    "fairLabel": "analyst target",
-   "gapPct": -9.1,
+   "gapPct": -8.3,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -1069,7 +1068,7 @@
    "mktCap": 227593191424,
    "name": "Alibaba Group Holding Limited",
    "price": 94.81,
-   "fair": 190.24,
+   "fair": 190.26,
    "fairLabel": "analyst target",
    "gapPct": 100.7,
    "ratingLabel": "strong buy",
@@ -1116,6 +1115,11 @@
     "sell": 1
    }
   },
+  "mbfjf.us": {
+   "mktCap": 219222409216,
+   "name": "Mitsubishi UFJ Financial Group, Inc.",
+   "price": 19.44
+  },
   "rydaf.us": {
    "mktCap": 213056405504,
    "name": "Shell plc",
@@ -1125,13 +1129,13 @@
    "mktCap": 212798930944,
    "name": "Novo Nordisk A/S",
    "price": 48.07,
-   "fair": 46.86,
+   "fair": 47.26,
    "fairLabel": "analyst target",
-   "gapPct": -2.5,
+   "gapPct": -1.7,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 5,
-    "hold": 9,
+    "buy": 4,
+    "hold": 10,
     "sell": 0
    }
   },
