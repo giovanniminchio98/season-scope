@@ -1,14 +1,14 @@
 {
- "updatedAt": "2026-07-09T07:09:37.534Z",
+ "updatedAt": "2026-07-10T07:00:11.669Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
-   "mktCap": 4943990226944,
+   "mktCap": 4911534178304,
    "name": "NVIDIA Corporation",
-   "price": 204.12,
+   "price": 202.78,
    "fair": 301.62,
    "fairLabel": "analyst target",
-   "gapPct": 47.8,
+   "gapPct": 48.7,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 58,
@@ -17,26 +17,26 @@
    }
   },
   "aapl.us": {
-   "mktCap": 4602870628352,
+   "mktCap": 4644435656704,
    "name": "Apple Inc.",
-   "price": 313.39,
+   "price": 316.22,
    "fair": 315.57,
    "fairLabel": "analyst target",
-   "gapPct": 0.7,
+   "gapPct": -0.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 28,
-    "hold": 16,
-    "sell": 3
+    "hold": 17,
+    "sell": 2
    }
   },
   "googl.us": {
-   "mktCap": 4416355172352,
+   "mktCap": 4379381596160,
    "name": "Alphabet Inc.",
-   "price": 361.92,
-   "fair": 432.29,
+   "price": 358.89,
+   "fair": 432.1,
    "fairLabel": "analyst target",
-   "gapPct": 19.4,
+   "gapPct": 20.4,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 57,
@@ -45,12 +45,12 @@
    }
   },
   "goog.us": {
-   "mktCap": 4377184829440,
+   "mktCap": 4347044298752,
    "name": "Alphabet Inc.",
-   "price": 358.71,
+   "price": 356.24,
    "fair": 428.54,
    "fairLabel": "analyst target",
-   "gapPct": 19.5,
+   "gapPct": 20.3,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 58,
@@ -59,12 +59,12 @@
    }
   },
   "msft.us": {
-   "mktCap": 2847616270336,
+   "mktCap": 2855193018368,
    "name": "Microsoft Corporation",
-   "price": 383.34,
+   "price": 384.36,
    "fair": 559.93,
    "fairLabel": "analyst target",
-   "gapPct": 46.1,
+   "gapPct": 45.7,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 53,
@@ -73,12 +73,12 @@
    }
   },
   "amzn.us": {
-   "mktCap": 2620647014400,
+   "mktCap": 2657436303360,
    "name": "Amazon.com, Inc.",
-   "price": 243.62,
+   "price": 247.04,
    "fair": 312.91,
    "fairLabel": "analyst target",
-   "gapPct": 28.4,
+   "gapPct": 26.7,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 62,
@@ -87,9 +87,9 @@
    }
   },
   "tsm.us": {
-   "mktCap": 2266385350656,
+   "mktCap": 2266281541632,
    "name": "Taiwan Semiconductor Manufacturing Company Limited",
-   "price": 436.98,
+   "price": 436.96,
    "fair": 490.34,
    "fairLabel": "analyst target",
    "gapPct": 12.2,
@@ -101,12 +101,12 @@
    }
   },
   "avgo.us": {
-   "mktCap": 1849223938048,
+   "mktCap": 1908312899584,
    "name": "Broadcom Inc.",
-   "price": 388.69,
+   "price": 401.11,
    "fair": 523.73,
    "fairLabel": "analyst target",
-   "gapPct": 34.7,
+   "gapPct": 30.6,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 44,
@@ -115,12 +115,12 @@
    }
   },
   "meta.us": {
-   "mktCap": 1530973782016,
+   "mktCap": 1602963505152,
    "name": "Meta Platforms, Inc.",
-   "price": 603.12,
-   "fair": 828.17,
+   "price": 631.48,
+   "fair": 827.91,
    "fairLabel": "analyst target",
-   "gapPct": 37.3,
+   "gapPct": 31.1,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 57,
@@ -129,54 +129,26 @@
    }
   },
   "tsla.us": {
-   "mktCap": 1479980482560,
+   "mktCap": 1526889447424,
    "name": "Tesla, Inc.",
-   "price": 394.06,
-   "fair": 424.01,
+   "price": 406.55,
+   "fair": 424.56,
    "fairLabel": "analyst target",
-   "gapPct": 7.6,
+   "gapPct": 4.4,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 23,
-    "hold": 18,
+    "buy": 22,
+    "hold": 19,
     "sell": 6
    }
   },
-  "lly.us": {
-   "mktCap": 1084205891584,
-   "name": "Eli Lilly and Company",
-   "price": 1215.83,
-   "fair": 1228.25,
-   "fairLabel": "analyst target",
-   "gapPct": 1,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 23,
-    "hold": 5,
-    "sell": 2
-   }
-  },
-  "brk-a.us": {
-   "mktCap": 1075910934528,
-   "name": "Berkshire Hathaway Inc.",
-   "price": 748250,
-   "fair": 758899,
-   "fairLabel": "analyst target",
-   "gapPct": 1.4,
-   "ratingLabel": "hold",
-   "rec": {
-    "buy": 1,
-    "hold": 2,
-    "sell": 1
-   }
-  },
   "mu.us": {
-   "mktCap": 1071568191488,
+   "mktCap": 1119951388672,
    "name": "Micron Technology, Inc.",
-   "price": 948.8,
+   "price": 991.64,
    "fair": 1486,
    "fairLabel": "analyst target",
-   "gapPct": 56.6,
+   "gapPct": 49.9,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 40,
@@ -184,13 +156,27 @@
     "sell": 0
    }
   },
+  "lly.us": {
+   "mktCap": 1085204594688,
+   "name": "Eli Lilly and Company",
+   "price": 1216.95,
+   "fair": 1240.46,
+   "fairLabel": "analyst target",
+   "gapPct": 1.9,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 23,
+    "hold": 5,
+    "sell": 2
+   }
+  },
   "brk-b.us": {
-   "mktCap": 1067189665792,
+   "mktCap": 1068613238784,
    "name": "Berkshire Hathaway Inc.",
-   "price": 494.79,
+   "price": 495.45,
    "fair": 520.33,
    "fairLabel": "analyst target",
-   "gapPct": 5.2,
+   "gapPct": 5,
    "ratingLabel": "buy",
    "rec": {
     "buy": 2,
@@ -198,27 +184,27 @@
     "sell": 0
    }
   },
-  "wmt.us": {
-   "mktCap": 900058710016,
-   "name": "Walmart Inc.",
-   "price": 113.1,
-   "fair": 138.59,
+  "brk-a.us": {
+   "mktCap": 1065529245696,
+   "name": "Berkshire Hathaway Inc.",
+   "price": 741030,
+   "fair": 758899,
    "fairLabel": "analyst target",
-   "gapPct": 22.5,
-   "ratingLabel": "buy",
+   "gapPct": 2.4,
+   "ratingLabel": "hold",
    "rec": {
-    "buy": 37,
-    "hold": 5,
+    "buy": 1,
+    "hold": 2,
     "sell": 1
    }
   },
   "jpm.us": {
-   "mktCap": 885899984896,
+   "mktCap": 898895642624,
    "name": "JPMorgan Chase & Co.",
-   "price": 330.62,
-   "fair": 352.43,
+   "price": 335.47,
+   "fair": 352.76,
    "fairLabel": "analyst target",
-   "gapPct": 6.6,
+   "gapPct": 5.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 12,
@@ -226,46 +212,60 @@
     "sell": 0
    }
   },
-  "amd.us": {
-   "mktCap": 843680907264,
-   "name": "Advanced Micro Devices, Inc.",
-   "price": 517.4,
-   "fair": 512.27,
+  "wmt.us": {
+   "mktCap": 892976037888,
+   "name": "Walmart Inc.",
+   "price": 112.21,
+   "fair": 138.59,
    "fairLabel": "analyst target",
-   "gapPct": -1,
+   "gapPct": 23.5,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 37,
+    "hold": 5,
+    "sell": 1
+   }
+  },
+  "amd.us": {
+   "mktCap": 891481882624,
+   "name": "Advanced Micro Devices, Inc.",
+   "price": 546.72,
+   "fair": 516.13,
+   "fairLabel": "analyst target",
+   "gapPct": -5.6,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 42,
-    "hold": 9,
+    "hold": 10,
     "sell": 0
    }
   },
-  "asmlf.us": {
-   "mktCap": 690714705920,
-   "name": "ASML Holding N.V.",
-   "price": 1792.12
-  },
   "asml.us": {
-   "mktCap": 681668968448,
+   "mktCap": 695389847552,
    "name": "ASML Holding N.V.",
-   "price": 1768.65,
-   "fair": 1836.31,
+   "price": 1804.25,
+   "fair": 1881.6,
    "fairLabel": "analyst target",
-   "gapPct": 3.8,
+   "gapPct": 4.3,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 38,
+    "buy": 39,
     "hold": 3,
     "sell": 2
    }
   },
+  "asmlf.us": {
+   "mktCap": 693659303936,
+   "name": "ASML Holding N.V.",
+   "price": 1799.76
+  },
   "v.us": {
-   "mktCap": 660912996352,
+   "mktCap": 662187212800,
    "name": "Visa Inc.",
-   "price": 347.53,
+   "price": 348.2,
    "fair": 401.16,
    "fairLabel": "analyst target",
-   "gapPct": 15.4,
+   "gapPct": 15.2,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -274,12 +274,12 @@
    }
   },
   "jnj.us": {
-   "mktCap": 634060931072,
+   "mktCap": 623709913088,
    "name": "Johnson & Johnson",
-   "price": 263.4,
-   "fair": 257.95,
+   "price": 259.1,
+   "fair": 258.59,
    "fairLabel": "analyst target",
-   "gapPct": -2.1,
+   "gapPct": -0.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 15,
@@ -288,12 +288,12 @@
    }
   },
   "xom.us": {
-   "mktCap": 584976433152,
+   "mktCap": 569764478976,
    "name": "ExxonMobil Holdings Corporation",
-   "price": 141.13,
-   "fair": 169.48,
+   "price": 137.46,
+   "fair": 167.38,
    "fairLabel": "analyst target",
-   "gapPct": 20.1,
+   "gapPct": 21.8,
    "ratingLabel": "buy",
    "rec": {
     "buy": 11,
@@ -302,12 +302,12 @@
    }
   },
   "intc.us": {
-   "mktCap": 554066247680,
+   "mktCap": 565626011648,
    "name": "Intel Corporation",
-   "price": 110.24,
+   "price": 112.54,
    "fair": 100.88,
    "fairLabel": "analyst target",
-   "gapPct": -8.5,
+   "gapPct": -10.4,
    "ratingLabel": "hold",
    "rec": {
     "buy": 13,
@@ -316,12 +316,12 @@
    }
   },
   "tcehy.us": {
-   "mktCap": 548755800064,
+   "mktCap": 537847300096,
    "name": "Tencent Holdings Limited",
-   "price": 60.93,
-   "fair": 97.28,
+   "price": 59.75,
+   "fair": 97.51,
    "fairLabel": "analyst target",
-   "gapPct": 59.7,
+   "gapPct": 63.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 3,
@@ -330,31 +330,17 @@
    }
   },
   "tctzf.us": {
-   "mktCap": 540379906048,
+   "mktCap": 536857116672,
    "name": "Tencent Holdings Limited",
-   "price": 60
-  },
-  "ma.us": {
-   "mktCap": 459339890688,
-   "name": "Mastercard Incorporated",
-   "price": 519.86,
-   "fair": 643.84,
-   "fairLabel": "analyst target",
-   "gapPct": 23.8,
-   "ratingLabel": "strong buy",
-   "rec": {
-    "buy": 39,
-    "hold": 2,
-    "sell": 0
-   }
+   "price": 59.64
   },
   "amat.us": {
-   "mktCap": 452953866240,
+   "mktCap": 467372146688,
    "name": "Applied Materials, Inc.",
-   "price": 570.5,
-   "fair": 586.63,
+   "price": 588.66,
+   "fair": 602.77,
    "fairLabel": "analyst target",
-   "gapPct": 2.8,
+   "gapPct": 2.4,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 32,
@@ -363,17 +349,30 @@
    }
   },
   "csco.us": {
-   "mktCap": 448614072320,
+   "mktCap": 466311118848,
    "name": "Cisco Systems, Inc.",
-   "price": 113.82,
+   "price": 118.31,
    "fair": 127.18,
    "fairLabel": "analyst target",
-   "gapPct": 11.7,
-   "ratingLabel": "buy",
+   "gapPct": 7.5,
    "rec": {
     "buy": 17,
     "hold": 8,
     "sell": 1
+   }
+  },
+  "ma.us": {
+   "mktCap": 462291107840,
+   "name": "Mastercard Incorporated",
+   "price": 523.2,
+   "fair": 643.84,
+   "fairLabel": "analyst target",
+   "gapPct": 23.1,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 39,
+    "hold": 2,
+    "sell": 0
    }
   },
   "dogef.us": {
@@ -381,13 +380,27 @@
    "name": "Ørsted A/S",
    "price": 23
   },
-  "abbv.us": {
-   "mktCap": 446539235328,
-   "name": "AbbVie Inc.",
-   "price": 252.74,
-   "fair": 258.32,
+  "lrcx.us": {
+   "mktCap": 441664176128,
+   "name": "Lam Research Corporation",
+   "price": 353.17,
+   "fair": 357.77,
    "fairLabel": "analyst target",
-   "gapPct": 2.2,
+   "gapPct": 1.3,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 29,
+    "hold": 5,
+    "sell": 1
+   }
+  },
+  "abbv.us": {
+   "mktCap": 441539198976,
+   "name": "AbbVie Inc.",
+   "price": 249.91,
+   "fair": 259.46,
+   "fairLabel": "analyst target",
+   "gapPct": 3.8,
    "ratingLabel": "buy",
    "rec": {
     "buy": 24,
@@ -396,12 +409,12 @@
    }
   },
   "cat.us": {
-   "mktCap": 436678033408,
+   "mktCap": 432214900736,
    "name": "Caterpillar Inc.",
-   "price": 948.08,
-   "fair": 957.76,
+   "price": 938.39,
+   "fair": 962.49,
    "fairLabel": "analyst target",
-   "gapPct": 1,
+   "gapPct": 2.6,
    "ratingLabel": "buy",
    "rec": {
     "buy": 15,
@@ -414,41 +427,13 @@
    "name": "Samsung Electronics Co., Ltd.",
    "price": 65.21
   },
-  "cost.us": {
-   "mktCap": 422692978688,
-   "name": "Costco Wholesale Corporation",
-   "price": 953.13,
-   "fair": 1082.94,
-   "fairLabel": "analyst target",
-   "gapPct": 13.6,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 22,
-    "hold": 13,
-    "sell": 2
-   }
-  },
-  "lrcx.us": {
-   "mktCap": 416627720192,
-   "name": "Lam Research Corporation",
-   "price": 333.15,
-   "fair": 353.9,
-   "fairLabel": "analyst target",
-   "gapPct": 6.2,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 29,
-    "hold": 5,
-    "sell": 1
-   }
-  },
   "bac.us": {
-   "mktCap": 413731225600,
+   "mktCap": 420473012224,
    "name": "Bank of America Corporation",
-   "price": 58.3,
-   "fair": 65.31,
+   "price": 59.25,
+   "fair": 65.45,
    "fairLabel": "analyst target",
-   "gapPct": 12,
+   "gapPct": 10.5,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 21,
@@ -457,12 +442,12 @@
    }
   },
   "orcl.us": {
-   "mktCap": 404677394432,
+   "mktCap": 415421530112,
    "name": "Oracle Corporation",
-   "price": 140.49,
+   "price": 144.22,
    "fair": 251.85,
    "fairLabel": "analyst target",
-   "gapPct": 79.3,
+   "gapPct": 74.6,
    "ratingLabel": "buy",
    "rec": {
     "buy": 37,
@@ -470,18 +455,32 @@
     "sell": 1
    }
   },
+  "cost.us": {
+   "mktCap": 404882849792,
+   "name": "Costco Wholesale Corporation",
+   "price": 912.97,
+   "fair": 1080.33,
+   "fairLabel": "analyst target",
+   "gapPct": 18.3,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 22,
+    "hold": 13,
+    "sell": 2
+   }
+  },
   "idcby.us": {
-   "mktCap": 402998001664,
+   "mktCap": 395082399744,
    "name": "Industrial and Commercial Bank of China Limited",
-   "price": 17.31
+   "price": 16.97
   },
   "unh.us": {
-   "mktCap": 386506260480,
+   "mktCap": 392027766784,
    "name": "UnitedHealth Group Incorporated",
-   "price": 425.6,
-   "fair": 418.04,
+   "price": 431.68,
+   "fair": 420.46,
    "fairLabel": "analyst target",
-   "gapPct": -1.8,
+   "gapPct": -2.6,
    "ratingLabel": "buy",
    "rec": {
     "buy": 22,
@@ -489,31 +488,31 @@
     "sell": 1
    }
   },
+  "cyaty.us": {
+   "mktCap": 376609374208,
+   "name": "CONTEMPORARY AMPEREX TECHNOLOGY",
+   "price": 20.35,
+   "fair": 29.98,
+   "fairLabel": "analyst target",
+   "gapPct": 47.3,
+   "rec": {
+    "buy": 1,
+    "hold": 0,
+    "sell": 0
+   }
+  },
   "ge.us": {
-   "mktCap": 371990691840,
+   "mktCap": 375135633408,
    "name": "GE Aerospace",
-   "price": 356.03,
+   "price": 359.04,
    "fair": 370.14,
    "fairLabel": "analyst target",
-   "gapPct": 4,
+   "gapPct": 3.1,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 19,
     "hold": 1,
     "sell": 2
-   }
-  },
-  "cyaty.us": {
-   "mktCap": 369206722560,
-   "name": "CONTEMPORARY AMPEREX TECHNOLOGY",
-   "price": 19.95,
-   "fair": 29.91,
-   "fairLabel": "analyst target",
-   "gapPct": 49.9,
-   "rec": {
-    "buy": 1,
-    "hold": 0,
-    "sell": 0
    }
   },
   "idcbf.us": {
@@ -522,12 +521,12 @@
    "price": 0.78
   },
   "ko.us": {
-   "mktCap": 358827032576,
+   "mktCap": 355514122240,
    "name": "The Coca-Cola Company",
-   "price": 83.4,
-   "fair": 85.97,
+   "price": 82.63,
+   "fair": 86.18,
    "fairLabel": "analyst target",
-   "gapPct": 3.1,
+   "gapPct": 4.3,
    "ratingLabel": "buy",
    "rec": {
     "buy": 19,
@@ -535,13 +534,41 @@
     "sell": 1
    }
   },
-  "cvx.us": {
-   "mktCap": 350461460480,
-   "name": "Chevron Corporation",
-   "price": 175.97,
+  "ms.us": {
+   "mktCap": 350362304512,
+   "name": "Morgan Stanley",
+   "price": 222.13,
    "fair": 216.48,
    "fairLabel": "analyst target",
-   "gapPct": 23,
+   "gapPct": -2.5,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 10,
+    "hold": 13,
+    "sell": 2
+   }
+  },
+  "arm.us": {
+   "mktCap": 350190993408,
+   "name": "Arm Holdings plc",
+   "price": 327.87,
+   "fair": 298.84,
+   "fairLabel": "analyst target",
+   "gapPct": -8.9,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 27,
+    "hold": 11,
+    "sell": 2
+   }
+  },
+  "cvx.us": {
+   "mktCap": 346637598720,
+   "name": "Chevron Corporation",
+   "price": 174.05,
+   "fair": 215,
+   "fairLabel": "analyst target",
+   "gapPct": 23.5,
    "ratingLabel": "buy",
    "rec": {
     "buy": 19,
@@ -550,12 +577,12 @@
    }
   },
   "pg.us": {
-   "mktCap": 345564086272,
+   "mktCap": 341954789376,
    "name": "The Procter & Gamble Company",
-   "price": 148.4,
-   "fair": 163.43,
+   "price": 146.85,
+   "fair": 163.3,
    "fairLabel": "analyst target",
-   "gapPct": 10.1,
+   "gapPct": 11.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 14,
@@ -563,31 +590,45 @@
     "sell": 0
    }
   },
-  "ms.us": {
-   "mktCap": 343958519808,
-   "name": "Morgan Stanley",
-   "price": 218.07,
-   "fair": 215,
-   "fairLabel": "analyst target",
-   "gapPct": -1.4,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 10,
-    "hold": 13,
-    "sell": 2
-   }
-  },
   "hd.us": {
-   "mktCap": 335240593408,
+   "mktCap": 337753341952,
    "name": "The Home Depot, Inc.",
-   "price": 336.21,
+   "price": 338.73,
    "fair": 370.34,
    "fairLabel": "analyst target",
-   "gapPct": 10.2,
+   "gapPct": 9.3,
    "ratingLabel": "buy",
    "rec": {
     "buy": 21,
     "hold": 15,
+    "sell": 0
+   }
+  },
+  "hsbc.us": {
+   "mktCap": 336173498368,
+   "name": "HSBC Holdings plc",
+   "price": 98.02,
+   "fair": 113.78,
+   "fairLabel": "analyst target",
+   "gapPct": 16.1,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 1,
+    "hold": 2,
+    "sell": 0
+   }
+  },
+  "rhhby.us": {
+   "mktCap": 335055028224,
+   "name": "Roche Holding AG",
+   "price": 52.02,
+   "fair": 56.66,
+   "fairLabel": "analyst target",
+   "gapPct": 8.9,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 3,
+    "hold": 5,
     "sell": 0
    }
   },
@@ -596,55 +637,13 @@
    "name": "Roche Holding AG",
    "price": 420.32
   },
-  "rhhby.us": {
-   "mktCap": 333380354048,
-   "name": "Roche Holding AG",
-   "price": 51.76,
-   "fair": 56.66,
-   "fairLabel": "analyst target",
-   "gapPct": 9.5,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 3,
-    "hold": 5,
-    "sell": 0
-   }
-  },
-  "hsbc.us": {
-   "mktCap": 329554296832,
-   "name": "HSBC Holdings plc",
-   "price": 96.09,
-   "fair": 113.78,
-   "fairLabel": "analyst target",
-   "gapPct": 18.4,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 1,
-    "hold": 2,
-    "sell": 0
-   }
-  },
-  "arm.us": {
-   "mktCap": 320679968768,
-   "name": "Arm Holdings plc",
-   "price": 300.24,
-   "fair": 298.84,
-   "fairLabel": "analyst target",
-   "gapPct": -0.5,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 27,
-    "hold": 11,
-    "sell": 2
-   }
-  },
   "rhhvf.us": {
-   "mktCap": 320657424384,
+   "mktCap": 332900696064,
    "name": "Roche Holding AG",
-   "price": 398.62,
-   "fair": 471.1,
+   "price": 413.84,
+   "fair": 472.04,
    "fairLabel": "analyst target",
-   "gapPct": 18.2,
+   "gapPct": 14.1,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 1,
@@ -653,12 +652,12 @@
    }
   },
   "nflx.us": {
-   "mktCap": 318294261760,
+   "mktCap": 317788979200,
    "name": "Netflix, Inc.",
-   "price": 75.59,
-   "fair": 113.71,
+   "price": 75.47,
+   "fair": 113.15,
    "fairLabel": "analyst target",
-   "gapPct": 50.4,
+   "gapPct": 49.9,
    "ratingLabel": "buy",
    "rec": {
     "buy": 37,
@@ -666,13 +665,32 @@
     "sell": 0
    }
   },
+  "hbcyf.us": {
+   "mktCap": 316213002240,
+   "name": "HSBC Holdings plc",
+   "price": 18.44
+  },
+  "gs.us": {
+   "mktCap": 311518986240,
+   "name": "The Goldman Sachs Group, Inc.",
+   "price": 1055.97,
+   "fair": 1012.2,
+   "fairLabel": "analyst target",
+   "gapPct": -4.1,
+   "ratingLabel": "hold",
+   "rec": {
+    "buy": 7,
+    "hold": 15,
+    "sell": 3
+   }
+  },
   "pltr.us": {
-   "mktCap": 316972597248,
+   "mktCap": 309349122048,
    "name": "Palantir Technologies Inc.",
-   "price": 132.22,
+   "price": 129.04,
    "fair": 183.12,
    "fairLabel": "analyst target",
-   "gapPct": 38.5,
+   "gapPct": 41.9,
    "ratingLabel": "buy",
    "rec": {
     "buy": 20,
@@ -680,18 +698,13 @@
     "sell": 2
    }
   },
-  "hbcyf.us": {
-   "mktCap": 312611831808,
-   "name": "HSBC Holdings plc",
-   "price": 18.23
-  },
   "mrk.us": {
-   "mktCap": 311173185536,
+   "mktCap": 308900954112,
    "name": "Merck & Co., Inc.",
-   "price": 125.99,
-   "fair": 131.67,
+   "price": 125.07,
+   "fair": 132.07,
    "fairLabel": "analyst target",
-   "gapPct": 4.5,
+   "gapPct": 5.6,
    "ratingLabel": "buy",
    "rec": {
     "buy": 19,
@@ -704,32 +717,37 @@
    "name": "Novartis AG",
    "price": 160
   },
-  "gs.us": {
-   "mktCap": 303751462912,
-   "name": "The Goldman Sachs Group, Inc.",
-   "price": 1029.64,
-   "fair": 1009.7,
-   "fairLabel": "analyst target",
-   "gapPct": -1.9,
-   "ratingLabel": "hold",
-   "rec": {
-    "buy": 7,
-    "hold": 15,
-    "sell": 3
-   }
-  },
   "cgxyy.us": {
    "mktCap": 302554906624,
    "name": "China Galaxy Securities Co., Ltd.",
    "price": 27.67
   },
+  "pccyf.us": {
+   "mktCap": 300567003136,
+   "name": "PetroChina Company Limited",
+   "price": 1.22
+  },
+  "klac.us": {
+   "mktCap": 299816288256,
+   "name": "KLA Corporation",
+   "price": 229.52,
+   "fair": 225.79,
+   "fairLabel": "analyst target",
+   "gapPct": -1.6,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 18,
+    "hold": 10,
+    "sell": 1
+   }
+  },
   "nvs.us": {
-   "mktCap": 296078606336,
+   "mktCap": 295029145600,
    "name": "Novartis AG",
-   "price": 155.17,
+   "price": 154.62,
    "fair": 154.56,
    "fairLabel": "analyst target",
-   "gapPct": -0.4,
+   "gapPct": 0,
    "ratingLabel": "hold",
    "rec": {
     "buy": 5,
@@ -737,96 +755,13 @@
     "sell": 3
    }
   },
-  "azn.us": {
-   "mktCap": 293549998080,
-   "name": "AstraZeneca PLC",
-   "price": 189.28,
-   "fair": 222.89,
-   "fairLabel": "analyst target",
-   "gapPct": 17.8,
-   "ratingLabel": "strong buy",
-   "rec": {
-    "buy": 9,
-    "hold": 1,
-    "sell": 0
-   }
-  },
-  "pm.us": {
-   "mktCap": 291559604224,
-   "name": "Philip Morris International Inc.",
-   "price": 187.07,
-   "fair": 194.86,
-   "fairLabel": "analyst target",
-   "gapPct": 4.2,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 11,
-    "hold": 4,
-    "sell": 0
-   }
-  },
-  "klac.us": {
-   "mktCap": 288921944064,
-   "name": "KLA Corporation",
-   "price": 221.18,
-   "fair": 219.89,
-   "fairLabel": "analyst target",
-   "gapPct": -0.6,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 18,
-    "hold": 10,
-    "sell": 1
-   }
-  },
-  "gev.us": {
-   "mktCap": 287796428800,
-   "name": "GE Vernova Inc.",
-   "price": 1070.99,
-   "fair": 1222.63,
-   "fairLabel": "analyst target",
-   "gapPct": 14.2,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 30,
-    "hold": 8,
-    "sell": 0
-   }
-  },
-  "ry.us": {
-   "mktCap": 285950836736,
-   "name": "Royal Bank of Canada",
-   "price": 205.77,
-   "fair": 191.15,
-   "fairLabel": "analyst target",
-   "gapPct": -7.1,
-   "rec": {
-    "buy": 10,
-    "hold": 4,
-    "sell": 1
-   }
-  },
-  "ibm.us": {
-   "mktCap": 283892350976,
-   "name": "International Business Machines Corporation",
-   "price": 302.05,
-   "fair": 294.57,
-   "fairLabel": "analyst target",
-   "gapPct": -2.5,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 15,
-    "hold": 6,
-    "sell": 2
-   }
-  },
   "dell.us": {
-   "mktCap": 279114121216,
+   "mktCap": 290906243072,
    "name": "Dell Technologies Inc.",
-   "price": 431.97,
-   "fair": 485.09,
+   "price": 450.22,
+   "fair": 487.26,
    "fairLabel": "analyst target",
-   "gapPct": 12.3,
+   "gapPct": 8.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 19,
@@ -834,42 +769,55 @@
     "sell": 0
    }
   },
-  "pccyf.us": {
-   "mktCap": 275930349568,
-   "name": "PetroChina Company Limited",
-   "price": 1.12
-  },
-  "lvmhf.us": {
-   "mktCap": 275696713728,
-   "name": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
-   "price": 559.11
-  },
-  "lvmuy.us": {
-   "mktCap": 275543851008,
-   "name": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
-   "price": 111.76,
-   "fair": 126,
+  "ry.us": {
+   "mktCap": 289827979264,
+   "name": "Royal Bank of Canada",
+   "price": 208.56,
+   "fair": 191.37,
    "fairLabel": "analyst target",
-   "gapPct": 12.7,
+   "gapPct": -8.2,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 1,
-    "hold": 2,
+    "buy": 10,
+    "hold": 4,
+    "sell": 1
+   }
+  },
+  "gev.us": {
+   "mktCap": 288943865856,
+   "name": "GE Vernova Inc.",
+   "price": 1075.26,
+   "fair": 1222.63,
+   "fairLabel": "analyst target",
+   "gapPct": 13.7,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 30,
+    "hold": 8,
     "sell": 0
    }
   },
-  "cichy.us": {
-   "mktCap": 274418794496,
-   "name": "China Construction Bank Corporation",
-   "price": 20.98
+  "pm.us": {
+   "mktCap": 282364116992,
+   "name": "Philip Morris International Inc.",
+   "price": 181.17,
+   "fair": 194.86,
+   "fairLabel": "analyst target",
+   "gapPct": 7.6,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 11,
+    "hold": 4,
+    "sell": 0
+   }
   },
   "txn.us": {
-   "mktCap": 274229166080,
+   "mktCap": 280790925312,
    "name": "Texas Instruments Incorporated",
-   "price": 301.32,
+   "price": 308.53,
    "fair": 298,
    "fairLabel": "analyst target",
-   "gapPct": -1.1,
+   "gapPct": -3.4,
    "ratingLabel": "buy",
    "rec": {
     "buy": 17,
@@ -877,65 +825,65 @@
     "sell": 2
    }
   },
-  "cichf.us": {
-   "mktCap": 266832379904,
-   "name": "China Construction Bank Corporation",
-   "price": 1.02
+  "kxiay.us": {
+   "mktCap": 279367286784,
+   "name": "KIOXIA HLDGS CORP",
+   "price": 51.05
   },
-  "nsrgy.us": {
-   "mktCap": 266199040000,
-   "name": "Nestlé S.A.",
-   "price": 103.49,
-   "fair": 113,
+  "lvmuy.us": {
+   "mktCap": 278477766656,
+   "name": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
+   "price": 112.95,
+   "fair": 126,
    "fairLabel": "analyst target",
-   "gapPct": 9.2,
+   "gapPct": 11.6,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 3,
-    "hold": 1,
-    "sell": 1
-   }
-  },
-  "nsrgf.us": {
-   "mktCap": 264244166656,
-   "name": "Nestlé S.A.",
-   "price": 102.73
-  },
-  "rtx.us": {
-   "mktCap": 262482067456,
-   "name": "RTX Corporation",
-   "price": 194.91,
-   "fair": 215.14,
-   "fairLabel": "analyst target",
-   "gapPct": 10.4,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 15,
-    "hold": 8,
+    "buy": 1,
+    "hold": 2,
     "sell": 0
    }
   },
-  "wfc.us": {
-   "mktCap": 261829804032,
-   "name": "Wells Fargo & Company",
-   "price": 85.56,
-   "fair": 97.75,
+  "lvmhf.us": {
+   "mktCap": 277964980224,
+   "name": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
+   "price": 563.71
+  },
+  "ibm.us": {
+   "mktCap": 277548105728,
+   "name": "International Business Machines Corporation",
+   "price": 295.3,
+   "fair": 294.57,
    "fairLabel": "analyst target",
-   "gapPct": 14.2,
+   "gapPct": -0.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 15,
-    "hold": 9,
+    "hold": 6,
+    "sell": 2
+   }
+  },
+  "azn.us": {
+   "mktCap": 276816035840,
+   "name": "AstraZeneca PLC",
+   "price": 178.49,
+   "fair": 222.89,
+   "fairLabel": "analyst target",
+   "gapPct": 24.9,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 9,
+    "hold": 1,
     "sell": 0
    }
   },
   "panw.us": {
-   "mktCap": 261280841728,
+   "mktCap": 275722633216,
    "name": "Palo Alto Networks, Inc.",
-   "price": 320.59,
-   "fair": 322.2,
+   "price": 338.31,
+   "fair": 324.14,
    "fairLabel": "analyst target",
-   "gapPct": 0.5,
+   "gapPct": -4.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 43,
@@ -943,32 +891,13 @@
     "sell": 1
    }
   },
-  "baba.us": {
-   "mktCap": 261232148480,
-   "name": "Alibaba Group Holding Limited",
-   "price": 108.98,
-   "fair": 190.73,
-   "fairLabel": "analyst target",
-   "gapPct": 75,
-   "ratingLabel": "strong buy",
-   "rec": {
-    "buy": 38,
-    "hold": 1,
-    "sell": 1
-   }
-  },
-  "kxiay.us": {
-   "mktCap": 259776020480,
-   "name": "KIOXIA HLDGS CORP",
-   "price": 47.47
-  },
   "sndk.us": {
-   "mktCap": 255777685504,
+   "mktCap": 275190775808,
    "name": "Sandisk Corporation",
-   "price": 1727.18,
-   "fair": 1975.95,
+   "price": 1858.27,
+   "fair": 2035.05,
    "fairLabel": "analyst target",
-   "gapPct": 14.4,
+   "gapPct": 9.5,
    "ratingLabel": "buy",
    "rec": {
     "buy": 18,
@@ -976,23 +905,94 @@
     "sell": 1
    }
   },
+  "cichy.us": {
+   "mktCap": 269317586944,
+   "name": "China Construction Bank Corporation",
+   "price": 20.59
+  },
+  "nsrgf.us": {
+   "mktCap": 266790649856,
+   "name": "Nestlé S.A.",
+   "price": 103.72
+  },
   "babaf.us": {
-   "mktCap": 253034168320,
+   "mktCap": 266707042304,
    "name": "Alibaba Group Holding Limited",
-   "price": 13.2
+   "price": 13.91
+  },
+  "baba.us": {
+   "mktCap": 266409803776,
+   "name": "Alibaba Group Holding Limited",
+   "price": 111.14,
+   "fair": 189.86,
+   "fairLabel": "analyst target",
+   "gapPct": 70.8,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 38,
+    "hold": 1,
+    "sell": 1
+   }
+  },
+  "wfc.us": {
+   "mktCap": 265961078784,
+   "name": "Wells Fargo & Company",
+   "price": 86.91,
+   "fair": 97.93,
+   "fairLabel": "analyst target",
+   "gapPct": 12.7,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 15,
+    "hold": 10,
+    "sell": 0
+   }
+  },
+  "nsrgy.us": {
+   "mktCap": 265221603328,
+   "name": "Nestlé S.A.",
+   "price": 103.11,
+   "fair": 113,
+   "fairLabel": "analyst target",
+   "gapPct": 9.6,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 3,
+    "hold": 1,
+    "sell": 1
+   }
+  },
+  "cichf.us": {
+   "mktCap": 264216379392,
+   "name": "China Construction Bank Corporation",
+   "price": 1.01
+  },
+  "rtx.us": {
+   "mktCap": 262872596480,
+   "name": "RTX Corporation",
+   "price": 195.2,
+   "fair": 215.14,
+   "fairLabel": "analyst target",
+   "gapPct": 10.2,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 15,
+    "hold": 8,
+    "sell": 0
+   }
   },
   "acgby.us": {
-   "mktCap": 251147829248,
+   "mktCap": 244708130816,
    "name": "Agricultural Bank of China Limited",
-   "price": 17.94
+   "price": 17.48
   },
   "lin.us": {
-   "mktCap": 243966787584,
+   "mktCap": 242991251456,
    "name": "Linde plc",
-   "price": 527.67,
+   "price": 525.56,
    "fair": 547.32,
    "fairLabel": "analyst target",
-   "gapPct": 3.7,
+   "gapPct": 4.1,
    "ratingLabel": "buy",
    "rec": {
     "buy": 21,
@@ -1000,13 +1000,27 @@
     "sell": 1
    }
   },
+  "siegy.us": {
+   "mktCap": 240292921344,
+   "name": "Siemens Aktiengesellschaft",
+   "price": 156.21,
+   "fair": 171,
+   "fairLabel": "analyst target",
+   "gapPct": 9.5,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 3,
+    "hold": 0,
+    "sell": 1
+   }
+  },
   "mufg.us": {
-   "mktCap": 237716471808,
+   "mktCap": 239633547264,
    "name": "Mitsubishi UFJ Financial Group, Inc.",
-   "price": 21.08,
+   "price": 21.25,
    "fair": 20.93,
    "fairLabel": "analyst target",
-   "gapPct": -0.7,
+   "gapPct": -1.5,
    "ratingLabel": "buy",
    "rec": {
     "buy": 1,
@@ -1014,37 +1028,13 @@
     "sell": 1
    }
   },
-  "siegy.us": {
-   "mktCap": 235170480128,
-   "name": "Siemens Aktiengesellschaft",
-   "price": 152.88,
-   "fair": 171,
-   "fairLabel": "analyst target",
-   "gapPct": 11.9,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 3,
-    "hold": 0,
-    "sell": 1
-   }
-  },
-  "mbfjf.us": {
-   "mktCap": 235010031616,
-   "name": "Mitsubishi UFJ Financial Group, Inc.",
-   "price": 20.84
-  },
-  "lrlcf.us": {
-   "mktCap": 234607034368,
-   "name": "L'Oréal S.A.",
-   "price": 440.66
-  },
   "c.us": {
-   "mktCap": 234329210880,
+   "mktCap": 238047395840,
    "name": "Citigroup Inc.",
-   "price": 137.39,
-   "fair": 154.2,
+   "price": 139.57,
+   "fair": 155.15,
    "fairLabel": "analyst target",
-   "gapPct": 12.2,
+   "gapPct": 11.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 17,
@@ -1052,27 +1042,18 @@
     "sell": 0
    }
   },
-  "lrlcy.us": {
-   "mktCap": 232365637632,
-   "name": "L'Oréal S.A.",
-   "price": 87.29,
-   "fair": 100.67,
-   "fairLabel": "analyst target",
-   "gapPct": 15.3,
-   "ratingLabel": "strong buy",
-   "rec": {
-    "buy": 3,
-    "hold": 1,
-    "sell": 0
-   }
+  "mbfjf.us": {
+   "mktCap": 236814319616,
+   "name": "Mitsubishi UFJ Financial Group, Inc.",
+   "price": 21
   },
   "axp.us": {
-   "mktCap": 229527814144,
+   "mktCap": 236576227328,
    "name": "American Express Company",
-   "price": 336.39,
-   "fair": 372.22,
+   "price": 346.72,
+   "fair": 371.38,
    "fairLabel": "analyst target",
-   "gapPct": 10.7,
+   "gapPct": 7.1,
    "ratingLabel": "buy",
    "rec": {
     "buy": 14,
@@ -1080,13 +1061,18 @@
     "sell": 1
    }
   },
+  "smawf.us": {
+   "mktCap": 234612228096,
+   "name": "Siemens Aktiengesellschaft",
+   "price": 307.59
+  },
   "anet.us": {
-   "mktCap": 227972628480,
+   "mktCap": 232556003328,
    "name": "Arista Networks, Inc.",
-   "price": 181.05,
+   "price": 184.69,
    "fair": 190.09,
    "fairLabel": "analyst target",
-   "gapPct": 5,
+   "gapPct": 2.9,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 29,
@@ -1094,11 +1080,35 @@
     "sell": 0
    }
   },
-  "shel.us": {
-   "mktCap": 227894575104,
+  "lrlcy.us": {
+   "mktCap": 230795051008,
+   "name": "L'Oréal S.A.",
+   "price": 86.7,
+   "fair": 100.67,
+   "fairLabel": "analyst target",
+   "gapPct": 16.1,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 3,
+    "hold": 1,
+    "sell": 0
+   }
+  },
+  "lrlcf.us": {
+   "mktCap": 227030990848,
+   "name": "L'Oréal S.A.",
+   "price": 426.43
+  },
+  "rydaf.us": {
+   "mktCap": 225622278144,
    "name": "Shell plc",
-   "price": 82.24,
-   "fair": 96.58,
+   "price": 40.71
+  },
+  "shel.us": {
+   "mktCap": 225566867456,
+   "name": "Shell plc",
+   "price": 81.4,
+   "fair": 95.56,
    "fairLabel": "analyst target",
    "gapPct": 17.4,
    "ratingLabel": "buy",
@@ -1108,26 +1118,16 @@
     "sell": 0
    }
   },
-  "smawf.us": {
-   "mktCap": 226122891264,
-   "name": "Siemens Aktiengesellschaft",
-   "price": 296.46
-  },
   "acgbf.us": {
    "mktCap": 223989137408,
    "name": "Agricultural Bank of China Limited",
    "price": 0.64
   },
-  "rydaf.us": {
-   "mktCap": 223904219136,
-   "name": "Shell plc",
-   "price": 40.4
-  },
   "nvo.us": {
-   "mktCap": 216328732672,
+   "mktCap": 216284495872,
    "name": "Novo Nordisk A/S",
-   "price": 48.89,
-   "fair": 48.04,
+   "price": 48.88,
+   "fair": 48.06,
    "fairLabel": "analyst target",
    "gapPct": -1.7,
    "ratingLabel": "buy",
@@ -1138,23 +1138,34 @@
    }
   },
   "nonof.us": {
-   "mktCap": 212965883904,
+   "mktCap": 215399530496,
    "name": "Novo Nordisk A/S",
-   "price": 48.13,
-   "fair": 53.02,
-   "fairLabel": "analyst target",
-   "gapPct": 10.2
+   "price": 48.68
   },
-  "tm.us": {
-   "mktCap": 209764237312,
-   "name": "Toyota Motor Corporation",
-   "price": 177.15,
-   "fair": 256.52,
+  "sftby.us": {
+   "mktCap": 213481668608,
+   "name": "SoftBank Group Corp.",
+   "price": 18.73,
+   "fair": 14.94,
    "fairLabel": "analyst target",
-   "gapPct": 44.8,
+   "gapPct": -20.3,
    "rec": {
-    "buy": 4,
-    "hold": 0,
+    "buy": 0,
+    "hold": 1,
+    "sell": 1
+   }
+  },
+  "mrvl.us": {
+   "mktCap": 212995817472,
+   "name": "Marvell Technology, Inc.",
+   "price": 243.27,
+   "fair": 252.26,
+   "fairLabel": "analyst target",
+   "gapPct": 3.7,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 38,
+    "hold": 6,
     "sell": 0
    }
   },
@@ -1163,55 +1174,56 @@
    "name": "Bank of China Limited",
    "price": 0.65
   },
-  "toyof.us": {
-   "mktCap": 208876158976,
-   "name": "Toyota Motor Corporation",
-   "price": 17.64
+  "sftbf.us": {
+   "mktCap": 208580591616,
+   "name": "SoftBank Group Corp.",
+   "price": 36.6
   },
-  "bachy.us": {
-   "mktCap": 208020324352,
-   "name": "Bank of China Limited",
-   "price": 16.14
+  "toyof.us": {
+   "mktCap": 208165699584,
+   "name": "Toyota Motor Corporation",
+   "price": 17.58
   },
   "cbauf.us": {
    "mktCap": 207477129216,
    "name": "Commonwealth Bank of Australia",
    "price": 124.08
   },
-  "sftby.us": {
-   "mktCap": 206870921216,
-   "name": "SoftBank Group Corp.",
-   "price": 18.15,
-   "fair": 14.94,
+  "tm.us": {
+   "mktCap": 206413234176,
+   "name": "Toyota Motor Corporation",
+   "price": 174.32,
+   "fair": 256.52,
    "fairLabel": "analyst target",
-   "gapPct": -17.7,
+   "gapPct": 47.2,
    "rec": {
-    "buy": 0,
-    "hold": 1,
-    "sell": 1
-   }
-  },
-  "mrvl.us": {
-   "mktCap": 202699915264,
-   "name": "Marvell Technology, Inc.",
-   "price": 231.71,
-   "fair": 252.26,
-   "fairLabel": "analyst target",
-   "gapPct": 8.9,
-   "ratingLabel": "strong buy",
-   "rec": {
-    "buy": 38,
-    "hold": 6,
+    "buy": 4,
+    "hold": 0,
     "sell": 0
    }
   },
+  "bachy.us": {
+   "mktCap": 205313753088,
+   "name": "Bank of China Limited",
+   "price": 15.93
+  },
+  "toelf.us": {
+   "mktCap": 204116180992,
+   "name": "Tokyo Electron Limited",
+   "price": 448.75
+  },
+  "toely.us": {
+   "mktCap": 203502125056,
+   "name": "Tokyo Electron Limited",
+   "price": 223.7
+  },
   "bhp.us": {
-   "mktCap": 198909034496,
+   "mktCap": 202998988800,
    "name": "BHP Group Limited",
-   "price": 78.3,
+   "price": 79.91,
    "fair": 72.93,
    "fairLabel": "analyst target",
-   "gapPct": -6.9,
+   "gapPct": -8.7,
    "ratingLabel": "hold",
    "rec": {
     "buy": 1,
@@ -1219,74 +1231,32 @@
     "sell": 2
    }
   },
-  "amgn.us": {
-   "mktCap": 198607241216,
-   "name": "Amgen Inc.",
-   "price": 367.99,
-   "fair": 354.97,
+  "crwd.us": {
+   "mktCap": 202022633472,
+   "name": "CrowdStrike Holdings, Inc.",
+   "price": 198.4,
+   "fair": 183.81,
    "fairLabel": "analyst target",
-   "gapPct": -3.5,
+   "gapPct": -7.4,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 14,
-    "hold": 17,
-    "sell": 3
-   }
-  },
-  "mcd.us": {
-   "mktCap": 197698256896,
-   "name": "McDonald's Corporation",
-   "price": 278.25,
-   "fair": 329.84,
-   "fairLabel": "analyst target",
-   "gapPct": 18.5,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 18,
-    "hold": 15,
+    "buy": 40,
+    "hold": 11,
     "sell": 1
    }
   },
   "qcom.us": {
-   "mktCap": 196634230784,
+   "mktCap": 201429942272,
    "name": "QUALCOMM Incorporated",
-   "price": 186.56,
-   "fair": 216.55,
+   "price": 191.11,
+   "fair": 220.23,
    "fairLabel": "analyst target",
-   "gapPct": 16.1,
+   "gapPct": 15.2,
    "ratingLabel": "hold",
    "rec": {
     "buy": 12,
     "hold": 22,
     "sell": 3
-   }
-  },
-  "td.us": {
-   "mktCap": 195867148288,
-   "name": "The Toronto-Dominion Bank",
-   "price": 118.56,
-   "fair": 111.96,
-   "fairLabel": "analyst target",
-   "gapPct": -5.6,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 10,
-    "hold": 2,
-    "sell": 2
-   }
-  },
-  "tmus.us": {
-   "mktCap": 194948349952,
-   "name": "T-Mobile US, Inc.",
-   "price": 180.14,
-   "fair": 257.92,
-   "fairLabel": "analyst target",
-   "gapPct": 43.2,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 25,
-    "hold": 3,
-    "sell": 0
    }
   }
  }
