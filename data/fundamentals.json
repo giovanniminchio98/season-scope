@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-07-11T05:58:39.236Z",
+ "updatedAt": "2026-07-12T06:18:10.043Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -34,9 +34,9 @@
    "mktCap": 4358514933760,
    "name": "Alphabet Inc.",
    "price": 357.18,
-   "fair": 432.1,
+   "fair": 431.91,
    "fairLabel": "analyst target",
-   "gapPct": 21,
+   "gapPct": 20.9,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 57,
@@ -62,7 +62,7 @@
    "mktCap": 2860690440192,
    "name": "Microsoft Corporation",
    "price": 385.1,
-   "fair": 559.93,
+   "fair": 559.86,
    "fairLabel": "analyst target",
    "gapPct": 45.4,
    "ratingLabel": "strong buy",
@@ -118,9 +118,9 @@
    "mktCap": 1698738339840,
    "name": "Meta Platforms, Inc.",
    "price": 669.21,
-   "fair": 827.91,
+   "fair": 828.34,
    "fairLabel": "analyst target",
-   "gapPct": 23.7,
+   "gapPct": 23.8,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 57,
@@ -230,9 +230,9 @@
    "mktCap": 901575147520,
    "name": "JPMorgan Chase & Co.",
    "price": 336.47,
-   "fair": 352.76,
+   "fair": 353.95,
    "fairLabel": "analyst target",
-   "gapPct": 4.8,
+   "gapPct": 5.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 12,
@@ -277,9 +277,9 @@
    "mktCap": 618606624768,
    "name": "Johnson & Johnson",
    "price": 256.98,
-   "fair": 258.59,
+   "fair": 259,
    "fairLabel": "analyst target",
-   "gapPct": 0.6,
+   "gapPct": 0.8,
    "ratingLabel": "buy",
    "rec": {
     "buy": 15,
@@ -305,9 +305,9 @@
    "mktCap": 552055799808,
    "name": "Intel Corporation",
    "price": 109.84,
-   "fair": 100.88,
+   "fair": 101.95,
    "fairLabel": "analyst target",
-   "gapPct": -8.2,
+   "gapPct": -7.2,
    "ratingLabel": "hold",
    "rec": {
     "buy": 13,
@@ -324,9 +324,9 @@
    "mktCap": 533886599168,
    "name": "Tencent Holdings Limited",
    "price": 59.31,
-   "fair": 97.6,
+   "fair": 97.69,
    "fairLabel": "analyst target",
-   "gapPct": 64.6,
+   "gapPct": 64.7,
    "ratingLabel": "buy",
    "rec": {
     "buy": 3,
@@ -407,10 +407,10 @@
    "mktCap": 438112518144,
    "name": "Lam Research Corporation",
    "price": 350.33,
-   "fair": 357.77,
+   "fair": 364.55,
    "fairLabel": "analyst target",
-   "gapPct": 2.1,
-   "ratingLabel": "strong buy",
+   "gapPct": 4.1,
+   "ratingLabel": "buy",
    "rec": {
     "buy": 29,
     "hold": 5,
@@ -431,9 +431,9 @@
    "mktCap": 423453556736,
    "name": "Bank of America Corporation",
    "price": 59.67,
-   "fair": 65.45,
+   "fair": 65.79,
    "fairLabel": "analyst target",
-   "gapPct": 9.7,
+   "gapPct": 10.2,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 21,
@@ -511,9 +511,9 @@
    "mktCap": 359214252032,
    "name": "The Coca-Cola Company",
    "price": 83.49,
-   "fair": 86.18,
+   "fair": 86.81,
    "fairLabel": "analyst target",
-   "gapPct": 3.2,
+   "gapPct": 4,
    "ratingLabel": "buy",
    "rec": {
     "buy": 19,
@@ -525,9 +525,9 @@
    "mktCap": 351317819392,
    "name": "Chevron Corporation",
    "price": 176.4,
-   "fair": 215,
+   "fair": 213.91,
    "fairLabel": "analyst target",
-   "gapPct": 21.9,
+   "gapPct": 21.3,
    "ratingLabel": "buy",
    "rec": {
     "buy": 19,
@@ -539,9 +539,9 @@
    "mktCap": 350598889472,
    "name": "Morgan Stanley",
    "price": 222.28,
-   "fair": 216.48,
+   "fair": 217.86,
    "fairLabel": "analyst target",
-   "gapPct": -2.6,
+   "gapPct": -2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 10,
@@ -553,9 +553,9 @@
    "mktCap": 347924103168,
    "name": "CONTEMPORARY AMPEREX TECHNOLOGY",
    "price": 18.8,
-   "fair": 30.01,
+   "fair": 30.04,
    "fairLabel": "analyst target",
-   "gapPct": 59.6,
+   "gapPct": 59.8,
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -580,13 +580,13 @@
    "mktCap": 342397190144,
    "name": "The Procter & Gamble Company",
    "price": 147.04,
-   "fair": 163.3,
+   "fair": 163.43,
    "fairLabel": "analyst target",
    "gapPct": 11.1,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 14,
-    "hold": 11,
+    "buy": 15,
+    "hold": 10,
     "sell": 0
    }
   },
@@ -660,9 +660,9 @@
    "mktCap": 311285940224,
    "name": "The Goldman Sachs Group, Inc.",
    "price": 1055.18,
-   "fair": 1012.2,
+   "fair": 1019.2,
    "fairLabel": "analyst target",
-   "gapPct": -4.1,
+   "gapPct": -3.4,
    "ratingLabel": "hold",
    "rec": {
     "buy": 7,
@@ -688,9 +688,9 @@
    "mktCap": 305122115584,
    "name": "Merck & Co., Inc.",
    "price": 123.54,
-   "fair": 132.07,
+   "fair": 132.33,
    "fairLabel": "analyst target",
-   "gapPct": 6.9,
+   "gapPct": 7.1,
    "ratingLabel": "buy",
    "rec": {
     "buy": 19,
@@ -721,9 +721,9 @@
    "mktCap": 302428848128,
    "name": "KLA Corporation",
    "price": 231.52,
-   "fair": 225.79,
+   "fair": 228.61,
    "fairLabel": "analyst target",
-   "gapPct": -2.5,
+   "gapPct": -1.3,
    "ratingLabel": "buy",
    "rec": {
     "buy": 18,
@@ -886,15 +886,20 @@
    "mktCap": 269262307328,
    "name": "Alibaba Group Holding Limited",
    "price": 112.33,
-   "fair": 190.05,
+   "fair": 190.39,
    "fairLabel": "analyst target",
-   "gapPct": 69.2,
+   "gapPct": 69.5,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
     "hold": 1,
     "sell": 1
    }
+  },
+  "kxiay.us": {
+   "mktCap": 266780721152,
+   "name": "KIOXIA HLDGS CORP",
+   "price": 48.75
   },
   "wfc.us": {
    "mktCap": 266726129664,
@@ -909,11 +914,6 @@
     "hold": 10,
     "sell": 0
    }
-  },
-  "kxiay.us": {
-   "mktCap": 266288201728,
-   "name": "KIOXIA HLDGS CORP",
-   "price": 48.66
   },
   "azn.us": {
    "mktCap": 266145988608,
@@ -1183,9 +1183,10 @@
    "mktCap": 208935354368,
    "name": "Toyota Motor Corporation",
    "price": 176.45,
-   "fair": 256.52,
+   "fair": 239.02,
    "fairLabel": "analyst target",
-   "gapPct": 45.4,
+   "gapPct": 35.5,
+   "ratingLabel": "strong buy",
    "rec": {
     "buy": 4,
     "hold": 0,
@@ -1240,13 +1241,13 @@
    "mktCap": 204124618752,
    "name": "Seagate Technology Holdings plc",
    "price": 910.34,
-   "fair": 966.43,
+   "fair": 975.13,
    "fairLabel": "analyst target",
-   "gapPct": 6.2,
-   "ratingLabel": "buy",
+   "gapPct": 7.1,
+   "ratingLabel": "strong buy",
    "rec": {
-    "buy": 21,
-    "hold": 3,
+    "buy": 22,
+    "hold": 2,
     "sell": 1
    }
   }
