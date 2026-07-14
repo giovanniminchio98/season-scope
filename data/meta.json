@@ -1,15 +1,17 @@
 {
- "updatedAt": "2026-07-13T06:35:30.507Z",
+ "updatedAt": "2026-07-14T05:45:18.766Z",
  "source": "Yahoo Finance",
  "prices": {
-  "ok": 221,
+  "ok": 219,
   "failed": [
    "spcx.us",
-   "mmc.us"
+   "mmc.us",
+   "skhyv.us",
+   "skhy.us"
   ]
  },
  "analyst": {
-  "symbols": 107
+  "symbols": 110
  },
  "universe": {
   "stocks": 100,
