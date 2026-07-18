@@ -250,6 +250,14 @@
   @media(max-width:380px){ .maintabs label{font-size:10px; letter-spacing:0} }
   .panel{animation:fadeUp 0.4s ease both}
   .panel > .card{margin-bottom:16px}        /* consistent spacing for cards placed directly in a panel */
+  /* sticky symbol header (TradingView-style) — keeps the current stock visible while scrolling */
+  .sticky-sym{position:sticky; top:0; z-index:20; display:flex; align-items:center; gap:10px; padding:10px 2px; margin-bottom:8px; background:rgba(14,14,14,0.9); backdrop-filter:blur(8px); border-bottom:1px solid var(--border)}
+  .ss-ic{width:26px; height:26px; border-radius:7px; flex-shrink:0; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#0e0e0e; display:flex; align-items:center; justify-content:center; font-family:'DM Serif Display',serif; font-style:italic; font-size:12px}
+  .ss-nm{font-family:'DM Serif Display',serif; font-style:italic; font-size:18px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
+  .ss-tk{font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; border:1px solid var(--border); padding:2px 7px; border-radius:99px; flex-shrink:0}
+  .ss-px{margin-left:auto; font-size:14px; font-weight:500; color:var(--text); white-space:nowrap; flex-shrink:0}
+  .ss-px .chg{font-size:11px} .ss-px .chg.up{color:var(--bull)} .ss-px .chg.down{color:var(--bear)}
+  @media(max-width:560px){ .ss-nm{font-size:15px} .ss-px{font-size:13px} .ss-tk{display:none} }
   .paneldesc{font-size:12px; color:var(--muted); line-height:1.7; margin-bottom:16px; max-width:820px}
 
   .disc-controls{display:flex; align-items:center; gap:14px; margin-bottom:12px}
@@ -411,6 +419,13 @@
   </div>
 
   <div id="panel-analyze" class="panel hidden">
+
+  <div class="sticky-sym" id="stickySym">
+    <span class="ss-ic" id="ssIcon">—</span>
+    <span class="ss-nm" id="ssName">—</span>
+    <span class="ss-tk" id="ssTk"></span>
+    <span class="ss-px" id="ssPx"></span>
+  </div>
 
   <div class="controls">
     <div class="ctrl-group" style="flex:2; min-width:200px">
@@ -637,7 +652,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v31 · Auto top-100';
+const BUILD = 'v32 · Sticky symbol'
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1585,10 +1600,11 @@ function renderPointsList(pts){
 
 function setCurrentPrice(win){
   const last=win[win.length-1], prev=win[win.length-2];
-  if(!last){ $('chartPrice').textContent='—'; return; }
+  if(!last){ $('chartPrice').textContent='—'; $('ssPx').textContent=''; return; }
   let h='<span style="color:var(--text)">$'+last.close.toFixed(2)+'</span>';
   if(prev){ const ch=(last.close-prev.close)/prev.close*100; h+=' <span class="chg '+(ch>=0?'up':'down')+'">'+(ch>=0?'▲ +':'▼ ')+ch.toFixed(2)+'% (1d)</span>'; }
   $('chartPrice').innerHTML=h;
+  $('ssPx').innerHTML=h;                                 // mirror into the sticky header
 }
 
 function renderProChart(asset, win){
@@ -1869,8 +1885,12 @@ async function run(force){
   if(startYr>endYr){ const tmp=startYr; startYr=endYr; endYr=tmp; startSel.value=startYr; endSel.value=endYr; }
 
   $('sbName').textContent=asset.n;
-  $('sbIcon').textContent=(asset.n.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase())||'?';
+  const ic=(asset.n.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase())||'?';
+  $('sbIcon').textContent=ic;
   $('sbType').textContent=asset.g;
+  // sticky symbol header (stays visible while scrolling Analyze)
+  $('ssName').textContent=asset.n; $('ssIcon').textContent=ic;
+  $('ssTk').textContent=toYahoo(asset.t); $('ssPx').textContent='';
 
   const fromYear=startYr;   // we only fetch back this far (plus prior-Dec buffer)
   if(force) delete DAILY_CACHE[asset.t];
