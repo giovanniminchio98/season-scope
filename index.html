@@ -108,6 +108,8 @@
   .card-title{font-size:10px; text-transform:uppercase; letter-spacing:0.15em; margin-bottom:16px; color:var(--text); display:flex; align-items:center; gap:10px}
   .card-title::after{content:''; flex:1; height:1px; background:var(--border)}
   .card-title.accent{color:var(--accent)} .card-title.accent2{color:var(--accent2)} .card-title.accent3{color:var(--accent3)}
+  .card-sym{order:99; margin-left:auto; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.03em; text-transform:none; color:var(--muted); background:var(--surface); border:1px solid var(--border); padding:2px 9px; border-radius:99px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:52%; flex-shrink:0}
+  .card-title.noline .card-sym{margin-left:10px}
 
   .row{display:flex; justify-content:space-between; align-items:center; gap:14px; padding:9px 0; border-bottom:1px solid var(--border); font-size:13px}
   .row:last-child{border-bottom:none}
@@ -652,7 +654,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v32 · Sticky symbol'
+const BUILD = 'v33 · Per-card symbol'
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -1830,6 +1832,9 @@ let fcResizeT; window.addEventListener('resize', ()=>{ clearTimeout(fcResizeT); 
 /* Render everything from already-fetched rows for the chosen year window.
    No network here — pure recompute, so changing the year range is instant. */
 function renderAll(asset, daily, startYr, endYr){
+  // stamp the current stock onto every Analyze card title
+  const symLabel=toYahoo(asset.t)+' · '+asset.n;
+  document.querySelectorAll('#results .card-sym').forEach(e=>{ e.textContent=symLabel; });
   renderPriceSection(asset, daily.filter(r=> r.y>=startYr && r.y<=endYr));   // candle chart + MC projection (above matrix)
   FC_DAILY=daily; renderForecastChart();                // advanced probabilistic forecast (uses full history)
   const monthly=toMonthly(daily);                       // last-close-per-month series
@@ -2147,6 +2152,9 @@ function renderSnapshotStatus(){
     $('footText').textContent='SeasonScope ['+BUILD+'] · Data: Yahoo Finance (live) · Educational tool — not financial advice. Past seasonality does not predict future returns.';
   }
 }
+
+// add a "ticker · name" chip to every Analyze result card title (populated in renderAll)
+document.querySelectorAll('#results .card-title').forEach(t=>t.insertAdjacentHTML('beforeend','<span class="card-sym"></span>'));
 
 assetSel.value=0;
 showPanel('discover');                                // land on Discover, suggestions first
