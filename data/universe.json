@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-07-19T06:13:45.010Z",
+ "updatedAt": "2026-07-20T06:32:19.069Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -70,12 +70,12 @@
   },
   {
    "t": "lly.us",
-   "n": "Eli Lilly",
+   "n": "Eli Lilly and Company",
    "mktCap": 1051461156864
   },
   {
    "t": "mu.us",
-   "n": "Micron",
+   "n": "Micron Technology, Inc.",
    "mktCap": 958798299136
   },
   {
@@ -85,17 +85,17 @@
   },
   {
    "t": "jpm.us",
-   "n": "JPMorgan",
+   "n": "JPMorgan Chase & Co.",
    "mktCap": 906712055808
   },
   {
    "t": "amd.us",
-   "n": "AMD",
+   "n": "Advanced Micro Devices, Inc.",
    "mktCap": 808386560000
   },
   {
    "t": "v.us",
-   "n": "Visa",
+   "n": "Visa Inc.",
    "mktCap": 681889234944
   },
   {
@@ -110,7 +110,7 @@
   },
   {
    "t": "xom.us",
-   "n": "Exxon Mobil",
+   "n": "ExxonMobil Holdings Corporation",
    "mktCap": 610799452160
   },
   {
@@ -130,7 +130,7 @@
   },
   {
    "t": "ma.us",
-   "n": "Mastercard",
+   "n": "Mastercard Incorporated",
    "mktCap": 480316162048
   },
   {
@@ -155,7 +155,7 @@
   },
   {
    "t": "bac.us",
-   "n": "Bank of Am.",
+   "n": "Bank of America Corporation",
    "mktCap": 429990871040
   },
   {
@@ -185,7 +185,7 @@
   },
   {
    "t": "cat.us",
-   "n": "Caterpillar",
+   "n": "Caterpillar Inc.",
    "mktCap": 405449900032
   },
   {
@@ -220,12 +220,12 @@
   },
   {
    "t": "ko.us",
-   "n": "Coca-Cola",
+   "n": "The Coca-Cola Company",
    "mktCap": 350910447616
   },
   {
    "t": "pg.us",
-   "n": "P&G",
+   "n": "The Procter & Gamble Company",
    "mktCap": 349243277312
   },
   {
@@ -245,7 +245,7 @@
   },
   {
    "t": "hd.us",
-   "n": "Home Depot",
+   "n": "The Home Depot, Inc.",
    "mktCap": 337892933632
   },
   {
@@ -270,12 +270,12 @@
   },
   {
    "t": "mrk.us",
-   "n": "Merck",
+   "n": "Merck & Co., Inc.",
    "mktCap": 314902609920
   },
   {
    "t": "gs.us",
-   "n": "Goldman Sachs",
+   "n": "The Goldman Sachs Group, Inc.",
    "mktCap": 314247806976
   },
   {
@@ -285,7 +285,7 @@
   },
   {
    "t": "pm.us",
-   "n": "Philip Morris",
+   "n": "Philip Morris International Inc.",
    "mktCap": 300770689024
   },
   {
@@ -369,14 +369,14 @@
    "mktCap": 270417477632
   },
   {
-   "t": "wfc.us",
-   "n": "Wells Fargo & Company",
-   "mktCap": 267797184512
-  },
-  {
    "t": "cichf.us",
    "n": "China Construction Bank Corporation",
    "mktCap": 266832379904
+  },
+  {
+   "t": "wfc.us",
+   "n": "Wells Fargo & Company",
+   "mktCap": 265025388544
   },
   {
    "t": "azn.us",
