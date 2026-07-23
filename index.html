@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<script>try{var _t=localStorage.getItem('ss_theme');if(_t)document.documentElement.dataset.theme=_t;}catch(e){}</script>
 <title>SeasonScope — Seasonal Pattern Dashboard</title>
 <!-- App icons: brand "S" monogram (see scripts/gen_icons.py) -->
 <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
@@ -24,7 +25,27 @@
     --bg:#0e0e0e; --surface:#161616; --card:#1c1c1c; --border:#2a2a2a;
     --accent:#c8f060; --accent2:#f0b860; --accent3:#60c8f0;
     --text:#f0ede8; --muted:#888; --bull:#c8f060; --bear:#ff6b6b; --radius:16px;
+    --onacc:#0e0e0e;          /* text on accent-coloured backgrounds */
+    --chart-bg:#161616; --chart-grid:rgba(255,255,255,0.05); --chart-txt:#9a9a9a;
+    --up:#c8f060; --down:#ff6b6b;   /* candle colours */
   }
+  /* ---- Light theme: white bg, navy/black text, darker red/green ---- */
+  :root[data-theme="light"]{
+    --bg:#ffffff; --surface:#f2f5f9; --card:#ffffff; --border:#dbe2ec;
+    --accent:#173a6d; --accent2:#334155; --accent3:#2f6fb0;
+    --text:#0b1b30; --muted:#5c6b80; --bull:#177a3c; --bear:#c62828;
+    --onacc:#ffffff;
+    --chart-bg:#ffffff; --chart-grid:rgba(0,0,0,0.06); --chart-txt:#5c6b80;
+    --up:#177a3c; --down:#c62828;
+  }
+  :root[data-theme="light"] body::before{background:none}
+  :root[data-theme="light"] .foot-text{color:#9aa6b6}
+  .theme-btn{margin-left:auto; flex-shrink:0; background:var(--card); border:1px solid var(--border); color:var(--text); width:38px; height:38px; border-radius:10px; font-size:15px; cursor:pointer; transition:all .2s}
+  .theme-btn:hover{border-color:var(--accent); color:var(--accent)}
+  .sb-icon img, .ss-ic img{width:100%; height:100%; object-fit:contain; display:block; border-radius:inherit}
+  .sb-icon.has-logo, .ss-ic.has-logo{background:#fff; padding:2px}
+  .brow-ic{display:flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:6px; overflow:hidden; background:var(--surface); font-size:11px; color:var(--muted); flex-shrink:0}
+  .brow-ic img{width:100%; height:100%; object-fit:contain; background:#fff}
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{
@@ -47,7 +68,7 @@
     width:46px; height:46px; border-radius:12px; flex-shrink:0;
     background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);
     display:flex; align-items:center; justify-content:center;
-    font-family:'DM Serif Display',serif; font-style:italic; font-size:26px; color:#0e0e0e;
+    font-family:'DM Serif Display',serif; font-style:italic; font-size:26px; color:var(--onacc);
     box-shadow:0 0 24px rgba(200,240,96,0.25);
   }
   .eyebrow{font-size:11px; text-transform:uppercase; letter-spacing:0.2em; color:var(--accent)}
@@ -76,10 +97,10 @@
   .tabs label:last-child{border-right:none}
   .tabs label:hover{color:var(--text)}
   .tabs input{display:none}
-  .tabs input:checked + label{background:var(--accent); color:#0e0e0e; font-weight:500}
+  .tabs input:checked + label{background:var(--accent); color:var(--onacc); font-weight:500}
 
   .btn{
-    background:var(--accent); color:#0e0e0e; border:none; border-radius:10px;
+    background:var(--accent); color:var(--onacc); border:none; border-radius:10px;
     font-family:'DM Mono',monospace; font-size:12px; font-weight:500; text-transform:uppercase; letter-spacing:0.1em;
     padding:12px 22px; cursor:pointer; transition:transform .15s, box-shadow .2s;
   }
@@ -163,7 +184,7 @@
   .chart-tf{display:flex; gap:6px}
   .tfbtn{font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:6px 13px; cursor:pointer; transition:all .15s}
   .tfbtn:hover{color:var(--text)}
-  .tfbtn.active{background:var(--accent); color:#0e0e0e; border-color:var(--accent); font-weight:500}
+  .tfbtn.active{background:var(--accent); color:var(--onacc); border-color:var(--accent); font-weight:500}
   .chart-price{font-size:13px; color:var(--text); font-weight:500}
   .chart-price .chg.up{color:var(--bull)} .chart-price .chg.down{color:var(--bear)} .chart-price .chg{font-size:11px}
   .chart-wrap{position:relative; width:100%}
@@ -191,7 +212,7 @@
   /* numbered points-of-attention list under the chart */
   .chart-points{list-style:none; margin:16px 0 0; padding:0; display:flex; flex-direction:column; gap:9px}
   .chart-points li{display:flex; gap:11px; font-size:12px; line-height:1.55; color:var(--muted)}
-  .cp-badge{flex-shrink:0; width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:#0e0e0e; margin-top:1px}
+  .cp-badge{flex-shrink:0; width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:600; color:var(--onacc); margin-top:1px}
   .cp-txt b{color:var(--text); font-weight:500}
   .cp-txt .pr{color:var(--text); font-weight:500}
 
@@ -216,7 +237,7 @@
   .fcast-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px}
   .fcast-col{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 18px}
   .fc-month{font-family:'DM Serif Display',serif; font-style:italic; font-size:19px; color:var(--text); margin-bottom:8px; display:flex; align-items:center; gap:8px}
-  .fc-now{font-family:'DM Mono',monospace; font-style:normal; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:#0e0e0e; background:var(--accent); padding:2px 7px; border-radius:99px}
+  .fc-now{font-family:'DM Mono',monospace; font-style:normal; font-size:9px; text-transform:uppercase; letter-spacing:0.1em; color:var(--onacc); background:var(--accent); padding:2px 7px; border-radius:99px}
   .fc-big{font-family:'DM Serif Display',serif; font-style:italic; font-size:38px; line-height:1}
   .fc-big.bull{color:var(--bull)} .fc-big.bear{color:var(--bear)}
   .fc-sub{font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-top:4px; margin-bottom:12px}
@@ -240,7 +261,7 @@
   #tabDiscover:checked ~ label[for=tabDiscover],
   #tabAnalyze:checked ~ label[for=tabAnalyze],
   #tabPulse:checked ~ label[for=tabPulse],
-  #tabBrowse:checked ~ label[for=tabBrowse]{background:var(--accent); color:#0e0e0e; font-weight:500; border-color:var(--accent)}
+  #tabBrowse:checked ~ label[for=tabBrowse]{background:var(--accent); color:var(--onacc); font-weight:500; border-color:var(--accent)}
   .search{width:100%; background:var(--surface); border:1px solid var(--border); border-radius:10px; color:var(--text); font-family:'DM Mono',monospace; font-size:16px; padding:12px 14px; outline:none; margin-bottom:14px; -webkit-appearance:none}
   .search:focus{border-color:var(--accent)}
   .browse-grp{font-size:10px; text-transform:uppercase; letter-spacing:0.15em; color:var(--accent2); margin:18px 0 10px; display:flex; align-items:center; gap:10px}
@@ -254,7 +275,7 @@
   .panel > .card{margin-bottom:16px}        /* consistent spacing for cards placed directly in a panel */
   /* sticky symbol header (TradingView-style) — keeps the current stock visible while scrolling */
   .sticky-sym{position:sticky; top:0; z-index:20; display:flex; align-items:center; gap:10px; padding:10px 2px; margin-bottom:8px; background:rgba(14,14,14,0.9); backdrop-filter:blur(8px); border-bottom:1px solid var(--border)}
-  .ss-ic{width:26px; height:26px; border-radius:7px; flex-shrink:0; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#0e0e0e; display:flex; align-items:center; justify-content:center; font-family:'DM Serif Display',serif; font-style:italic; font-size:12px}
+  .ss-ic{width:26px; height:26px; border-radius:7px; flex-shrink:0; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:var(--onacc); display:flex; align-items:center; justify-content:center; font-family:'DM Serif Display',serif; font-style:italic; font-size:12px}
   .ss-nm{font-family:'DM Serif Display',serif; font-style:italic; font-size:18px; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0}
   .ss-tk{font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); text-transform:uppercase; border:1px solid var(--border); padding:2px 7px; border-radius:99px; flex-shrink:0}
   .ss-px{margin-left:auto; font-size:14px; font-weight:500; color:var(--text); white-space:nowrap; flex-shrink:0}
@@ -298,7 +319,7 @@
     .sg-body{order:3; flex-basis:100%; margin-top:4px}
     .sg-grade{font-size:26px; width:40px}
     .sg-end{gap:10px}
-    .sg-go{color:#0e0e0e; background:var(--accent); padding:6px 11px; border-radius:8px; font-weight:500}
+    .sg-go{color:var(--onacc); background:var(--accent); padding:6px 11px; border-radius:8px; font-weight:500}
   }
 
   .val-head{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:18px; flex-wrap:wrap}
@@ -366,6 +387,7 @@
         <div class="eyebrow">● Seasonal Analytics</div>
         <h1>Season<span>Scope</span></h1>
       </div>
+      <button id="themeBtn" class="theme-btn" title="Switch light / dark" aria-label="Switch theme">☀</button>
     </div>
     <p class="subtitle">Monthly seasonality dashboard. Years in rows, months in columns — spot the months an asset consistently gains or bleeds. Stocks, forex, commodities &amp; indices. Data computed live from monthly price history; rebuilds every time you load.</p>
   </header>
@@ -654,7 +676,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v34 · Fresh data source'
+const BUILD = 'v35 · Logos + light theme'
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -808,6 +830,27 @@ async function snapshotDaily(symbol){
 const $ = id => document.getElementById(id);
 const assetSel=$('assetSel'), startSel=$('startYr'), endSel=$('endYr'),
       statusbar=$('statusbar'), loader=$('loader'), results=$('results'), errBox=$('errBox');
+
+/* Company logo (US stocks) with graceful fallback to initials. */
+const initialsOf=a=>(a.n.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase())||'?';
+const logoUrl=a=> a.t.endsWith('.us') ? 'https://financialmodelingprep.com/image-stock/'+toYahoo(a.t)+'.png' : null;
+function setIcon(el, a){
+  if(!el) return;
+  el.classList.remove('has-logo'); el.textContent=initialsOf(a);
+  const url=logoUrl(a); if(!url) return;
+  const img=new Image();
+  img.alt=''; img.src=url;
+  img.onload=()=>{ if(img.naturalWidth>1){ el.textContent=''; el.classList.add('has-logo'); el.appendChild(img); } };
+}
+
+/* ---- Theme (dark default / light) ---- */
+function applyTheme(t){
+  document.documentElement.dataset.theme=t;
+  try{ localStorage.setItem('ss_theme', t); }catch(_){}
+  const b=$('themeBtn'); if(b) b.textContent = t==='light' ? '☾' : '☀';
+  // charts carry theme colours in JS/SVG — re-render them if Analyze is loaded
+  if(typeof analyzeLoaded!=='undefined' && analyzeLoaded){ try{ rerenderPrice(); }catch(_){} try{ renderForecastChart(); }catch(_){} }
+}
 const NOW_YEAR = new Date().getFullYear();
 const NOW_MONTH = new Date().getMonth()+1;   // 1-12, used to drop the still-forming month
 
@@ -1145,14 +1188,14 @@ function scoreAsset(asset, daily){
 }
 
 function cellColor(v, mode){
-  if(v==null) return {bg:'transparent', fg:'#555'};
+  if(v==null) return {bg:'transparent', fg:'var(--muted)'};
   if(mode==='win'){
     const t=Math.max(0,Math.min(1,(v-30)/40));
-    return {bg:'rgba(200,240,96,'+(0.05+t*0.34)+')', fg: t>0.55?'#0e0e0e':'#f0ede8'};
+    return {bg:'rgba(200,240,96,'+(0.05+t*0.34)+')', fg: t>0.55?'#0e0e0e':'var(--text)'};
   }
   const cap=8, t=Math.max(-1,Math.min(1,v/cap));
-  if(t>=0) return {bg:'rgba(200,240,96,'+(0.05+t*0.4)+')', fg: t>0.55?'#0e0e0e':'#f0ede8'};
-  return {bg:'rgba(255,107,107,'+(0.05+(-t)*0.4)+')', fg: t<-0.55?'#0e0e0e':'#f0ede8'};
+  if(t>=0) return {bg:'rgba(200,240,96,'+(0.05+t*0.4)+')', fg: t>0.55?'#0e0e0e':'var(--text)'};
+  return {bg:'rgba(255,107,107,'+(0.05+(-t)*0.4)+')', fg: t<-0.55?'#0e0e0e':'var(--text)'};
 }
 
 function renderMatrix(data, mode){
@@ -1577,7 +1620,7 @@ function buildPoints(win, mc){
   const sr=srLevels(resampleW(win));               // support/resistance from weekly pivots
   const last=sig.last, pts=[]; let n=0;
   const pctOf=p=> ((p-last)/last*100);
-  pts.push({n:++n, color:'#f0ede8', solid:true, price:last, label:'Now',
+  pts.push({n:++n, color:'#8a94a6', solid:true, price:last, label:'Now',
     desc:'Latest price <b class="pr">$'+last.toFixed(2)+'</b> — '+(sig.vsMA200!=null?(sig.vsMA200>=0?'above':'below')+' its 200-day trend ('+(sig.vsMA200>0?'+':'')+sig.vsMA200.toFixed(0)+'%)':'')+(sig.rsi14!=null?', RSI '+sig.rsi14.toFixed(0)+(sig.rsi14<=30?' (oversold)':sig.rsi14>=70?' (overbought)':''):'')+'.'});
   if(sr.support && sr.support[0]) { const p=sr.support[0].price; pts.push({n:++n, color:'#c8f060', solid:false, price:p, label:'Support',
     desc:'Nearest <b>support ≈ $'+p.toFixed(2)+'</b> ('+pctOf(p).toFixed(0)+'%). Buyers have defended this area before — a potential <b>buy/accumulation</b> zone; a clean break below would weaken the setup.'}); }
@@ -1616,15 +1659,18 @@ function renderProChart(asset, win){
   const candles=resampleOHLC(win, CHART_TF);
   if(candles.length<5) throw new Error('not enough candles');
   const LWlib=window.LightweightCharts;
+  const cv=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();  // live theme colour
+  const cbg=cv('--chart-bg')||'#161616', cgrid=cv('--chart-grid')||'rgba(255,255,255,0.05)', ctxt=cv('--chart-txt')||'#9a9a9a', cbrd=cv('--border')||'#2a2a2a';
+  const up=cv('--up')||'#c8f060', down=cv('--down')||'#ff6b6b';
   const chart=LWlib.createChart(el, {
     autoSize: true,                                   // track the container; never overflow the card
-    layout:{background:{type:'solid',color:'#161616'}, textColor:'#9a9a9a', fontFamily:"'DM Mono',monospace"},
-    grid:{vertLines:{color:'rgba(255,255,255,0.04)'}, horzLines:{color:'rgba(255,255,255,0.05)'}},
-    rightPriceScale:{borderColor:'#2a2a2a'},
-    timeScale:{borderColor:'#2a2a2a', rightOffset:8, fixLeftEdge:true},
+    layout:{background:{type:'solid',color:cbg}, textColor:ctxt, fontFamily:"'DM Mono',monospace"},
+    grid:{vertLines:{color:cgrid}, horzLines:{color:cgrid}},
+    rightPriceScale:{borderColor:cbrd},
+    timeScale:{borderColor:cbrd, rightOffset:8, fixLeftEdge:true},
     crosshair:{mode:1},
   });
-  const cs=chart.addCandlestickSeries({upColor:'#c8f060',downColor:'#ff6b6b',borderUpColor:'#c8f060',borderDownColor:'#ff6b6b',wickUpColor:'#9bbf4f',wickDownColor:'#c0504f'});
+  const cs=chart.addCandlestickSeries({upColor:up,downColor:down,borderUpColor:up,borderDownColor:down,wickUpColor:up,wickDownColor:down});
   cs.setData(candles);
   // Monte-Carlo projection to the right
   const mc=monteCarlo(win, 126, 300);
@@ -1638,7 +1684,7 @@ function renderProChart(asset, win){
   // numbered points → price lines + list
   const pts=buildPoints(win, mc);
   pts.forEach(p=> cs.createPriceLine({price:p.price, color:p.color, lineWidth:1, lineStyle:p.solid?0:2, axisLabelVisible:true, title:circled(p.n)+' '+p.label}));
-  cs.setMarkers([{time:lastCandle.time, position:'inBar', color:'#f0ede8', shape:'circle', text:'①'}]);
+  cs.setMarkers([{time:lastCandle.time, position:'inBar', color:ctxt, shape:'circle', text:'①'}]);
   chart.timeScale().fitContent();
   // OHLC details readout (top-left) — updates on hover, defaults to last candle
   const info=$('lwcInfo');
@@ -1777,17 +1823,17 @@ function renderForecastChart(){
   s+=band(f.p95,f.p5,'rgba(96,200,240,0.12)')+band(f.p75,f.p25,'rgba(96,200,240,0.24)');
   let md='M'+xf(0).toFixed(1)+' '+Y(f.last).toFixed(1);
   for(let j=0;j<steps;j++) md+=' L'+xf(j+1).toFixed(1)+' '+Y(f.p50[j]).toFixed(1);
-  s+='<path d="'+md+'" fill="none" stroke="#60c8f0" stroke-width="2" stroke-dasharray="5 3"/>';
+  s+='<path d="'+md+'" fill="none" stroke="var(--accent3)" stroke-width="2" stroke-dasharray="5 3"/>';
   let hd='M'+X(0).toFixed(1)+' '+Y(hist[0].close).toFixed(1);
   for(let i=1;i<histN;i++) hd+=' L'+X(i).toFixed(1)+' '+Y(hist[i].close).toFixed(1);
-  s+='<path d="'+hd+'" fill="none" stroke="#f0ede8" stroke-width="1.6"/>';
+  s+='<path d="'+hd+'" fill="none" stroke="var(--text)" stroke-width="1.6"/>';
   s+='<line x1="'+X(J).toFixed(1)+'" x2="'+X(J).toFixed(1)+'" y1="'+T+'" y2="'+(T+PH)+'" stroke="var(--border)" stroke-dasharray="2 3"/>';
-  s+='<circle cx="'+X(J).toFixed(1)+'" cy="'+Y(f.last).toFixed(1)+'" r="3" fill="#f0ede8"/>';
+  s+='<circle cx="'+X(J).toFixed(1)+'" cy="'+Y(f.last).toFixed(1)+'" r="3" fill="var(--text)"/>';
   // terminal $ targets (median / upside / downside), nudged apart so they don't overlap
   const endX=xf(steps); const ys={hi:Y(f.p95[steps-1]),md:Y(f.p50[steps-1]),lo:Y(f.p5[steps-1])};
   if(ys.md-ys.hi<12) ys.hi=ys.md-12; if(ys.lo-ys.md<12) ys.lo=ys.md+12;
   const tl=(val,col,tag,yy)=>'<text x="'+(endX-4).toFixed(1)+'" y="'+(yy+3.5).toFixed(1)+'" fill="'+col+'" font-size="10.5" font-weight="500" text-anchor="end">'+tag+val.toFixed(2)+'</text>';
-  s+=tl(f.p95[steps-1],'#c8f060','▲ ',ys.hi)+tl(f.p50[steps-1],'#60c8f0','◆ ',ys.md)+tl(f.p5[steps-1],'#ff6b6b','▼ ',ys.lo);
+  s+=tl(f.p95[steps-1],'var(--bull)','▲ ',ys.hi)+tl(f.p50[steps-1],'var(--accent3)','◆ ',ys.md)+tl(f.p5[steps-1],'var(--bear)','▼ ',ys.lo);
   // x-axis dates
   const dl=(x,txt,anchor)=>'<text x="'+x.toFixed(1)+'" y="'+(H-6)+'" fill="var(--muted)" font-size="10" text-anchor="'+anchor+'">'+txt+'</text>';
   const fmtShort=t=>t.toLocaleDateString(undefined,{month:'short',year:'2-digit'});
@@ -1800,8 +1846,8 @@ function renderForecastChart(){
   FC_MODEL_CACHE={f, histN, steps, total, J, W, H, L, PW, T, PH, ymin, ymax, daily, hist,
     Xf:i=>L+i/(total-1)*PW, Yf:Y, endDate};
   renderFcStats(f);
-  $('fcLegend').innerHTML='<span><i style="border-color:#f0ede8"></i>Actual</span>'+
-    '<span><i style="border-color:#60c8f0"></i>Median path</span>'+
+  $('fcLegend').innerHTML='<span><i style="border-color:var(--text)"></i>Actual</span>'+
+    '<span><i style="border-color:var(--accent3)"></i>Median path</span>'+
     '<span><i class="b" style="background:rgba(96,200,240,0.24)"></i>50% range</span>'+
     '<span><i class="b" style="background:rgba(96,200,240,0.12)"></i>90% range</span>';
   const names={ensemble:'Ensemble (GARCH-t + bootstrap)', garch:'GARCH(1,1) · Student-t shocks', boot:'Historical block bootstrap'};
@@ -1890,11 +1936,10 @@ async function run(force){
   if(startYr>endYr){ const tmp=startYr; startYr=endYr; endYr=tmp; startSel.value=startYr; endSel.value=endYr; }
 
   $('sbName').textContent=asset.n;
-  const ic=(asset.n.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase())||'?';
-  $('sbIcon').textContent=ic;
   $('sbType').textContent=asset.g;
+  setIcon($('sbIcon'), asset);                          // company logo (fallback: initials)
   // sticky symbol header (stays visible while scrolling Analyze)
-  $('ssName').textContent=asset.n; $('ssIcon').textContent=ic;
+  $('ssName').textContent=asset.n; setIcon($('ssIcon'), asset);
   $('ssTk').textContent=toYahoo(asset.t); $('ssPx').textContent='';
 
   const fromYear=startYr;   // we only fetch back this far (plus prior-Dec buffer)
@@ -2044,8 +2089,11 @@ $('tabBrowse').addEventListener('change', ()=>{ showPanel('browse'); if(!browseI
 function fmtCap(v){ if(!v) return ''; if(v>=1e12) return '$'+(v/1e12).toFixed(2)+'T'; if(v>=1e9) return '$'+(v/1e9).toFixed(1)+'B'; if(v>=1e6) return '$'+(v/1e6).toFixed(0)+'M'; return '$'+Math.round(v); }
 function browseRows(items, mc){
   return '<div class="disc-list">'+items.map(a=>{
-    const cap=mc[a.t];
-    return '<div class="sg" data-t="'+a.t+'"><div class="sg-lead" style="width:34px"><span class="sg-rank" style="font-size:13px">'+esc(a.g.charAt(0))+'</span></div>'+
+    const cap=mc[a.t], url=logoUrl(a), ini=initialsOf(a);
+    const icon = url
+      ? '<span class="brow-ic"><img loading="lazy" alt="" src="'+url+'" onerror="this.parentNode.textContent=\''+ini+'\'"></span>'
+      : '<span class="brow-ic">'+esc(a.g.charAt(0))+'</span>';
+    return '<div class="sg" data-t="'+a.t+'"><div class="sg-lead" style="width:auto">'+icon+'</div>'+
       '<div class="sg-body"><div class="sg-name">'+esc(a.n)+' <span class="sg-grp">'+esc(a.g)+'</span></div><div class="sg-tk">'+esc(a.t)+'</div></div>'+
       '<div class="sg-end"><span class="sg-cap">'+(cap?fmtCap(cap):'<span style="color:var(--muted);font-size:11px">—</span>')+'</span><span class="sg-go">Analyze →</span></div></div>';
   }).join('')+'</div>';
@@ -2155,6 +2203,10 @@ function renderSnapshotStatus(){
 
 // add a "ticker · name" chip to every Analyze result card title (populated in renderAll)
 document.querySelectorAll('#results .card-title').forEach(t=>t.insertAdjacentHTML('beforeend','<span class="card-sym"></span>'));
+
+// theme toggle (dark default / light)
+applyTheme(document.documentElement.dataset.theme==='light'?'light':'dark');
+$('themeBtn').addEventListener('click', ()=>applyTheme(document.documentElement.dataset.theme==='light'?'dark':'light'));
 
 assetSel.value=0;
 showPanel('discover');                                // land on Discover, suggestions first
