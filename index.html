@@ -52,7 +52,8 @@
   html{-webkit-text-size-adjust:100%}
   body{
     background:var(--bg); color:var(--text);
-    font-family:'DM Mono',monospace; font-weight:300;
+    font-family:'DM Mono',monospace; font-weight:500;
+    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     min-height:100vh; position:relative; overflow-x:hidden;
     padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   }
@@ -294,7 +295,9 @@
   .sg{display:flex; align-items:center; gap:14px; padding:14px 16px; background:var(--surface); border:1px solid var(--border); border-radius:12px; transition:border-color .2s, transform .12s; cursor:pointer; flex-wrap:wrap}
   .sg:hover{border-color:var(--accent); transform:translateX(2px)}
   .sg-lead{display:flex; align-items:center; gap:12px; flex-shrink:0}
-  .sg-rank{font-family:'DM Serif Display',serif; font-style:italic; font-size:22px; color:var(--muted); width:26px; text-align:center}
+  .sg-rank{font-family:'DM Serif Display',serif; font-style:italic; font-size:22px; color:var(--muted); width:22px; text-align:center}
+  .sg-logo{display:flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:6px; overflow:hidden; background:var(--surface); font-size:10px; color:var(--muted); flex-shrink:0}
+  .sg-logo img{width:100%; height:100%; object-fit:contain; background:#fff}
   .sg-grade{font-family:'DM Serif Display',serif; font-style:italic; font-size:30px; line-height:1; width:48px; text-align:center}
   .sg-grade.g-a{color:var(--bull)} .sg-grade.g-b{color:var(--accent)} .sg-grade.g-c{color:var(--accent2)} .sg-grade.g-d{color:var(--bear)}
   .sg-body{flex:1; min-width:0}
@@ -678,7 +681,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v36 · Light theme fixes'
+const BUILD = 'v37 · Bolder + Discover logos'
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -2008,9 +2011,12 @@ function renderSuggestions(listId, results){
     const why = Array.isArray(r.rationale)
       ? r.rationale.map(b=>'<span class="r-'+b.tone+'">'+b.t+'</span>').join(' · ')
       : (r.rationale||'');
+    const url=logoUrl({t:r.t}), ini=initialsOf({n:r.n});
+    const logo = url ? '<span class="sg-logo"><img loading="lazy" alt="" src="'+url+'" onerror="this.parentNode.textContent=\''+ini+'\'"></span>' : '<span class="sg-logo">'+esc((r.g||'?').charAt(0))+'</span>';
     return '<div class="sg" data-t="'+r.t+'">'+
       '<div class="sg-lead">'+
         '<span class="sg-rank">'+(idx+1)+'</span>'+
+        logo+
         '<span class="sg-grade '+gradeClass(r.grade)+'">'+r.grade+'</span>'+
       '</div>'+
       '<div class="sg-body">'+
