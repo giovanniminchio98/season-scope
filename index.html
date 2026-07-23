@@ -40,6 +40,8 @@
   }
   :root[data-theme="light"] body::before{background:none}
   :root[data-theme="light"] .foot-text{color:#9aa6b6}
+  :root[data-theme="light"] .sticky-sym{background:rgba(255,255,255,0.92)}
+  :root[data-theme="light"] .lwc-info{background:rgba(255,255,255,0.92); color:var(--muted)}
   .theme-btn{margin-left:auto; flex-shrink:0; background:var(--card); border:1px solid var(--border); color:var(--text); width:38px; height:38px; border-radius:10px; font-size:15px; cursor:pointer; transition:all .2s}
   .theme-btn:hover{border-color:var(--accent); color:var(--accent)}
   .sb-icon img, .ss-ic img{width:100%; height:100%; object-fit:contain; display:block; border-radius:inherit}
@@ -676,7 +678,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v35 · Logos + light theme'
+const BUILD = 'v36 · Light theme fixes'
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
