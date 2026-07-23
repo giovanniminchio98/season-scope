@@ -654,7 +654,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v33 · Per-card symbol'
+const BUILD = 'v34 · Fresh data source'
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -768,8 +768,8 @@ const PROXIES = [
    without a snapshot yet.
    =========================================================================== */
 const DATA_BASES = [
-  'data/',                                                                       // same-origin (GitHub Pages or any host serving this repo)
-  'https://raw.githubusercontent.com/giovanniminchio98/season-scope/main/data/', // works from any other host (~5 min CDN cache)
+  'https://raw.githubusercontent.com/giovanniminchio98/season-scope/main/data/', // ALWAYS the latest nightly data on main (GitHub Pages doesn't rebuild on the bot's data commits, so its bundled copy goes stale)
+  'data/',                                                                       // same-origin fallback (if raw is blocked/rate-limited)
 ];
 let DATA_BASE=null, META=null, FUND=null, UNIV=null;
 const SNAP_READY=(async function initSnapshot(){
