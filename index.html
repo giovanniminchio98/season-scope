@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<script>try{var _t=localStorage.getItem('ss_theme');if(_t)document.documentElement.dataset.theme=_t;}catch(e){}</script>
+<script>try{var _t=localStorage.getItem('ss_theme');if(_t)document.documentElement.dataset.theme=_t;var _S=[1,1.1,1.2,1.35],_f=localStorage.getItem('ss_fs');document.documentElement.style.zoom=(_f!=null&&_S[_f])?_S[_f]:1.1;}catch(e){}</script>
 <title>SeasonScope — Seasonal Pattern Dashboard</title>
 <!-- App icons: brand "S" monogram (see scripts/gen_icons.py) -->
 <link rel="icon" type="image/svg+xml" href="icons/favicon.svg">
@@ -42,8 +42,10 @@
   :root[data-theme="light"] .foot-text{color:#9aa6b6}
   :root[data-theme="light"] .sticky-sym{background:rgba(255,255,255,0.92)}
   :root[data-theme="light"] .lwc-info{background:rgba(255,255,255,0.92); color:var(--muted)}
-  .theme-btn{margin-left:auto; flex-shrink:0; background:var(--card); border:1px solid var(--border); color:var(--text); width:38px; height:38px; border-radius:10px; font-size:15px; cursor:pointer; transition:all .2s}
+  .hdr-ctrls{margin-left:auto; display:flex; gap:8px; align-items:center; flex-shrink:0}
+  .theme-btn{flex-shrink:0; background:var(--card); border:1px solid var(--border); color:var(--text); width:38px; height:38px; border-radius:10px; font-size:15px; cursor:pointer; transition:all .2s}
   .theme-btn:hover{border-color:var(--accent); color:var(--accent)}
+  .fs-btn{font-family:'DM Serif Display',serif; font-style:italic; font-weight:700; font-size:17px}
   .sb-icon img, .ss-ic img{width:100%; height:100%; object-fit:contain; display:block; border-radius:inherit}
   .sb-icon.has-logo, .ss-ic.has-logo{background:#fff; padding:2px}
   .brow-ic{display:flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:6px; overflow:hidden; background:var(--surface); font-size:11px; color:var(--muted); flex-shrink:0}
@@ -392,7 +394,10 @@
         <div class="eyebrow">● Seasonal Analytics</div>
         <h1>Season<span>Scope</span></h1>
       </div>
-      <button id="themeBtn" class="theme-btn" title="Switch light / dark" aria-label="Switch theme">☀</button>
+      <div class="hdr-ctrls">
+        <button id="fsBtn" class="theme-btn fs-btn" title="Text size" aria-label="Text size">A</button>
+        <button id="themeBtn" class="theme-btn" title="Switch light / dark" aria-label="Switch theme">☀</button>
+      </div>
     </div>
     <p class="subtitle">Monthly seasonality dashboard. Years in rows, months in columns — spot the months an asset consistently gains or bleeds. Stocks, forex, commodities &amp; indices. Data computed live from monthly price history; rebuilds every time you load.</p>
   </header>
@@ -681,7 +686,7 @@
    Drop / GitHub Pages / any web server). The "Famous Patterns" and "Tips"
    cards render with NO data, so the page never looks empty before a fetch.
    ============================================================================ */
-const BUILD = 'v37 · Bolder + Discover logos'
+const BUILD = 'v38 · Text size control'
 
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -854,6 +859,17 @@ function applyTheme(t){
   try{ localStorage.setItem('ss_theme', t); }catch(_){}
   const b=$('themeBtn'); if(b) b.textContent = t==='light' ? '☾' : '☀';
   // charts carry theme colours in JS/SVG — re-render them if Analyze is loaded
+  if(typeof analyzeLoaded!=='undefined' && analyzeLoaded){ try{ rerenderPrice(); }catch(_){} try{ renderForecastChart(); }catch(_){} }
+}
+
+/* ---- Text size (UI scale via zoom; default a touch bigger) ---- */
+const FS_STEPS=[1.0, 1.1, 1.2, 1.35];   // Normal · Large · XL · XXL
+let FS_IDX=1;
+function applyFontScale(i){
+  FS_IDX=Math.max(0, Math.min(FS_STEPS.length-1, i|0));
+  document.documentElement.style.zoom=FS_STEPS[FS_IDX];
+  try{ localStorage.setItem('ss_fs', FS_IDX); }catch(_){}
+  const b=$('fsBtn'); if(b) b.title='Text size: '+Math.round(FS_STEPS[FS_IDX]*100)+'% (tap to change)';
   if(typeof analyzeLoaded!=='undefined' && analyzeLoaded){ try{ rerenderPrice(); }catch(_){} try{ renderForecastChart(); }catch(_){} }
 }
 const NOW_YEAR = new Date().getFullYear();
@@ -2215,6 +2231,9 @@ document.querySelectorAll('#results .card-title').forEach(t=>t.insertAdjacentHTM
 // theme toggle (dark default / light)
 applyTheme(document.documentElement.dataset.theme==='light'?'light':'dark');
 $('themeBtn').addEventListener('click', ()=>applyTheme(document.documentElement.dataset.theme==='light'?'dark':'light'));
+// text size (cycle: Normal → Large → XL → XXL)
+(function(){ let i=1; try{ const v=localStorage.getItem('ss_fs'); if(v!=null) i=+v; }catch(_){} applyFontScale(i); })();
+$('fsBtn').addEventListener('click', ()=>applyFontScale((FS_IDX+1)%FS_STEPS.length));
 
 assetSel.value=0;
 showPanel('discover');                                // land on Discover, suggestions first
