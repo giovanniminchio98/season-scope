@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-07-25T06:01:14.460Z",
+ "updatedAt": "2026-07-26T06:20:36.779Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -183,6 +183,7 @@
    }
   },
   "lly.us": {
+   "mktCap": 1066549444608,
    "name": "Eli Lilly and Company",
    "price": 1196.03,
    "fair": 1270.37,
@@ -196,6 +197,7 @@
    }
   },
   "mu.us": {
+   "mktCap": 1040114647040,
    "name": "Micron Technology, Inc.",
    "price": 920.95,
    "fair": 1507.38,
@@ -209,7 +211,8 @@
    }
   },
   "jpm.us": {
-   "name": "JP Morgan Chase & Co.",
+   "mktCap": 938902814720,
+   "name": "JPMorgan Chase & Co.",
    "price": 353.21,
    "fair": 371.25,
    "fairLabel": "analyst target",
@@ -236,6 +239,7 @@
    }
   },
   "amd.us": {
+   "mktCap": 851091980288,
    "name": "Advanced Micro Devices, Inc.",
    "price": 521.95,
    "fair": 570.6,
@@ -254,6 +258,7 @@
    "price": 1785.29
   },
   "v.us": {
+   "mktCap": 676526292992,
    "name": "Visa Inc.",
    "price": 355.74,
    "fair": 403.26,
@@ -281,6 +286,7 @@
    }
   },
   "xom.us": {
+   "mktCap": 650508042240,
    "name": "ExxonMobil Holdings Corporation",
    "price": 156.94,
    "fair": 166.73,
@@ -327,6 +333,7 @@
    "price": 54.55
   },
   "ma.us": {
+   "mktCap": 476834856960,
    "name": "Mastercard Incorporated",
    "price": 539.66,
    "fair": 644.24,
@@ -387,6 +394,7 @@
    }
   },
   "bac.us": {
+   "mktCap": 435464896512,
    "name": "Bank of America Corporation",
    "price": 62.05,
    "fair": 68.25,
@@ -443,7 +451,8 @@
    }
   },
   "cat.us": {
-   "name": "Caterpillar, Inc.",
+   "mktCap": 409341886464,
+   "name": "Caterpillar Inc.",
    "price": 888.73,
    "fair": 970.37,
    "fairLabel": "analyst target",
@@ -538,7 +547,8 @@
    }
   },
   "ko.us": {
-   "name": "Coca-Cola Company (The)",
+   "mktCap": 353879195648,
+   "name": "The Coca-Cola Company",
    "price": 82.25,
    "fair": 88.3,
    "fairLabel": "analyst target",
@@ -570,7 +580,8 @@
    }
   },
   "pg.us": {
-   "name": "Procter & Gamble Company (The)",
+   "mktCap": 343258791936,
+   "name": "The Procter & Gamble Company",
    "price": 147.41,
    "fair": 163.61,
    "fairLabel": "analyst target",
@@ -616,7 +627,8 @@
    }
   },
   "hd.us": {
-   "name": "Home Depot, Inc. (The)",
+   "mktCap": 332019924992,
+   "name": "The Home Depot, Inc.",
    "price": 332.98,
    "fair": 370.34,
    "fairLabel": "analyst target",
@@ -643,7 +655,8 @@
    }
   },
   "mrk.us": {
-   "name": "Merck & Company, Inc.",
+   "mktCap": 323719921664,
+   "name": "Merck & Co., Inc.",
    "price": 131.07,
    "fair": 134.62,
    "fairLabel": "analyst target",
@@ -656,7 +669,8 @@
    }
   },
   "gs.us": {
-   "name": "Goldman Sachs Group, Inc. (The)",
+   "mktCap": 313070714880,
+   "name": "The Goldman Sachs Group, Inc.",
    "price": 1061.23,
    "fair": 1137.15,
    "fairLabel": "analyst target",
@@ -679,7 +693,8 @@
    "price": 27.67
   },
   "pm.us": {
-   "name": "Philip Morris International Inc",
+   "mktCap": 300801851392,
+   "name": "Philip Morris International Inc.",
    "price": 193,
    "fair": 200.53,
    "fairLabel": "analyst target",
@@ -851,20 +866,6 @@
     "sell": 1
    }
   },
-  "wfc.us": {
-   "mktCap": 264124940288,
-   "name": "Wells Fargo & Company",
-   "price": 86.31,
-   "fair": 99.93,
-   "fairLabel": "analyst target",
-   "gapPct": 15.8,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 16,
-    "hold": 10,
-    "sell": 0
-   }
-  },
   "panw.us": {
    "mktCap": 263888863232,
    "name": "Palo Alto Networks, Inc.",
@@ -880,6 +881,7 @@
    }
   },
   "azn.us": {
+   "mktCap": 262501416960,
    "name": "AstraZeneca PLC",
    "price": 169.26,
    "fair": 213.89,
@@ -896,6 +898,20 @@
    "mktCap": 261787320320,
    "name": "Agricultural Bank of China Limited",
    "price": 18.7
+  },
+  "wfc.us": {
+   "mktCap": 261391155200,
+   "name": "Wells Fargo & Company",
+   "price": 86.31,
+   "fair": 99.93,
+   "fairLabel": "analyst target",
+   "gapPct": 15.8,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 16,
+    "hold": 10,
+    "sell": 0
+   }
   },
   "lvmhf.us": {
    "mktCap": 260218306560,
@@ -972,13 +988,13 @@
    "mktCap": 244536049664,
    "name": "Shell plc",
    "price": 88.38,
-   "fair": 97.07,
+   "fair": 96.47,
    "fairLabel": "analyst target",
-   "gapPct": 9.8,
+   "gapPct": 9.1,
    "ratingLabel": "buy",
    "rec": {
     "buy": 7,
-    "hold": 8,
+    "hold": 9,
     "sell": 0
    }
   },
@@ -1148,7 +1164,8 @@
    "price": 17.94
   },
   "tmo.us": {
-   "name": "Thermo Fisher Scientific Inc",
+   "mktCap": 211177619456,
+   "name": "Thermo Fisher Scientific Inc.",
    "price": 568.26,
    "fair": 615.12,
    "fairLabel": "analyst target",
