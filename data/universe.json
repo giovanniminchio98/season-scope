@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-07-26T06:20:36.780Z",
+ "updatedAt": "2026-07-27T06:49:27.117Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -80,7 +80,7 @@
   },
   {
    "t": "jpm.us",
-   "n": "JPMorgan Chase & Co.",
+   "n": "JP Morgan Chase & Co.",
    "mktCap": 938902814720
   },
   {
@@ -185,7 +185,7 @@
   },
   {
    "t": "cat.us",
-   "n": "Caterpillar Inc.",
+   "n": "Caterpillar, Inc.",
    "mktCap": 409341886464
   },
   {
@@ -220,7 +220,7 @@
   },
   {
    "t": "ko.us",
-   "n": "The Coca-Cola Company",
+   "n": "Coca-Cola Company (The)",
    "mktCap": 353879195648
   },
   {
@@ -235,7 +235,7 @@
   },
   {
    "t": "pg.us",
-   "n": "The Procter & Gamble Company",
+   "n": "Procter & Gamble Company (The)",
    "mktCap": 343258791936
   },
   {
@@ -255,7 +255,7 @@
   },
   {
    "t": "hd.us",
-   "n": "The Home Depot, Inc.",
+   "n": "Home Depot, Inc. (The)",
    "mktCap": 332019924992
   },
   {
@@ -265,12 +265,12 @@
   },
   {
    "t": "mrk.us",
-   "n": "Merck & Co., Inc.",
+   "n": "Merck & Company, Inc.",
    "mktCap": 323719921664
   },
   {
    "t": "gs.us",
-   "n": "The Goldman Sachs Group, Inc.",
+   "n": "Goldman Sachs Group, Inc. (The)",
    "mktCap": 313070714880
   },
   {
@@ -285,7 +285,7 @@
   },
   {
    "t": "pm.us",
-   "n": "Philip Morris International Inc.",
+   "n": "Philip Morris International Inc",
    "mktCap": 300801851392
   },
   {
@@ -359,6 +359,11 @@
    "mktCap": 268785238016
   },
   {
+   "t": "wfc.us",
+   "n": "Wells Fargo & Company",
+   "mktCap": 264124940288
+  },
+  {
    "t": "panw.us",
    "n": "Palo Alto Networks, Inc.",
    "mktCap": 263888863232
@@ -372,11 +377,6 @@
    "t": "acgby.us",
    "n": "Agricultural Bank of China Limited",
    "mktCap": 261787320320
-  },
-  {
-   "t": "wfc.us",
-   "n": "Wells Fargo & Company",
-   "mktCap": 261391155200
   },
   {
    "t": "lvmhf.us",
