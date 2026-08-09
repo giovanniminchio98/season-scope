@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-08-08T04:34:55.219Z",
+ "updatedAt": "2026-08-09T04:43:28.606Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -115,7 +115,7 @@
    }
   },
   "spcx.us": {
-   "mktCap": 1754626785280,
+   "mktCap": 1753616089088,
    "name": "Space Exploration Technologies Corp.",
    "price": 133.11,
    "fair": 233,
@@ -185,7 +185,7 @@
    }
   },
   "lly.us": {
-   "mktCap": 1057346617344,
+   "mktCap": 1056890945536,
    "name": "Eli Lilly and Company",
    "price": 1185.71,
    "fair": 1297.31,
@@ -199,6 +199,7 @@
    }
   },
   "mu.us": {
+   "mktCap": 991121571840,
    "name": "Micron Technology, Inc.",
    "price": 877.57,
    "fair": 1507.79,
@@ -213,7 +214,7 @@
   },
   "jpm.us": {
    "mktCap": 950354706432,
-   "name": "JP Morgan Chase & Co.",
+   "name": "JPMorgan Chase & Co.",
    "price": 357.52,
    "fair": 373.86,
    "fairLabel": "analyst target",
@@ -287,6 +288,7 @@
    "price": 1721
   },
   "xom.us": {
+   "mktCap": 634342670336,
    "name": "ExxonMobil Holdings Corporation",
    "price": 153.04,
    "fair": 167.73,
@@ -494,7 +496,7 @@
   },
   "cat.us": {
    "mktCap": 387133603840,
-   "name": "Caterpillar, Inc.",
+   "name": "Caterpillar Inc.",
    "price": 842.19,
    "fair": 972.95,
    "fairLabel": "analyst target",
@@ -507,7 +509,7 @@
    }
   },
   "qh.us": {
-   "mktCap": 12062666,
+   "mktCap": 386005270528,
    "name": "Quhuo Limited",
    "price": 4.38
   },
@@ -527,7 +529,7 @@
   },
   "ko.us": {
    "mktCap": 374536896512,
-   "name": "Coca-Cola Company (The)",
+   "name": "The Coca-Cola Company",
    "price": 87.05,
    "fair": 94.7,
    "fairLabel": "analyst target",
@@ -622,7 +624,8 @@
    }
   },
   "hd.us": {
-   "name": "Home Depot, Inc. (The)",
+   "mktCap": 354594619392,
+   "name": "The Home Depot, Inc.",
    "price": 355.62,
    "fair": 370.5,
    "fairLabel": "analyst target",
@@ -659,8 +662,8 @@
    }
   },
   "pg.us": {
-   "mktCap": 338879086592,
-   "name": "Procter & Gamble Company (The)",
+   "mktCap": 339486441472,
+   "name": "The Procter & Gamble Company",
    "price": 145.79,
    "fair": 160.7,
    "fairLabel": "analyst target",
@@ -673,7 +676,8 @@
    }
   },
   "mrk.us": {
-   "name": "Merck & Company, Inc.",
+   "mktCap": 317570056192,
+   "name": "Merck & Co., Inc.",
    "price": 128.58,
    "fair": 136.65,
    "fairLabel": "analyst target",
@@ -720,7 +724,7 @@
   },
   "gs.us": {
    "mktCap": 302704689152,
-   "name": "Goldman Sachs Group, Inc. (The)",
+   "name": "The Goldman Sachs Group, Inc.",
    "price": 1039.61,
    "fair": 1141.65,
    "fairLabel": "analyst target",
@@ -805,7 +809,7 @@
   },
   "pm.us": {
    "mktCap": 295466336256,
-   "name": "Philip Morris International Inc",
+   "name": "Philip Morris International Inc.",
    "price": 189.57,
    "fair": 203.8,
    "fairLabel": "analyst target",
@@ -1059,7 +1063,7 @@
    }
   },
   "lrlcy.us": {
-   "mktCap": 237455310848,
+   "mktCap": 237337935872,
    "name": "L'Oréal S.A.",
    "price": 89.16,
    "fair": 99.33,
@@ -1078,7 +1082,7 @@
    "price": 205.41
   },
   "lrlcf.us": {
-   "mktCap": 235857330176,
+   "mktCap": 235740741632,
    "name": "L'Oréal S.A.",
    "price": 442.8
   },
@@ -1177,7 +1181,7 @@
    }
   },
   "amgn.us": {
-   "mktCap": 222321246208,
+   "mktCap": 221790420992,
    "name": "Amgen Inc.",
    "price": 410.94,
    "fair": 374.69,
@@ -1197,7 +1201,7 @@
   },
   "tmo.us": {
    "mktCap": 219629895680,
-   "name": "Thermo Fisher Scientific Inc",
+   "name": "Thermo Fisher Scientific Inc.",
    "price": 594,
    "fair": 631.42,
    "fairLabel": "analyst target",
