@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-08-09T04:43:28.606Z",
+ "updatedAt": "2026-08-10T05:00:51.013Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -46,7 +46,7 @@
   {
    "t": "spcx.us",
    "n": "Space Exploration Technologies Corp.",
-   "mktCap": 1753616089088
+   "mktCap": 1754626785280
   },
   {
    "t": "meta.us",
@@ -71,7 +71,7 @@
   {
    "t": "lly.us",
    "n": "Eli Lilly and Company",
-   "mktCap": 1056890945536
+   "mktCap": 1057346617344
   },
   {
    "t": "mu.us",
@@ -80,7 +80,7 @@
   },
   {
    "t": "jpm.us",
-   "n": "JPMorgan Chase & Co.",
+   "n": "JP Morgan Chase & Co.",
    "mktCap": 950354706432
   },
   {
@@ -200,13 +200,8 @@
   },
   {
    "t": "cat.us",
-   "n": "Caterpillar Inc.",
+   "n": "Caterpillar, Inc.",
    "mktCap": 387133603840
-  },
-  {
-   "t": "qh.us",
-   "n": "Quhuo Limited",
-   "mktCap": 386005270528
   },
   {
    "t": "ge.us",
@@ -215,7 +210,7 @@
   },
   {
    "t": "ko.us",
-   "n": "The Coca-Cola Company",
+   "n": "Coca-Cola Company (The)",
    "mktCap": 374536896512
   },
   {
@@ -250,7 +245,7 @@
   },
   {
    "t": "hd.us",
-   "n": "The Home Depot, Inc.",
+   "n": "Home Depot, Inc. (The)",
    "mktCap": 354594619392
   },
   {
@@ -270,12 +265,12 @@
   },
   {
    "t": "pg.us",
-   "n": "The Procter & Gamble Company",
-   "mktCap": 339486441472
+   "n": "Procter & Gamble Company (The)",
+   "mktCap": 338879086592
   },
   {
    "t": "mrk.us",
-   "n": "Merck & Co., Inc.",
+   "n": "Merck & Company, Inc.",
    "mktCap": 317570056192
   },
   {
@@ -295,7 +290,7 @@
   },
   {
    "t": "gs.us",
-   "n": "The Goldman Sachs Group, Inc.",
+   "n": "Goldman Sachs Group, Inc. (The)",
    "mktCap": 302704689152
   },
   {
@@ -335,7 +330,7 @@
   },
   {
    "t": "pm.us",
-   "n": "Philip Morris International Inc.",
+   "n": "Philip Morris International Inc",
    "mktCap": 295466336256
   },
   {
@@ -456,7 +451,7 @@
   {
    "t": "lrlcy.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 237337935872
+   "mktCap": 237455310848
   },
   {
    "t": "sapgf.us",
@@ -466,7 +461,7 @@
   {
    "t": "lrlcf.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 235740741632
+   "mktCap": 235857330176
   },
   {
    "t": "axp.us",
@@ -502,6 +497,11 @@
    "t": "tm.us",
    "n": "Toyota Motor Corporation",
    "mktCap": 225086554112
+  },
+  {
+   "t": "ibm.us",
+   "n": "International Business Machines Corporation",
+   "mktCap": 223549652992
   }
  ]
 }
