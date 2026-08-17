@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-08-16T04:06:00.203Z",
+ "updatedAt": "2026-08-17T04:09:29.346Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -277,9 +277,9 @@
    "mktCap": 708311121920,
    "name": "ASML Holding N.V.",
    "price": 1844.08,
-   "fair": 2176.09,
+   "fair": 2179.12,
    "fairLabel": "analyst target",
-   "gapPct": 18,
+   "gapPct": 18.2,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 39,
@@ -352,9 +352,9 @@
    "mktCap": 509189554176,
    "name": "Tencent Holdings Limited",
    "price": 56.5,
-   "fair": 96.36,
+   "fair": 96.53,
    "fairLabel": "analyst target",
-   "gapPct": 70.5,
+   "gapPct": 70.8,
    "ratingLabel": "buy",
    "rec": {
     "buy": 3,
@@ -572,9 +572,9 @@
    "mktCap": 377349963776,
    "name": "CONTEMPORARY AMPEREX TECHNOLOGY",
    "price": 20.39,
-   "fair": 30.15,
+   "fair": 30.2,
    "fairLabel": "analyst target",
-   "gapPct": 47.9,
+   "gapPct": 48.1,
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -637,9 +637,9 @@
    "mktCap": 345461751808,
    "name": "Roche Holding AG",
    "price": 433.58,
-   "fair": 467.4,
+   "fair": 468.34,
    "fairLabel": "analyst target",
-   "gapPct": 7.8,
+   "gapPct": 8,
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -777,7 +777,7 @@
    "mktCap": 300945276928,
    "name": "Royal Bank of Canada",
    "price": 216.56,
-   "fair": 195.23,
+   "fair": 195.35,
    "fairLabel": "analyst target",
    "gapPct": -9.8,
    "ratingLabel": "buy",
@@ -829,9 +829,9 @@
    "mktCap": 296756936704,
    "name": "Alibaba Group Holding Limited",
    "price": 123.81,
-   "fair": 189.61,
+   "fair": 189.94,
    "fairLabel": "analyst target",
-   "gapPct": 53.1,
+   "gapPct": 53.4,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -1243,7 +1243,6 @@
    "fair": 73.64,
    "fairLabel": "analyst target",
    "gapPct": -15.1,
-   "ratingLabel": "hold",
    "rec": {
     "buy": 1,
     "hold": 5,
