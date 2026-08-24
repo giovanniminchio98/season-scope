@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-08-23T04:07:45.666Z",
+ "updatedAt": "2026-08-24T04:12:50.739Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -101,7 +101,7 @@
    }
   },
   "spcx.us": {
-   "mktCap": 1805508411392,
+   "mktCap": 1804468355072,
    "name": "Space Exploration Technologies Corp.",
    "price": 136.97,
    "fair": 216.33,
@@ -171,7 +171,7 @@
    }
   },
   "lly.us": {
-   "mktCap": 1119492112384,
+   "mktCap": 1119009636352,
    "name": "Eli Lilly and Company",
    "price": 1255.4,
    "fair": 1315.04,
@@ -182,6 +182,20 @@
     "buy": 24,
     "hold": 4,
     "sell": 2
+   }
+  },
+  "mu.us": {
+   "mktCap": 1091874717696,
+   "name": "Micron Technology, Inc.",
+   "price": 966.78,
+   "fair": 1515.11,
+   "fairLabel": "analyst target",
+   "gapPct": 56.7,
+   "ratingLabel": "strong buy",
+   "rec": {
+    "buy": 43,
+    "hold": 4,
+    "sell": 0
    }
   },
   "brk-b.us": {
@@ -214,7 +228,7 @@
   },
   "jpm.us": {
    "mktCap": 934565052416,
-   "name": "JP Morgan Chase & Co.",
+   "name": "JPMorgan Chase & Co.",
    "price": 351.58,
    "fair": 374.57,
    "fairLabel": "analyst target",
@@ -286,7 +300,7 @@
    "mktCap": 677460246528,
    "name": "ASML Holding N.V.",
    "price": 1763.76,
-   "fair": 2195.91,
+   "fair": 2196.68,
    "fairLabel": "analyst target",
    "gapPct": 24.5,
    "ratingLabel": "strong buy",
@@ -319,9 +333,9 @@
    "mktCap": 523300831232,
    "name": "Tencent Holdings Limited",
    "price": 58.07,
-   "fair": 96.67,
+   "fair": 96.64,
    "fairLabel": "analyst target",
-   "gapPct": 66.5,
+   "gapPct": 66.4,
    "ratingLabel": "buy",
    "rec": {
     "buy": 3,
@@ -495,7 +509,7 @@
   },
   "ko.us": {
    "mktCap": 391962198016,
-   "name": "Coca-Cola Company (The)",
+   "name": "The Coca-Cola Company",
    "price": 91.1,
    "fair": 94.7,
    "fairLabel": "analyst target",
@@ -525,9 +539,9 @@
    "mktCap": 384752615424,
    "name": "CONTEMPORARY AMPEREX TECHNOLOGY",
    "price": 20.79,
-   "fair": 30.25,
+   "fair": 30.24,
    "fairLabel": "analyst target",
-   "gapPct": 45.5,
+   "gapPct": 45.4,
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -536,7 +550,7 @@
   },
   "cat.us": {
    "mktCap": 380564832256,
-   "name": "Caterpillar, Inc.",
+   "name": "Caterpillar Inc.",
    "price": 827.9,
    "fair": 979.22,
    "fairLabel": "analyst target",
@@ -550,7 +564,7 @@
   },
   "mrk.us": {
    "mktCap": 376367022080,
-   "name": "Merck & Company, Inc.",
+   "name": "Merck & Co., Inc.",
    "price": 152.55,
    "fair": 147.77,
    "fairLabel": "analyst target",
@@ -566,7 +580,7 @@
    "mktCap": 373364490240,
    "name": "Roche Holding AG",
    "price": 468.6,
-   "fair": 474.5,
+   "fair": 474.77,
    "fairLabel": "analyst target",
    "gapPct": 1.3,
    "rec": {
@@ -579,6 +593,11 @@
    "mktCap": 372966129664,
    "name": "Roche Holding AG",
    "price": 468.1
+  },
+  "qh.us": {
+   "mktCap": 371480526848,
+   "name": "Quhuo Limited",
+   "price": 4.22
   },
   "rhhby.us": {
    "mktCap": 370336759808,
@@ -635,6 +654,20 @@
     "sell": 0
    }
   },
+  "pg.us": {
+   "mktCap": 336901701632,
+   "name": "The Procter & Gamble Company",
+   "price": 144.68,
+   "fair": 160.57,
+   "fairLabel": "analyst target",
+   "gapPct": 11,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 13,
+    "hold": 12,
+    "sell": 0
+   }
+  },
   "ms.us": {
    "mktCap": 336415293440,
    "name": "Morgan Stanley",
@@ -649,17 +682,17 @@
     "sell": 2
    }
   },
-  "pg.us": {
-   "mktCap": 336298967040,
-   "name": "Procter & Gamble Company (The)",
-   "price": 144.68,
-   "fair": 160.57,
+  "hd.us": {
+   "mktCap": 334642315264,
+   "name": "The Home Depot, Inc.",
+   "price": 335.61,
+   "fair": 377.5,
    "fairLabel": "analyst target",
-   "gapPct": 11,
+   "gapPct": 12.5,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 13,
-    "hold": 12,
+    "buy": 21,
+    "hold": 15,
     "sell": 0
    }
   },
@@ -694,7 +727,7 @@
   },
   "gs.us": {
    "mktCap": 302608613376,
-   "name": "Goldman Sachs Group, Inc. (The)",
+   "name": "The Goldman Sachs Group, Inc.",
    "price": 1039.28,
    "fair": 1141.65,
    "fairLabel": "analyst target",
@@ -737,7 +770,7 @@
   },
   "pm.us": {
    "mktCap": 293377802240,
-   "name": "Philip Morris International Inc",
+   "name": "Philip Morris International Inc.",
    "price": 188.23,
    "fair": 203.8,
    "fairLabel": "analyst target",
@@ -771,9 +804,9 @@
    "mktCap": 286042914816,
    "name": "Alibaba Group Holding Limited",
    "price": 119.34,
-   "fair": 189.22,
+   "fair": 189.17,
    "fairLabel": "analyst target",
-   "gapPct": 58.6,
+   "gapPct": 58.5,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -799,9 +832,9 @@
    "mktCap": 285200384000,
    "name": "Royal Bank of Canada",
    "price": 205.23,
-   "fair": 207.18,
+   "fair": 206.77,
    "fairLabel": "analyst target",
-   "gapPct": 0.9,
+   "gapPct": 0.8,
    "ratingLabel": "buy",
    "rec": {
     "buy": 9,
@@ -1049,7 +1082,7 @@
    }
   },
   "lrlcy.us": {
-   "mktCap": 240384868352,
+   "mktCap": 240266067968,
    "name": "L'Oréal S.A.",
    "price": 90.26,
    "fair": 99.73,
@@ -1119,7 +1152,7 @@
   },
   "tmo.us": {
    "mktCap": 232670887936,
-   "name": "Thermo Fisher Scientific Inc",
+   "name": "Thermo Fisher Scientific Inc.",
    "price": 629.27,
    "fair": 631.42,
    "fairLabel": "analyst target",
@@ -1132,7 +1165,7 @@
    }
   },
   "lrlcf.us": {
-   "mktCap": 232448376832,
+   "mktCap": 232333475840,
    "name": "L'Oréal S.A.",
    "price": 436.4
   },
@@ -1223,7 +1256,7 @@
   },
   "san.us": {
    "mktCap": 212232060928,
-   "name": "Banco Santander, S.A. Sponsored",
+   "name": "Banco Santander, S.A.",
    "price": 14.59,
    "fair": 13.56,
    "fairLabel": "analyst target",
@@ -1247,21 +1280,6 @@
     "hold": 0,
     "sell": 0
    }
-  },
-  "cbauf.us": {
-   "mktCap": 209981931520,
-   "name": "Commonwealth Bank of Australia",
-   "price": 125.6
-  },
-  "idexf.us": {
-   "mktCap": 208128557056,
-   "name": "Industria de Diseño Textil, S.A.",
-   "price": 66.85
-  },
-  "nonof.us": {
-   "mktCap": 206997323776,
-   "name": "Novo Nordisk A/S",
-   "price": 46.81
   }
  }
 }

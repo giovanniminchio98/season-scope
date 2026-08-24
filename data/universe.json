@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-08-23T04:07:45.667Z",
+ "updatedAt": "2026-08-24T04:12:50.740Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -41,7 +41,7 @@
   {
    "t": "spcx.us",
    "n": "Space Exploration Technologies Corp.",
-   "mktCap": 1805508411392
+   "mktCap": 1804468355072
   },
   {
    "t": "avgo.us",
@@ -66,7 +66,12 @@
   {
    "t": "lly.us",
    "n": "Eli Lilly and Company",
-   "mktCap": 1119492112384
+   "mktCap": 1119009636352
+  },
+  {
+   "t": "mu.us",
+   "n": "Micron Technology, Inc.",
+   "mktCap": 1091874717696
   },
   {
    "t": "brk-b.us",
@@ -80,7 +85,7 @@
   },
   {
    "t": "jpm.us",
-   "n": "JP Morgan Chase & Co.",
+   "n": "JPMorgan Chase & Co.",
    "mktCap": 934565052416
   },
   {
@@ -200,7 +205,7 @@
   },
   {
    "t": "ko.us",
-   "n": "Coca-Cola Company (The)",
+   "n": "The Coca-Cola Company",
    "mktCap": 391962198016
   },
   {
@@ -215,12 +220,12 @@
   },
   {
    "t": "cat.us",
-   "n": "Caterpillar, Inc.",
+   "n": "Caterpillar Inc.",
    "mktCap": 380564832256
   },
   {
    "t": "mrk.us",
-   "n": "Merck & Company, Inc.",
+   "n": "Merck & Co., Inc.",
    "mktCap": 376367022080
   },
   {
@@ -232,6 +237,11 @@
    "t": "rhhbf.us",
    "n": "Roche Holding AG",
    "mktCap": 372966129664
+  },
+  {
+   "t": "qh.us",
+   "n": "Quhuo Limited",
+   "mktCap": 371480526848
   },
   {
    "t": "rhhby.us",
@@ -254,14 +264,19 @@
    "mktCap": 350160715776
   },
   {
+   "t": "pg.us",
+   "n": "The Procter & Gamble Company",
+   "mktCap": 336901701632
+  },
+  {
    "t": "ms.us",
    "n": "Morgan Stanley",
    "mktCap": 336415293440
   },
   {
-   "t": "pg.us",
-   "n": "Procter & Gamble Company (The)",
-   "mktCap": 336298967040
+   "t": "hd.us",
+   "n": "The Home Depot, Inc.",
+   "mktCap": 334642315264
   },
   {
    "t": "hbcyf.us",
@@ -285,7 +300,7 @@
   },
   {
    "t": "gs.us",
-   "n": "Goldman Sachs Group, Inc. (The)",
+   "n": "The Goldman Sachs Group, Inc.",
    "mktCap": 302608613376
   },
   {
@@ -310,7 +325,7 @@
   },
   {
    "t": "pm.us",
-   "n": "Philip Morris International Inc",
+   "n": "Philip Morris International Inc.",
    "mktCap": 293377802240
   },
   {
@@ -456,7 +471,7 @@
   {
    "t": "lrlcy.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 240384868352
+   "mktCap": 240266067968
   },
   {
    "t": "anet.us",
@@ -480,28 +495,13 @@
   },
   {
    "t": "tmo.us",
-   "n": "Thermo Fisher Scientific Inc",
+   "n": "Thermo Fisher Scientific Inc.",
    "mktCap": 232670887936
   },
   {
    "t": "lrlcf.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 232448376832
-  },
-  {
-   "t": "axp.us",
-   "n": "American Express Company",
-   "mktCap": 226904096768
-  },
-  {
-   "t": "toyof.us",
-   "n": "Toyota Motor Corporation",
-   "mktCap": 226400944128
-  },
-  {
-   "t": "bachy.us",
-   "n": "Bank of China Limited",
-   "mktCap": 225033125888
+   "mktCap": 232333475840
   }
  ]
 }
