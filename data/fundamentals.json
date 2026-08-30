@@ -1,14 +1,14 @@
 {
- "updatedAt": "2026-08-29T10:15:38.407Z",
+ "updatedAt": "2026-08-30T09:22:52.319Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
    "mktCap": 5253179637760,
    "name": "NVIDIA Corporation",
    "price": 217.55,
-   "fair": 305.79,
+   "fair": 323.42,
    "fairLabel": "analyst target",
-   "gapPct": 40.6,
+   "gapPct": 48.7,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 58,
@@ -76,12 +76,12 @@
    "mktCap": 2873797378048,
    "name": "Amazon.com, Inc.",
    "price": 266.43,
-   "fair": 327,
+   "fair": 327.67,
    "fairLabel": "analyst target",
-   "gapPct": 22.7,
+   "gapPct": 23,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 58,
+    "buy": 59,
     "hold": 2,
     "sell": 0
    }
@@ -93,7 +93,6 @@
    "fair": 554.45,
    "fairLabel": "analyst target",
    "gapPct": 32.8,
-   "ratingLabel": "strong buy",
    "rec": {
     "buy": 18,
     "hold": 1,
@@ -101,7 +100,7 @@
    }
   },
   "spcx.us": {
-   "mktCap": 1865221931008,
+   "mktCap": 1864147402752,
    "name": "Space Exploration Technologies Corp.",
    "price": 141.5,
    "fair": 219.22,
@@ -132,7 +131,7 @@
    "mktCap": 1472509509632,
    "name": "Meta Platforms, Inc.",
    "price": 578.02,
-   "fair": 754.72,
+   "fair": 754.77,
    "fairLabel": "analyst target",
    "gapPct": 30.6,
    "ratingLabel": "strong buy",
@@ -213,7 +212,7 @@
    }
   },
   "lly.us": {
-   "mktCap": 1047448322048,
+   "mktCap": 1046996910080,
    "name": "Eli Lilly and Company",
    "price": 1174.61,
    "fair": 1315.04,
@@ -233,7 +232,6 @@
    "fair": 374.57,
    "fairLabel": "analyst target",
    "gapPct": 4.7,
-   "ratingLabel": "buy",
    "rec": {
     "buy": 13,
     "hold": 10,
@@ -244,13 +242,13 @@
    "mktCap": 820398325760,
    "name": "Walmart Inc.",
    "price": 103.09,
-   "fair": 127.95,
+   "fair": 127.72,
    "fairLabel": "analyst target",
-   "gapPct": 24.1,
+   "gapPct": 23.9,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 36,
-    "hold": 6,
+    "buy": 37,
+    "hold": 5,
     "sell": 1
    }
   },
@@ -296,7 +294,7 @@
    "gapPct": 26.3,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 39,
+    "buy": 38,
     "hold": 4,
     "sell": 1
    }
@@ -330,7 +328,7 @@
    }
   },
   "tcehy.us": {
-   "mktCap": 521814704128,
+   "mktCap": 522382376960,
    "name": "Tencent Holdings Limited",
    "price": 57.96,
    "fair": 96.67,
@@ -357,7 +355,7 @@
    }
   },
   "tctzf.us": {
-   "mktCap": 520734343168,
+   "mktCap": 521300869120,
    "name": "Tencent Holdings Limited",
    "price": 57.84
   },
@@ -368,7 +366,6 @@
    "fair": 114.88,
    "fairLabel": "analyst target",
    "gapPct": 28.4,
-   "ratingLabel": "hold",
    "rec": {
     "buy": 14,
     "hold": 32,
@@ -415,7 +412,6 @@
    "fair": 68.77,
    "fairLabel": "analyst target",
    "gapPct": 10.4,
-   "ratingLabel": "buy",
    "rec": {
     "buy": 20,
     "hold": 4,
@@ -493,6 +489,11 @@
     "sell": 1
    }
   },
+  "qh.us": {
+   "mktCap": 388205936640,
+   "name": "Quhuo Limited",
+   "price": 4.41
+  },
   "ko.us": {
    "mktCap": 385766555648,
    "name": "The Coca-Cola Company",
@@ -525,9 +526,9 @@
    "mktCap": 367854813184,
    "name": "Caterpillar Inc.",
    "price": 800.25,
-   "fair": 979.22,
+   "fair": 975.61,
    "fairLabel": "analyst target",
-   "gapPct": 22.4,
+   "gapPct": 21.9,
    "ratingLabel": "buy",
    "rec": {
     "buy": 14,
@@ -609,7 +610,7 @@
    }
   },
   "hsbc.us": {
-   "mktCap": 354783789056,
+   "mktCap": 354721660928,
    "name": "HSBC Holdings plc",
    "price": 103.53,
    "fair": 106.08,
@@ -649,7 +650,7 @@
    }
   },
   "hbcyf.us": {
-   "mktCap": 346799177728,
+   "mktCap": 346738458624,
    "name": "HSBC Holdings plc",
    "price": 20.24
   },
@@ -681,7 +682,7 @@
    }
   },
   "pg.us": {
-   "mktCap": 334206992384,
+   "mktCap": 334805958656,
    "name": "The Procter & Gamble Company",
    "price": 143.78,
    "fair": 160.61,
@@ -783,9 +784,9 @@
    "mktCap": 295540654080,
    "name": "Alibaba Group Holding Limited",
    "price": 118.9,
-   "fair": 186.69,
+   "fair": 186.84,
    "fairLabel": "analyst target",
-   "gapPct": 57,
+   "gapPct": 57.1,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -839,9 +840,9 @@
    "mktCap": 282742095872,
    "name": "Royal Bank of Canada",
    "price": 204.23,
-   "fair": 205.14,
+   "fair": 206.4,
    "fairLabel": "analyst target",
-   "gapPct": 0.4,
+   "gapPct": 1.1,
    "ratingLabel": "buy",
    "rec": {
     "buy": 9,
@@ -868,9 +869,10 @@
    "mktCap": 262651871232,
    "name": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
    "price": 106.56,
-   "fair": 125.5,
+   "fair": 123.83,
    "fairLabel": "analyst target",
-   "gapPct": 17.8,
+   "gapPct": 16.2,
+   "ratingLabel": "buy",
    "rec": {
     "buy": 1,
     "hold": 2,
@@ -933,9 +935,9 @@
    "mktCap": 255702417408,
    "name": "SAP SE",
    "price": 221.54,
-   "fair": 245.33,
+   "fair": 247.25,
    "fairLabel": "analyst target",
-   "gapPct": 10.7,
+   "gapPct": 11.6,
    "ratingLabel": "buy",
    "rec": {
     "buy": 13,
@@ -1061,7 +1063,7 @@
    }
   },
   "lrlcy.us": {
-   "mktCap": 240091922432,
+   "mktCap": 239973253120,
    "name": "L'Oréal S.A.",
    "price": 90.15,
    "fair": 101.4,
@@ -1089,7 +1091,7 @@
    }
   },
   "lrlcf.us": {
-   "mktCap": 235111628800,
+   "mktCap": 234995417088,
    "name": "L'Oréal S.A.",
    "price": 441.4
   },
@@ -1135,8 +1137,8 @@
    "ratingLabel": "buy",
    "rec": {
     "buy": 22,
-    "hold": 6,
-    "sell": 0
+    "hold": 5,
+    "sell": 1
    }
   },
   "klac.us": {
@@ -1195,13 +1197,13 @@
    "mktCap": 223627362304,
    "name": "CrowdStrike Holdings, Inc.",
    "price": 218.4,
-   "fair": 210.53,
+   "fair": 227.58,
    "fairLabel": "analyst target",
-   "gapPct": -3.6,
+   "gapPct": 4.2,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 40,
-    "hold": 12,
+    "buy": 37,
+    "hold": 13,
     "sell": 1
    }
   },
@@ -1255,20 +1257,15 @@
    "mktCap": 213207990272,
    "name": "Banco Santander, S.A.",
    "price": 14.67,
-   "fair": 13.56,
+   "fair": 14.79,
    "fairLabel": "analyst target",
-   "gapPct": -7.6,
+   "gapPct": 0.8,
    "ratingLabel": "hold",
    "rec": {
     "buy": 1,
-    "hold": 1,
-    "sell": 1
+    "hold": 2,
+    "sell": 0
    }
-  },
-  "rtntf.us": {
-   "mktCap": 212025376768,
-   "name": "Rio Tinto Group",
-   "price": 130.46
   }
  }
 }

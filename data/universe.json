@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-08-29T10:15:38.407Z",
+ "updatedAt": "2026-08-30T09:22:52.320Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -41,7 +41,7 @@
   {
    "t": "spcx.us",
    "n": "Space Exploration Technologies Corp.",
-   "mktCap": 1865221931008
+   "mktCap": 1864147402752
   },
   {
    "t": "avgo.us",
@@ -81,7 +81,7 @@
   {
    "t": "lly.us",
    "n": "Eli Lilly and Company",
-   "mktCap": 1047448322048
+   "mktCap": 1046996910080
   },
   {
    "t": "jpm.us",
@@ -126,7 +126,7 @@
   {
    "t": "tcehy.us",
    "n": "Tencent Holdings Limited",
-   "mktCap": 521814704128
+   "mktCap": 522382376960
   },
   {
    "t": "ma.us",
@@ -136,7 +136,7 @@
   {
    "t": "tctzf.us",
    "n": "Tencent Holdings Limited",
-   "mktCap": 520734343168
+   "mktCap": 521300869120
   },
   {
    "t": "intc.us",
@@ -199,6 +199,11 @@
    "mktCap": 395969232896
   },
   {
+   "t": "qh.us",
+   "n": "Quhuo Limited",
+   "mktCap": 388205936640
+  },
+  {
    "t": "ko.us",
    "n": "The Coca-Cola Company",
    "mktCap": 385766555648
@@ -246,7 +251,7 @@
   {
    "t": "hsbc.us",
    "n": "HSBC Holdings plc",
-   "mktCap": 354783789056
+   "mktCap": 354721660928
   },
   {
    "t": "unh.us",
@@ -261,7 +266,7 @@
   {
    "t": "hbcyf.us",
    "n": "HSBC Holdings plc",
-   "mktCap": 346799177728
+   "mktCap": 346738458624
   },
   {
    "t": "nflx.us",
@@ -276,7 +281,7 @@
   {
    "t": "pg.us",
    "n": "The Procter & Gamble Company",
-   "mktCap": 334206992384
+   "mktCap": 334805958656
   },
   {
    "t": "hd.us",
@@ -461,7 +466,7 @@
   {
    "t": "lrlcy.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 240091922432
+   "mktCap": 239973253120
   },
   {
    "t": "txn.us",
@@ -471,7 +476,7 @@
   {
    "t": "lrlcf.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 235111628800
+   "mktCap": 234995417088
   },
   {
    "t": "amgn.us",
@@ -497,11 +502,6 @@
    "t": "klac.us",
    "n": "KLA Corporation",
    "mktCap": 229351227392
-  },
-  {
-   "t": "bachy.us",
-   "n": "Bank of China Limited",
-   "mktCap": 228770807808
   }
  ]
 }
