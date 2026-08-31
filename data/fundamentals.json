@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-08-30T09:22:52.319Z",
+ "updatedAt": "2026-08-31T09:57:09.302Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -289,9 +289,9 @@
    "mktCap": 651495079936,
    "name": "ASML Holding N.V.",
    "price": 1696.16,
-   "fair": 2142.89,
+   "fair": 2145.62,
    "fairLabel": "analyst target",
-   "gapPct": 26.3,
+   "gapPct": 26.5,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -331,9 +331,9 @@
    "mktCap": 522382376960,
    "name": "Tencent Holdings Limited",
    "price": 57.96,
-   "fair": 96.67,
+   "fair": 96.85,
    "fairLabel": "analyst target",
-   "gapPct": 66.8,
+   "gapPct": 67.1,
    "rec": {
     "buy": 3,
     "hold": 0,
@@ -573,9 +573,9 @@
    "mktCap": 360990736384,
    "name": "Roche Holding AG",
    "price": 453.07,
-   "fair": 469.54,
+   "fair": 469.95,
    "fairLabel": "analyst target",
-   "gapPct": 3.6,
+   "gapPct": 3.7,
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -586,9 +586,9 @@
    "mktCap": 360508915712,
    "name": "Contemporary Amperex Technology Co., Limited",
    "price": 19.48,
-   "fair": 30.25,
+   "fair": 30.3,
    "fairLabel": "analyst target",
-   "gapPct": 55.3,
+   "gapPct": 55.6,
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -728,14 +728,14 @@
    "mktCap": 302845853696,
    "name": "Palo Alto Networks, Inc.",
    "price": 371.59,
-   "fair": 362.71,
+   "fair": 364.01,
    "fairLabel": "analyst target",
-   "gapPct": -2.4,
+   "gapPct": -2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 44,
-    "hold": 10,
-    "sell": 1
+    "hold": 9,
+    "sell": 2
    }
   },
   "cgxyy.us": {
@@ -784,9 +784,9 @@
    "mktCap": 295540654080,
    "name": "Alibaba Group Holding Limited",
    "price": 118.9,
-   "fair": 186.84,
+   "fair": 187.19,
    "fairLabel": "analyst target",
-   "gapPct": 57.1,
+   "gapPct": 57.4,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -840,7 +840,7 @@
    "mktCap": 282742095872,
    "name": "Royal Bank of Canada",
    "price": 204.23,
-   "fair": 206.4,
+   "fair": 206.55,
    "fairLabel": "analyst target",
    "gapPct": 1.1,
    "ratingLabel": "buy",
