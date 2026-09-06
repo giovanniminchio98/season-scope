@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-09-05T07:47:55.685Z",
+ "updatedAt": "2026-09-06T08:01:40.699Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -334,7 +334,6 @@
    "fair": 96.7,
    "fairLabel": "analyst target",
    "gapPct": 70.8,
-   "ratingLabel": "buy",
    "rec": {
     "buy": 3,
     "hold": 0,
@@ -444,11 +443,6 @@
    "mktCap": 428205604864,
    "name": "Samsung Electronics Co., Ltd.",
    "price": 65.21
-  },
-  "dogef.us": {
-   "mktCap": 424900657152,
-   "name": "Ørsted A/S",
-   "price": 21.88
   },
   "pltr.us": {
    "mktCap": 418925182976,
@@ -633,6 +627,7 @@
    "fair": 404.9,
    "fairLabel": "analyst target",
    "gapPct": 20.1,
+   "ratingLabel": "strong buy",
    "rec": {
     "buy": 19,
     "hold": 2,
@@ -1276,6 +1271,11 @@
    "mktCap": 212314636288,
    "name": "Banco Santander, S.A.",
    "price": 14.62
+  },
+  "dogef.us": {
+   "mktCap": 28899551232,
+   "name": "Ørsted A/S",
+   "price": 21.88
   }
  }
 }
