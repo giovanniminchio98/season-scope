@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-09-06T08:01:40.699Z",
+ "updatedAt": "2026-09-07T08:30:30.638Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -101,7 +101,7 @@
    }
   },
   "spcx.us": {
-   "mktCap": 1950244274176,
+   "mktCap": 1949120987136,
    "name": "Space Exploration Technologies Corp.",
    "price": 147.95,
    "fair": 222.32,
@@ -151,8 +151,8 @@
    "gapPct": 10.2,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 22,
-    "hold": 19,
+    "buy": 21,
+    "hold": 20,
     "sell": 5
    }
   },
@@ -211,7 +211,7 @@
    }
   },
   "lly.us": {
-   "mktCap": 1024931856384,
+   "mktCap": 1024490143744,
    "name": "Eli Lilly and Company",
    "price": 1149.36,
    "fair": 1315.56,
@@ -231,7 +231,6 @@
    "fair": 374.57,
    "fairLabel": "analyst target",
    "gapPct": 4.4,
-   "ratingLabel": "buy",
    "rec": {
     "buy": 13,
     "hold": 10,
@@ -239,7 +238,7 @@
    }
   },
   "wmt.us": {
-   "mktCap": 852628602880,
+   "mktCap": 850021580800,
    "name": "Walmart Inc.",
    "price": 107.14,
    "fair": 127.72,
@@ -303,9 +302,9 @@
    "mktCap": 658685427712,
    "name": "ASML Holding N.V.",
    "price": 1714.88,
-   "fair": 2166.7,
+   "fair": 2169.48,
    "fairLabel": "analyst target",
-   "gapPct": 26.3,
+   "gapPct": 26.5,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 39,
@@ -331,9 +330,10 @@
    "mktCap": 510023925760,
    "name": "Tencent Holdings Limited",
    "price": 56.6,
-   "fair": 96.7,
+   "fair": 96.71,
    "fairLabel": "analyst target",
-   "gapPct": 70.8,
+   "gapPct": 70.9,
+   "ratingLabel": "buy",
    "rec": {
     "buy": 3,
     "hold": 0,
@@ -448,9 +448,9 @@
    "mktCap": 418925182976,
    "name": "Palantir Technologies Inc.",
    "price": 174.33,
-   "fair": 191.68,
+   "fair": 193.88,
    "fairLabel": "analyst target",
-   "gapPct": 10,
+   "gapPct": 11.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 21,
@@ -532,9 +532,9 @@
    "mktCap": 370889916416,
    "name": "Merck & Co., Inc.",
    "price": 150.33,
-   "fair": 148.73,
+   "fair": 149.5,
    "fairLabel": "analyst target",
-   "gapPct": -1.1,
+   "gapPct": -0.6,
    "ratingLabel": "buy",
    "rec": {
     "buy": 20,
@@ -546,9 +546,9 @@
    "mktCap": 366940979200,
    "name": "HSBC Holdings plc",
    "price": 107.11,
-   "fair": 118,
+   "fair": 106.08,
    "fairLabel": "analyst target",
-   "gapPct": 10.2,
+   "gapPct": -1,
    "ratingLabel": "hold",
    "rec": {
     "buy": 1,
@@ -589,13 +589,19 @@
     "sell": 0
    }
   },
+  "qh.us": {
+   "mktCap": 354755117056,
+   "name": "Quhuo Limited",
+   "price": 4.03
+  },
   "rhhvf.us": {
    "mktCap": 352305971200,
    "name": "Roche Holding AG",
    "price": 442.17,
-   "fair": 512.98,
+   "fair": 513.15,
    "fairLabel": "analyst target",
-   "gapPct": 16,
+   "gapPct": 16.1,
+   "ratingLabel": "strong buy",
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -614,6 +620,7 @@
    "fair": 60.44,
    "fairLabel": "analyst target",
    "gapPct": 10,
+   "ratingLabel": "buy",
    "rec": {
     "buy": 4,
     "hold": 4,
@@ -627,7 +634,6 @@
    "fair": 404.9,
    "fairLabel": "analyst target",
    "gapPct": 20.1,
-   "ratingLabel": "strong buy",
    "rec": {
     "buy": 19,
     "hold": 2,
@@ -649,7 +655,7 @@
    }
   },
   "pg.us": {
-   "mktCap": 340132134912,
+   "mktCap": 340389986304,
    "name": "The Procter & Gamble Company",
    "price": 146.44,
    "fair": 160.61,
@@ -680,7 +686,7 @@
    "mktCap": 337939300352,
    "name": "Contemporary Amperex Technology Co., Limited",
    "price": 18.26,
-   "fair": 30.29,
+   "fair": 30.3,
    "fairLabel": "analyst target",
    "gapPct": 65.9,
    "rec": {
@@ -778,9 +784,9 @@
    "mktCap": 291547086848,
    "name": "Royal Bank of Canada",
    "price": 210.59,
-   "fair": 207.36,
+   "fair": 207.58,
    "fairLabel": "analyst target",
-   "gapPct": -1.5,
+   "gapPct": -1.4,
    "ratingLabel": "buy",
    "rec": {
     "buy": 9,
@@ -810,7 +816,7 @@
    "mktCap": 281472008192,
    "name": "Alibaba Group Holding Limited",
    "price": 113.24,
-   "fair": 187.05,
+   "fair": 187.08,
    "fairLabel": "analyst target",
    "gapPct": 65.2,
    "ratingLabel": "strong buy",
@@ -933,7 +939,7 @@
    }
   },
   "azn.us": {
-   "mktCap": 252330754048,
+   "mktCap": 252329132032,
    "name": "AstraZeneca PLC",
    "price": 162.7,
    "fair": 212.54,
@@ -1078,7 +1084,7 @@
    "price": 47.7
   },
   "lrlcy.us": {
-   "mktCap": 236922634240,
+   "mktCap": 236805537792,
    "name": "L'Oréal S.A.",
    "price": 88.96,
    "fair": 103.07,
@@ -1138,7 +1144,7 @@
    "price": 19.68
   },
   "lrlcf.us": {
-   "mktCap": 231809204224,
+   "mktCap": 231694630912,
    "name": "L'Oréal S.A.",
    "price": 435.2
   },
@@ -1257,20 +1263,15 @@
    "mktCap": 213346304000,
    "name": "Salesforce, Inc.",
    "price": 259.23,
-   "fair": 270.84,
+   "fair": 272.13,
    "fairLabel": "analyst target",
-   "gapPct": 4.5,
+   "gapPct": 5,
    "ratingLabel": "buy",
    "rec": {
     "buy": 40,
     "hold": 14,
     "sell": 2
    }
-  },
-  "bcdrf.us": {
-   "mktCap": 212314636288,
-   "name": "Banco Santander, S.A.",
-   "price": 14.62
   },
   "dogef.us": {
    "mktCap": 28899551232,

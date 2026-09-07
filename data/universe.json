@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-09-06T08:01:40.699Z",
+ "updatedAt": "2026-09-07T08:30:30.639Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -41,7 +41,7 @@
   {
    "t": "spcx.us",
    "n": "Space Exploration Technologies Corp.",
-   "mktCap": 1950244274176
+   "mktCap": 1949120987136
   },
   {
    "t": "avgo.us",
@@ -81,7 +81,7 @@
   {
    "t": "lly.us",
    "n": "Eli Lilly and Company",
-   "mktCap": 1024931856384
+   "mktCap": 1024490143744
   },
   {
    "t": "jpm.us",
@@ -91,7 +91,7 @@
   {
    "t": "wmt.us",
    "n": "Walmart Inc.",
-   "mktCap": 852628602880
+   "mktCap": 850021580800
   },
   {
    "t": "amd.us",
@@ -234,6 +234,11 @@
    "mktCap": 356470816768
   },
   {
+   "t": "qh.us",
+   "n": "Quhuo Limited",
+   "mktCap": 354755117056
+  },
+  {
    "t": "rhhvf.us",
    "n": "Roche Holding AG",
    "mktCap": 352305971200
@@ -261,7 +266,7 @@
   {
    "t": "pg.us",
    "n": "The Procter & Gamble Company",
-   "mktCap": 340132134912
+   "mktCap": 340389986304
   },
   {
    "t": "dell.us",
@@ -396,7 +401,7 @@
   {
    "t": "azn.us",
    "n": "AstraZeneca PLC",
-   "mktCap": 252330754048
+   "mktCap": 252329132032
   },
   {
    "t": "gev.us",
@@ -471,7 +476,7 @@
   {
    "t": "lrlcy.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 236922634240
+   "mktCap": 236805537792
   },
   {
    "t": "amgn.us",
@@ -496,12 +501,7 @@
   {
    "t": "lrlcf.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 231809204224
-  },
-  {
-   "t": "c.us",
-   "n": "Citigroup Inc.",
-   "mktCap": 231016595456
+   "mktCap": 231694630912
   }
  ]
 }
