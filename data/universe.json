@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-09-07T08:30:30.639Z",
+ "updatedAt": "2026-09-08T08:14:29.121Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -41,7 +41,7 @@
   {
    "t": "spcx.us",
    "n": "Space Exploration Technologies Corp.",
-   "mktCap": 1949120987136
+   "mktCap": 1950244274176
   },
   {
    "t": "avgo.us",
@@ -81,7 +81,7 @@
   {
    "t": "lly.us",
    "n": "Eli Lilly and Company",
-   "mktCap": 1024490143744
+   "mktCap": 1024931856384
   },
   {
    "t": "jpm.us",
@@ -91,7 +91,7 @@
   {
    "t": "wmt.us",
    "n": "Walmart Inc.",
-   "mktCap": 850021580800
+   "mktCap": 852628602880
   },
   {
    "t": "amd.us",
@@ -126,7 +126,7 @@
   {
    "t": "tcehy.us",
    "n": "Tencent Holdings Limited",
-   "mktCap": 510023925760
+   "mktCap": 510011375616
   },
   {
    "t": "ma.us",
@@ -141,7 +141,7 @@
   {
    "t": "tctzf.us",
    "n": "Tencent Holdings Limited",
-   "mktCap": 498399739904
+   "mktCap": 498387451904
   },
   {
    "t": "orcl.us",
@@ -234,11 +234,6 @@
    "mktCap": 356470816768
   },
   {
-   "t": "qh.us",
-   "n": "Quhuo Limited",
-   "mktCap": 354755117056
-  },
-  {
    "t": "rhhvf.us",
    "n": "Roche Holding AG",
    "mktCap": 352305971200
@@ -266,7 +261,7 @@
   {
    "t": "pg.us",
    "n": "The Procter & Gamble Company",
-   "mktCap": 340389986304
+   "mktCap": 340132134912
   },
   {
    "t": "dell.us",
@@ -386,12 +381,12 @@
   {
    "t": "shel.us",
    "n": "Shell plc",
-   "mktCap": 265908715520
+   "mktCap": 266005839872
   },
   {
    "t": "rydaf.us",
    "n": "Shell plc",
-   "mktCap": 258957033472
+   "mktCap": 259051634688
   },
   {
    "t": "sndk.us",
@@ -401,7 +396,7 @@
   {
    "t": "azn.us",
    "n": "AstraZeneca PLC",
-   "mktCap": 252329132032
+   "mktCap": 252330754048
   },
   {
    "t": "gev.us",
@@ -476,7 +471,7 @@
   {
    "t": "lrlcy.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 236805537792
+   "mktCap": 236922634240
   },
   {
    "t": "amgn.us",
@@ -501,7 +496,12 @@
   {
    "t": "lrlcf.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 231694630912
+   "mktCap": 231809204224
+  },
+  {
+   "t": "c.us",
+   "n": "Citigroup Inc.",
+   "mktCap": 231016595456
   }
  ]
 }
