@@ -1,17 +1,17 @@
 {
- "updatedAt": "2026-09-12T08:02:52.441Z",
+ "updatedAt": "2026-09-13T08:27:40.055Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
    "mktCap": 5271048421376,
    "name": "NVIDIA Corporation",
    "price": 218.29,
-   "fair": 327.65,
+   "fair": 327.18,
    "fairLabel": "analyst target",
-   "gapPct": 50.1,
+   "gapPct": 49.9,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 57,
+    "buy": 58,
     "hold": 2,
     "sell": 1
    }
@@ -151,7 +151,7 @@
    "gapPct": 6.7,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 20,
+    "buy": 19,
     "hold": 20,
     "sell": 5
    }
@@ -256,12 +256,12 @@
    "mktCap": 842569351168,
    "name": "Advanced Micro Devices, Inc.",
    "price": 516.13,
-   "fair": 615.38,
+   "fair": 615.07,
    "fairLabel": "analyst target",
    "gapPct": 19.2,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 43,
+    "buy": 44,
     "hold": 11,
     "sell": 0
    }
@@ -298,9 +298,9 @@
    "mktCap": 652317032448,
    "name": "ASML Holding N.V.",
    "price": 1698.3,
-   "fair": 2157.87,
+   "fair": 2157.62,
    "fairLabel": "analyst target",
-   "gapPct": 27.1,
+   "gapPct": 27,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 39,
@@ -430,12 +430,12 @@
    "mktCap": 432877174784,
    "name": "Oracle Corporation",
    "price": 150.28,
-   "fair": 241.41,
+   "fair": 239.1,
    "fairLabel": "analyst target",
-   "gapPct": 60.6,
+   "gapPct": 59.1,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 36,
+    "buy": 35,
     "hold": 7,
     "sell": 1
    }
@@ -701,7 +701,7 @@
    "mktCap": 321097859072,
    "name": "Contemporary Amperex Technology Co., Limited",
    "price": 17.35,
-   "fair": 30.31,
+   "fair": 30.3,
    "fairLabel": "analyst target",
    "gapPct": 74.7,
    "rec": {
@@ -733,11 +733,6 @@
    "mktCap": 303030665216,
    "name": "PetroChina Company Limited",
    "price": 1.23
-  },
-  "cgxyy.us": {
-   "mktCap": 302554906624,
-   "name": "China Galaxy Securities Co., Ltd.",
-   "price": 27.67
   },
   "gs.us": {
    "mktCap": 299667783680,
@@ -901,6 +896,11 @@
     "hold": 8,
     "sell": 0
    }
+  },
+  "cgxyy.us": {
+   "mktCap": 264940552192,
+   "name": "China Galaxy Securities Co., Ltd.",
+   "price": 24.23
   },
   "nvsef.us": {
    "mktCap": 261861490688,
