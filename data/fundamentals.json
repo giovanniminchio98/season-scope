@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-09-13T08:27:40.055Z",
+ "updatedAt": "2026-09-14T09:07:21.767Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -20,9 +20,9 @@
    "mktCap": 4849207869440,
    "name": "Apple Inc.",
    "price": 332.27,
-   "fair": 324.4,
+   "fair": 325.66,
    "fairLabel": "analyst target",
-   "gapPct": -2.4,
+   "gapPct": -2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 25,
@@ -132,9 +132,9 @@
    "mktCap": 1650860490752,
    "name": "Meta Platforms, Inc.",
    "price": 648.03,
-   "fair": 757.31,
+   "fair": 758.28,
    "fairLabel": "analyst target",
-   "gapPct": 16.9,
+   "gapPct": 17,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 56,
@@ -160,9 +160,9 @@
    "mktCap": 1349221220352,
    "name": "SK hynix Inc.",
    "price": 190.07,
-   "fair": 247.14,
+   "fair": 248.43,
    "fairLabel": "analyst target",
-   "gapPct": 30,
+   "gapPct": 30.7,
    "ratingLabel": "buy",
    "rec": {
     "buy": 14,
@@ -298,9 +298,9 @@
    "mktCap": 652317032448,
    "name": "ASML Holding N.V.",
    "price": 1698.3,
-   "fair": 2157.62,
+   "fair": 2146.91,
    "fairLabel": "analyst target",
-   "gapPct": 27,
+   "gapPct": 26.4,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 39,
@@ -345,13 +345,13 @@
    "mktCap": 498616074240,
    "name": "Mastercard Incorporated",
    "price": 569.19,
-   "fair": 668.53,
+   "fair": 666.71,
    "fairLabel": "analyst target",
-   "gapPct": 17.5,
+   "gapPct": 17.1,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 36,
-    "hold": 3,
+    "hold": 4,
     "sell": 0
    }
   },
@@ -364,7 +364,7 @@
    "mktCap": 490509828096,
    "name": "Tencent Holdings Limited",
    "price": 54.44,
-   "fair": 96.74,
+   "fair": 96.76,
    "fairLabel": "analyst target",
    "gapPct": 77.7,
    "ratingLabel": "buy",
@@ -594,9 +594,9 @@
    "mktCap": 343230808064,
    "name": "Roche Holding AG",
    "price": 430.78,
-   "fair": 508.52,
+   "fair": 506.92,
    "fairLabel": "analyst target",
-   "gapPct": 18,
+   "gapPct": 17.7,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 1,
@@ -701,7 +701,7 @@
    "mktCap": 321097859072,
    "name": "Contemporary Amperex Technology Co., Limited",
    "price": 17.35,
-   "fair": 30.3,
+   "fair": 30.31,
    "fairLabel": "analyst target",
    "gapPct": 74.7,
    "rec": {
@@ -765,9 +765,9 @@
    "mktCap": 285054107648,
    "name": "Royal Bank of Canada",
    "price": 205.9,
-   "fair": 211.72,
+   "fair": 211.32,
    "fairLabel": "analyst target",
-   "gapPct": 2.8,
+   "gapPct": 2.6,
    "ratingLabel": "buy",
    "rec": {
     "buy": 9,
@@ -803,9 +803,9 @@
    "mktCap": 276704821248,
    "name": "Shell plc",
    "price": 96.77,
-   "fair": 100.08,
+   "fair": 100.35,
    "fairLabel": "analyst target",
-   "gapPct": 3.4,
+   "gapPct": 3.7,
    "ratingLabel": "buy",
    "rec": {
     "buy": 7,
@@ -841,7 +841,7 @@
    "mktCap": 271678668800,
    "name": "Alibaba Group Holding Limited",
    "price": 109.3,
-   "fair": 186.09,
+   "fair": 186.12,
    "fairLabel": "analyst target",
    "gapPct": 70.3,
    "ratingLabel": "strong buy",
@@ -911,9 +911,9 @@
    "mktCap": 260702060544,
    "name": "Novartis AG",
    "price": 137.16,
-   "fair": 158.1,
+   "fair": 156.56,
    "fairLabel": "analyst target",
-   "gapPct": 15.3,
+   "gapPct": 14.1,
    "ratingLabel": "hold",
    "rec": {
     "buy": 5,
@@ -925,9 +925,9 @@
    "mktCap": 254953160704,
    "name": "GE Vernova Inc.",
    "price": 957.27,
-   "fair": 1236.43,
+   "fair": 1237.34,
    "fairLabel": "analyst target",
-   "gapPct": 29.2,
+   "gapPct": 29.3,
    "ratingLabel": "buy",
    "rec": {
     "buy": 30,
@@ -998,6 +998,7 @@
    "fair": 324.71,
    "fairLabel": "analyst target",
    "gapPct": 20.8,
+   "ratingLabel": "buy",
    "rec": {
     "buy": 20,
     "hold": 14,
@@ -1225,7 +1226,6 @@
    "fair": 14.79,
    "fairLabel": "analyst target",
    "gapPct": -1.1,
-   "ratingLabel": "hold",
    "rec": {
     "buy": 1,
     "hold": 2,
@@ -1250,9 +1250,9 @@
    "mktCap": 212184170496,
    "name": "Marvell Technology, Inc.",
    "price": 236.1,
-   "fair": 284.64,
+   "fair": 285.3,
    "fairLabel": "analyst target",
-   "gapPct": 20.6,
+   "gapPct": 20.8,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 40,
@@ -1264,12 +1264,12 @@
    "mktCap": 211688292352,
    "name": "CrowdStrike Holdings, Inc.",
    "price": 206.74,
-   "fair": 232.69,
+   "fair": 234.09,
    "fairLabel": "analyst target",
-   "gapPct": 12.6,
+   "gapPct": 13.2,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 39,
+    "buy": 40,
     "hold": 12,
     "sell": 1
    }
