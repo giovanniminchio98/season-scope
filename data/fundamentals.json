@@ -1,17 +1,17 @@
 {
- "updatedAt": "2026-09-19T08:12:03.688Z",
+ "updatedAt": "2026-09-20T08:44:27.351Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
    "mktCap": 5367153557504,
    "name": "NVIDIA Corporation",
    "price": 222.27,
-   "fair": 328.49,
+   "fair": 327.7,
    "fairLabel": "analyst target",
-   "gapPct": 47.8,
+   "gapPct": 47.4,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 58,
+    "buy": 59,
     "hold": 2,
     "sell": 1
    }
@@ -20,9 +20,9 @@
    "mktCap": 4905541566464,
    "name": "Apple Inc.",
    "price": 336.13,
-   "fair": 327.84,
+   "fair": 328.22,
    "fairLabel": "analyst target",
-   "gapPct": -2.5,
+   "gapPct": -2.4,
    "ratingLabel": "buy",
    "rec": {
     "buy": 25,
@@ -34,12 +34,12 @@
    "mktCap": 4274851676160,
    "name": "Alphabet Inc.",
    "price": 349.54,
-   "fair": 428.41,
+   "fair": 428.16,
    "fairLabel": "analyst target",
-   "gapPct": 22.6,
+   "gapPct": 22.5,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 57,
+    "buy": 56,
     "hold": 5,
     "sell": 0
    }
@@ -53,7 +53,7 @@
    "gapPct": 22.6,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 56,
+    "buy": 55,
     "hold": 5,
     "sell": 0
    }
@@ -101,7 +101,7 @@
    }
   },
   "spcx.us": {
-   "mktCap": 2012989751296,
+   "mktCap": 2011830157312,
    "name": "Space Exploration Technologies Corp.",
    "price": 152.71,
    "fair": 222.42,
@@ -191,6 +191,7 @@
    "fair": 547.67,
    "fairLabel": "analyst target",
    "gapPct": 7.4,
+   "ratingLabel": "buy",
    "rec": {
     "buy": 2,
     "hold": 2,
@@ -204,6 +205,7 @@
    "fair": 799502.75,
    "fairLabel": "analyst target",
    "gapPct": 4.7,
+   "ratingLabel": "hold",
    "rec": {
     "buy": 1,
     "hold": 2,
@@ -211,12 +213,12 @@
    }
   },
   "lly.us": {
-   "mktCap": 1028115464192,
+   "mktCap": 1027672309760,
    "name": "Eli Lilly and Company",
    "price": 1152.93,
-   "fair": 1324.87,
+   "fair": 1325.39,
    "fairLabel": "analyst target",
-   "gapPct": 14.9,
+   "gapPct": 15,
    "ratingLabel": "buy",
    "rec": {
     "buy": 25,
@@ -253,7 +255,7 @@
    }
   },
   "wmt.us": {
-   "mktCap": 849365827584,
+   "mktCap": 846768766976,
    "name": "Walmart Inc.",
    "price": 106.73,
    "fair": 127.42,
@@ -312,7 +314,7 @@
    "mktCap": 645257297920,
    "name": "ASML Holding N.V.",
    "price": 1679.92,
-   "fair": 2137.39,
+   "fair": 2137.63,
    "fairLabel": "analyst target",
    "gapPct": 27.2,
    "ratingLabel": "strong buy",
@@ -396,9 +398,9 @@
    "mktCap": 446333681664,
    "name": "Oracle Corporation",
    "price": 147.61,
-   "fair": 239,
+   "fair": 237.97,
    "fairLabel": "analyst target",
-   "gapPct": 61.9,
+   "gapPct": 61.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 35,
@@ -532,9 +534,9 @@
    "mktCap": 361179774976,
    "name": "Dell Technologies Inc.",
    "price": 568.06,
-   "fair": 570.48,
+   "fair": 576.88,
    "fairLabel": "analyst target",
-   "gapPct": 0.4,
+   "gapPct": 1.6,
    "ratingLabel": "buy",
    "rec": {
     "buy": 20,
@@ -577,7 +579,6 @@
    "fair": 504.98,
    "fairLabel": "analyst target",
    "gapPct": 14.8,
-   "ratingLabel": "strong buy",
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -591,7 +592,6 @@
    "fair": 106.08,
    "fairLabel": "analyst target",
    "gapPct": 4.2,
-   "ratingLabel": "hold",
    "rec": {
     "buy": 1,
     "hold": 1,
@@ -622,8 +622,13 @@
     "sell": 0
    }
   },
+  "qh.us": {
+   "mktCap": 343311384576,
+   "name": "Quhuo Limited",
+   "price": 3.9
+  },
   "pg.us": {
-   "mktCap": 340016005120,
+   "mktCap": 340273758208,
    "name": "The Procter & Gamble Company",
    "price": 146.39,
    "fair": 160.61,
@@ -711,14 +716,14 @@
    "mktCap": 298929225728,
    "name": "Netflix, Inc.",
    "price": 71.79,
-   "fair": 93.88,
+   "fair": 93.37,
    "fairLabel": "analyst target",
-   "gapPct": 30.8,
+   "gapPct": 30.1,
    "ratingLabel": "buy",
    "rec": {
     "buy": 35,
-    "hold": 16,
-    "sell": 0
+    "hold": 15,
+    "sell": 1
    }
   },
   "nvsef.us": {
@@ -838,11 +843,6 @@
    "name": "Alibaba Group Holding Limited",
    "price": 13.75
   },
-  "cgxyy.us": {
-   "mktCap": 272266608640,
-   "name": "China Galaxy Securities Co., Ltd.",
-   "price": 24.9
-  },
   "rydaf.us": {
    "mktCap": 270671593472,
    "name": "Shell plc",
@@ -875,6 +875,11 @@
     "hold": 6,
     "sell": 1
    }
+  },
+  "cgxyy.us": {
+   "mktCap": 264940552192,
+   "name": "China Galaxy Securities Co., Ltd.",
+   "price": 24.23
   },
   "sndk.us": {
    "mktCap": 262356500480,
@@ -932,7 +937,7 @@
    }
   },
   "azn.us": {
-   "mktCap": 257572782080,
+   "mktCap": 257571127296,
    "name": "AstraZeneca PLC",
    "price": 166.08,
    "fair": 212.17,
@@ -1006,9 +1011,9 @@
    "mktCap": 243338117120,
    "name": "CrowdStrike Holdings, Inc.",
    "price": 237.65,
-   "fair": 234.35,
+   "fair": 235.35,
    "fairLabel": "analyst target",
-   "gapPct": -1.4,
+   "gapPct": -1,
    "ratingLabel": "buy",
    "rec": {
     "buy": 40,
@@ -1092,7 +1097,7 @@
    }
   },
   "lrlcf.us": {
-   "mktCap": 232634810368,
+   "mktCap": 232519811072,
    "name": "L'Oréal S.A.",
    "price": 436.75
   },
@@ -1124,7 +1129,7 @@
    }
   },
   "lrlcy.us": {
-   "mktCap": 229705236480,
+   "mktCap": 229591711744,
    "name": "L'Oréal S.A.",
    "price": 86.25,
    "fair": 103.07,
@@ -1137,7 +1142,7 @@
    }
   },
   "sftbf.us": {
-   "mktCap": 227956948992,
+   "mktCap": 227950559232,
    "name": "SoftBank Group Corp.",
    "price": 40
   },
@@ -1145,9 +1150,9 @@
    "mktCap": 226806644736,
    "name": "Toyota Motor Corporation",
    "price": 191.53,
-   "fair": 231.58,
+   "fair": 234.08,
    "fairLabel": "analyst target",
-   "gapPct": 20.9,
+   "gapPct": 22.2,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 4,
@@ -1167,6 +1172,7 @@
    "fair": 122.5,
    "fairLabel": "analyst target",
    "gapPct": 33.2,
+   "ratingLabel": "buy",
    "rec": {
     "buy": 1,
     "hold": 2,
@@ -1257,20 +1263,6 @@
    "mktCap": 211509133312,
    "name": "Industria de Diseño Textil, S.A.",
    "price": 67.9
-  },
-  "axp.us": {
-   "mktCap": 210399526912,
-   "name": "American Express Company",
-   "price": 311.56,
-   "fair": 375.96,
-   "fairLabel": "analyst target",
-   "gapPct": 20.7,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 14,
-    "hold": 15,
-    "sell": 1
-   }
   }
  }
 }

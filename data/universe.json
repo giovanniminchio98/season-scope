@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-09-19T08:12:03.689Z",
+ "updatedAt": "2026-09-20T08:44:27.353Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -41,7 +41,7 @@
   {
    "t": "spcx.us",
    "n": "Space Exploration Technologies Corp.",
-   "mktCap": 2012989751296
+   "mktCap": 2011830157312
   },
   {
    "t": "avgo.us",
@@ -81,7 +81,7 @@
   {
    "t": "lly.us",
    "n": "Eli Lilly and Company",
-   "mktCap": 1028115464192
+   "mktCap": 1027672309760
   },
   {
    "t": "jpm.us",
@@ -96,7 +96,7 @@
   {
    "t": "wmt.us",
    "n": "Walmart Inc.",
-   "mktCap": 849365827584
+   "mktCap": 846768766976
   },
   {
    "t": "v.us",
@@ -249,9 +249,14 @@
    "mktCap": 344457838592
   },
   {
+   "t": "qh.us",
+   "n": "Quhuo Limited",
+   "mktCap": 343311384576
+  },
+  {
    "t": "pg.us",
    "n": "The Procter & Gamble Company",
-   "mktCap": 340016005120
+   "mktCap": 340273758208
   },
   {
    "t": "unh.us",
@@ -349,11 +354,6 @@
    "mktCap": 273418584064
   },
   {
-   "t": "cgxyy.us",
-   "n": "China Galaxy Securities Co., Ltd.",
-   "mktCap": 272266608640
-  },
-  {
    "t": "rydaf.us",
    "n": "Shell plc",
    "mktCap": 270671593472
@@ -367,6 +367,11 @@
    "t": "nvs.us",
    "n": "Novartis AG",
    "mktCap": 266803331072
+  },
+  {
+   "t": "cgxyy.us",
+   "n": "China Galaxy Securities Co., Ltd.",
+   "mktCap": 264940552192
   },
   {
    "t": "sndk.us",
@@ -391,7 +396,7 @@
   {
    "t": "azn.us",
    "n": "AstraZeneca PLC",
-   "mktCap": 257572782080
+   "mktCap": 257571127296
   },
   {
    "t": "anet.us",
@@ -471,7 +476,7 @@
   {
    "t": "lrlcf.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 232634810368
+   "mktCap": 232519811072
   },
   {
    "t": "sftby.us",
@@ -486,22 +491,17 @@
   {
    "t": "lrlcy.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 229705236480
+   "mktCap": 229591711744
   },
   {
    "t": "sftbf.us",
    "n": "SoftBank Group Corp.",
-   "mktCap": 227956948992
+   "mktCap": 227950559232
   },
   {
    "t": "tm.us",
    "n": "Toyota Motor Corporation",
    "mktCap": 226806644736
-  },
-  {
-   "t": "lvmhf.us",
-   "n": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
-   "mktCap": 226783723520
   }
  ]
 }
