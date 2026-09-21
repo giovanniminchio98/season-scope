@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-09-20T08:44:27.353Z",
+ "updatedAt": "2026-09-21T09:08:42.886Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -41,7 +41,7 @@
   {
    "t": "spcx.us",
    "n": "Space Exploration Technologies Corp.",
-   "mktCap": 2011830157312
+   "mktCap": 2012989751296
   },
   {
    "t": "avgo.us",
@@ -81,7 +81,7 @@
   {
    "t": "lly.us",
    "n": "Eli Lilly and Company",
-   "mktCap": 1027672309760
+   "mktCap": 1028115464192
   },
   {
    "t": "jpm.us",
@@ -96,7 +96,7 @@
   {
    "t": "wmt.us",
    "n": "Walmart Inc.",
-   "mktCap": 846768766976
+   "mktCap": 849365827584
   },
   {
    "t": "v.us",
@@ -249,14 +249,9 @@
    "mktCap": 344457838592
   },
   {
-   "t": "qh.us",
-   "n": "Quhuo Limited",
-   "mktCap": 343311384576
-  },
-  {
    "t": "pg.us",
    "n": "The Procter & Gamble Company",
-   "mktCap": 340273758208
+   "mktCap": 340016005120
   },
   {
    "t": "unh.us",
@@ -396,7 +391,7 @@
   {
    "t": "azn.us",
    "n": "AstraZeneca PLC",
-   "mktCap": 257571127296
+   "mktCap": 257572782080
   },
   {
    "t": "anet.us",
@@ -476,7 +471,7 @@
   {
    "t": "lrlcf.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 232519811072
+   "mktCap": 232634810368
   },
   {
    "t": "sftby.us",
@@ -491,17 +486,22 @@
   {
    "t": "lrlcy.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 229591711744
+   "mktCap": 229705236480
   },
   {
    "t": "sftbf.us",
    "n": "SoftBank Group Corp.",
-   "mktCap": 227950559232
+   "mktCap": 227956948992
   },
   {
    "t": "tm.us",
    "n": "Toyota Motor Corporation",
    "mktCap": 226806644736
+  },
+  {
+   "t": "lvmhf.us",
+   "n": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
+   "mktCap": 226783723520
   }
  ]
 }
