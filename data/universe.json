@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-09-26T08:44:43.720Z",
+ "updatedAt": "2026-09-27T09:25:16.948Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -41,7 +41,7 @@
   {
    "t": "spcx.us",
    "n": "Space Exploration Technologies Corp.",
-   "mktCap": 1959866925056
+   "mktCap": 1958738001920
   },
   {
    "t": "meta.us",
@@ -81,7 +81,7 @@
   {
    "t": "lly.us",
    "n": "Eli Lilly and Company",
-   "mktCap": 1055340232704
+   "mktCap": 1054885412864
   },
   {
    "t": "amd.us",
@@ -96,7 +96,7 @@
   {
    "t": "wmt.us",
    "n": "Walmart Inc.",
-   "mktCap": 859313405952
+   "mktCap": 856685936640
   },
   {
    "t": "v.us",
@@ -229,6 +229,11 @@
    "mktCap": 355381477376
   },
   {
+   "t": "qh.us",
+   "n": "Quhuo Limited",
+   "mktCap": 350353686528
+  },
+  {
    "t": "rhhby.us",
    "n": "Roche Holding AG",
    "mktCap": 347071217664
@@ -246,7 +251,7 @@
   {
    "t": "pg.us",
    "n": "The Procter & Gamble Company",
-   "mktCap": 339644383232
+   "mktCap": 339901841408
   },
   {
    "t": "ge.us",
@@ -304,11 +309,6 @@
    "mktCap": 292522590208
   },
   {
-   "t": "ctatf.us",
-   "n": "Contemporary Amperex Technology Co., Limited",
-   "mktCap": 291516743680
-  },
-  {
    "t": "acgby.us",
    "n": "Agricultural Bank of China Limited",
    "mktCap": 290905915392
@@ -317,6 +317,11 @@
    "t": "pccyf.us",
    "n": "PetroChina Company Limited",
    "mktCap": 290712322048
+  },
+  {
+   "t": "ctatf.us",
+   "n": "Contemporary Amperex Technology Co., Limited",
+   "mktCap": 290359902208
   },
   {
    "t": "cyaty.us",
@@ -401,7 +406,7 @@
   {
    "t": "azn.us",
    "n": "AstraZeneca PLC",
-   "mktCap": 258348236800
+   "mktCap": 258346582016
   },
   {
    "t": "crwd.us",
@@ -471,7 +476,7 @@
   {
    "t": "lrlcf.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 237029179392
+   "mktCap": 236912001024
   },
   {
    "t": "nsrgf.us",
@@ -486,7 +491,7 @@
   {
    "t": "lrlcy.us",
    "n": "L'Oréal S.A.",
-   "mktCap": 233167470592
+   "mktCap": 233052225536
   },
   {
    "t": "toyof.us",
@@ -496,12 +501,7 @@
   {
    "t": "sftbf.us",
    "n": "SoftBank Group Corp.",
-   "mktCap": 227956948992
-  },
-  {
-   "t": "tm.us",
-   "n": "Toyota Motor Corporation",
-   "mktCap": 225397473280
+   "mktCap": 227950559232
   }
  ]
 }
