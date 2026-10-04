@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-10-03T09:19:12.066Z",
+ "updatedAt": "2026-10-04T09:58:52.843Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -48,9 +48,9 @@
    "mktCap": 4162458484736,
    "name": "Alphabet Inc.",
    "price": 340.35,
-   "fair": 422.34,
+   "fair": 419.65,
    "fairLabel": "analyst target",
-   "gapPct": 24.1,
+   "gapPct": 23.3,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 55,
@@ -176,11 +176,11 @@
    "fair": 252.21,
    "fairLabel": "analyst target",
    "gapPct": 29.3,
-   "ratingLabel": "strong buy",
+   "ratingLabel": "buy",
    "rec": {
     "buy": 14,
-    "hold": 1,
-    "sell": 0
+    "hold": 0,
+    "sell": 1
    }
   },
   "mu.us": {
