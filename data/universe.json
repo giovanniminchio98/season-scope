@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-10-04T09:58:52.844Z",
+ "updatedAt": "2026-10-05T10:41:05.216Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -41,7 +41,7 @@
   {
    "t": "spcx.us",
    "n": "Space Exploration Technologies Corp.",
-   "mktCap": 2095375843328
+   "mktCap": 2094168801280
   },
   {
    "t": "meta.us",
@@ -91,7 +91,7 @@
   {
    "t": "lly.us",
    "n": "Eli Lilly and Company",
-   "mktCap": 1019126611968
+   "mktCap": 1018687389696
   },
   {
    "t": "telwy.us",
@@ -106,7 +106,7 @@
   {
    "t": "wmt.us",
    "n": "Walmart Inc.",
-   "mktCap": 829709352960
+   "mktCap": 827172388864
   },
   {
    "t": "asmlf.us",
@@ -246,7 +246,7 @@
   {
    "t": "pg.us",
    "n": "The Procter & Gamble Company",
-   "mktCap": 336578478080
+   "mktCap": 336833609728
   },
   {
    "t": "rhhbf.us",
@@ -277,6 +277,11 @@
    "t": "arm.us",
    "n": "Arm Holdings plc",
    "mktCap": 328398864384
+  },
+  {
+   "t": "qh.us",
+   "n": "Quhuo Limited",
+   "mktCap": 323945103360
   },
   {
    "t": "hbcyf.us",
@@ -481,12 +486,12 @@
   {
    "t": "sftbf.us",
    "n": "SoftBank Group Corp.",
-   "mktCap": 234795646976
+   "mktCap": 234800840704
   },
   {
    "t": "sftby.us",
    "n": "SoftBank Group Corp.",
-   "mktCap": 234567696384
+   "mktCap": 234572873728
   },
   {
    "t": "nsrgf.us",
@@ -497,11 +502,6 @@
    "t": "nsrgy.us",
    "n": "Nestlé S.A.",
    "mktCap": 232117125120
-  },
-  {
-   "t": "bachf.us",
-   "n": "Bank of China Limited",
-   "mktCap": 231992934400
   }
  ]
 }
