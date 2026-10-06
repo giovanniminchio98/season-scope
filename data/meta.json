@@ -1,10 +1,12 @@
 {
- "updatedAt": "2026-10-05T10:41:05.216Z",
+ "updatedAt": "2026-10-06T10:34:13.555Z",
  "source": "Yahoo Finance",
  "prices": {
-  "ok": 223,
+  "ok": 221,
   "failed": [
-   "mmc.us"
+   "mmc.us",
+   "tkomy.us",
+   "telwy.us"
   ]
  },
  "analyst": {
