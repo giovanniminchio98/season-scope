@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-10-10T10:01:32.964Z",
+ "updatedAt": "2026-10-11T10:11:31.919Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -171,7 +171,7 @@
    }
   },
   "mu.us": {
-   "mktCap": 1162145562624,
+   "mktCap": 1164234457088,
    "name": "Micron Technology, Inc.",
    "price": 1029,
    "fair": 1555.13,
@@ -372,17 +372,17 @@
    }
   },
   "tctzf.us": {
-   "mktCap": 491984486400,
+   "mktCap": 491971444736,
    "name": "Tencent Holdings Limited",
    "price": 54.63
   },
   "tcehy.us": {
-   "mktCap": 491714281472,
+   "mktCap": 491701272576,
    "name": "Tencent Holdings Limited",
    "price": 54.6,
-   "fair": 97.06,
+   "fair": 96.92,
    "fairLabel": "analyst target",
-   "gapPct": 77.8,
+   "gapPct": 77.5,
    "ratingLabel": "buy",
    "rec": {
     "buy": 3,
@@ -746,9 +746,9 @@
    "mktCap": 290591277056,
    "name": "Contemporary Amperex Technology Co., Limited",
    "price": 15.7,
-   "fair": 30.42,
+   "fair": 30.37,
    "fairLabel": "analyst target",
-   "gapPct": 93.7
+   "gapPct": 93.5
   },
   "hd.us": {
    "mktCap": 290068267008,
@@ -764,18 +764,18 @@
     "sell": 0
    }
   },
+  "ctatf.us": {
+   "mktCap": 289203093504,
+   "name": "Contemporary Amperex Technology Co., Limited",
+   "price": 62.5
+  },
   "acgby.us": {
    "mktCap": 288666025984,
    "name": "Agricultural Bank of China Limited",
    "price": 20.62
   },
-  "ctatf.us": {
-   "mktCap": 288277659648,
-   "name": "Contemporary Amperex Technology Co., Limited",
-   "price": 62.3
-  },
   "shel.us": {
-   "mktCap": 285132554240,
+   "mktCap": 285085990912,
    "name": "Shell plc",
    "price": 100.18,
    "fair": 104.29,
@@ -820,9 +820,9 @@
    "mktCap": 277060157440,
    "name": "Alibaba Group Holding Limited",
    "price": 111.37,
-   "fair": 186.01,
+   "fair": 185.75,
    "fairLabel": "analyst target",
-   "gapPct": 67,
+   "gapPct": 66.8,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -869,7 +869,7 @@
    }
   },
   "rydaf.us": {
-   "mktCap": 273178509312,
+   "mktCap": 273133895680,
    "name": "Shell plc",
    "price": 47.99
   },
