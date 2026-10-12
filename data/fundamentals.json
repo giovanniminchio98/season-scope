@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-10-11T10:11:31.919Z",
+ "updatedAt": "2026-10-12T11:06:34.860Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -39,7 +39,7 @@
    "gapPct": 22.1,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 56,
+    "buy": 57,
     "hold": 5,
     "sell": 0
    }
@@ -48,12 +48,12 @@
    "mktCap": 4254305091584,
    "name": "Alphabet Inc.",
    "price": 347.86,
-   "fair": 419.65,
+   "fair": 420.36,
    "fairLabel": "analyst target",
-   "gapPct": 20.6,
+   "gapPct": 20.8,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 55,
+    "buy": 57,
     "hold": 5,
     "sell": 0
    }
@@ -305,13 +305,13 @@
    "mktCap": 683828576256,
    "name": "ASML Holding N.V.",
    "price": 1780.34,
-   "fair": 2106.06,
+   "fair": 2101.35,
    "fairLabel": "analyst target",
-   "gapPct": 18.3,
+   "gapPct": 18,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 38,
-    "hold": 3,
+    "buy": 37,
+    "hold": 4,
     "sell": 1
    }
   },
@@ -361,13 +361,13 @@
    "mktCap": 502359359488,
    "name": "Palantir Technologies Inc.",
    "price": 209.05,
-   "fair": 199.84,
+   "fair": 200.88,
    "fairLabel": "analyst target",
-   "gapPct": -4.4,
+   "gapPct": -3.9,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 20,
-    "hold": 9,
+    "buy": 21,
+    "hold": 8,
     "sell": 2
    }
   },
@@ -380,9 +380,9 @@
    "mktCap": 491701272576,
    "name": "Tencent Holdings Limited",
    "price": 54.6,
-   "fair": 96.92,
+   "fair": 97.07,
    "fairLabel": "analyst target",
-   "gapPct": 77.5,
+   "gapPct": 77.8,
    "ratingLabel": "buy",
    "rec": {
     "buy": 3,
@@ -596,9 +596,9 @@
    "mktCap": 345907953664,
    "name": "Roche Holding AG",
    "price": 434.14,
-   "fair": 500,
+   "fair": 498.12,
    "fairLabel": "analyst target",
-   "gapPct": 15.2,
+   "gapPct": 14.7,
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -713,13 +713,13 @@
    "mktCap": 298439016448,
    "name": "Morgan Stanley",
    "price": 190.02,
-   "fair": 224.48,
+   "fair": 223.41,
    "fairLabel": "analyst target",
-   "gapPct": 18.1,
+   "gapPct": 17.6,
    "ratingLabel": "buy",
    "rec": {
     "buy": 11,
-    "hold": 13,
+    "hold": 14,
     "sell": 1
    }
   },
@@ -746,9 +746,9 @@
    "mktCap": 290591277056,
    "name": "Contemporary Amperex Technology Co., Limited",
    "price": 15.7,
-   "fair": 30.37,
+   "fair": 30.42,
    "fairLabel": "analyst target",
-   "gapPct": 93.5
+   "gapPct": 93.8
   },
   "hd.us": {
    "mktCap": 290068267008,
@@ -806,9 +806,9 @@
    "mktCap": 281623035904,
    "name": "CrowdStrike Holdings, Inc.",
    "price": 275.04,
-   "fair": 237.77,
+   "fair": 238.97,
    "fairLabel": "analyst target",
-   "gapPct": -13.6,
+   "gapPct": -13.1,
    "ratingLabel": "buy",
    "rec": {
     "buy": 40,
@@ -820,9 +820,9 @@
    "mktCap": 277060157440,
    "name": "Alibaba Group Holding Limited",
    "price": 111.37,
-   "fair": 185.75,
+   "fair": 186.21,
    "fairLabel": "analyst target",
-   "gapPct": 66.8,
+   "gapPct": 67.2,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -844,9 +844,9 @@
    "mktCap": 273357848576,
    "name": "Arista Networks, Inc.",
    "price": 216.74,
-   "fair": 242.55,
+   "fair": 243.69,
    "fairLabel": "analyst target",
-   "gapPct": 11.9,
+   "gapPct": 12.4,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 31,
@@ -896,9 +896,9 @@
    "mktCap": 265685925888,
    "name": "Royal Bank of Canada",
    "price": 191.91,
-   "fair": 207.38,
+   "fair": 207.28,
    "fairLabel": "analyst target",
-   "gapPct": 8.1,
+   "gapPct": 8,
    "ratingLabel": "buy",
    "rec": {
     "buy": 9,
@@ -1056,9 +1056,9 @@
    "mktCap": 243301122048,
    "name": "Thermo Fisher Scientific Inc.",
    "price": 658.02,
-   "fair": 667.96,
+   "fair": 673.44,
    "fairLabel": "analyst target",
-   "gapPct": 1.5,
+   "gapPct": 2.3,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 23,
@@ -1146,9 +1146,9 @@
    "mktCap": 224291995648,
    "name": "Amgen Inc.",
    "price": 414.87,
-   "fair": 391.46,
+   "fair": 392.5,
    "fairLabel": "analyst target",
-   "gapPct": -5.6,
+   "gapPct": -5.4,
    "ratingLabel": "hold",
    "rec": {
     "buy": 12,
@@ -1234,9 +1234,9 @@
    "mktCap": 215130947584,
    "name": "Amphenol Corporation",
    "price": 87.24,
-   "fair": 101.29,
+   "fair": 101.66,
    "fairLabel": "analyst target",
-   "gapPct": 16.1,
+   "gapPct": 16.5,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 17,
