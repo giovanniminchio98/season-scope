@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-10-18T08:12:14.344Z",
+ "updatedAt": "2026-10-19T09:06:59.866Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -101,7 +101,7 @@
    }
   },
   "spcx.us": {
-   "mktCap": 1923826450432,
+   "mktCap": 1924935319552,
    "name": "Space Exploration Technologies Corp.",
    "price": 146.03,
    "fair": 222.71,
@@ -118,9 +118,9 @@
    "mktCap": 1807009841152,
    "name": "Meta Platforms, Inc.",
    "price": 709.33,
-   "fair": 814.51,
+   "fair": 815.29,
    "fairLabel": "analyst target",
-   "gapPct": 14.8,
+   "gapPct": 14.9,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 55,
@@ -185,7 +185,7 @@
    }
   },
   "lly.us": {
-   "mktCap": 1120462569472,
+   "mktCap": 1120945700864,
    "name": "Eli Lilly and Company",
    "price": 1257.03,
    "fair": 1328.05,
@@ -227,7 +227,7 @@
    }
   },
   "wmt.us": {
-   "mktCap": 942608351232,
+   "mktCap": 945499340800,
    "name": "Walmart Inc.",
    "price": 118.81,
    "fair": 127.35,
@@ -305,9 +305,9 @@
    "mktCap": 632670912512,
    "name": "ASML Holding N.V.",
    "price": 1641.52,
-   "fair": 2155.32,
+   "fair": 2147.03,
    "fairLabel": "analyst target",
-   "gapPct": 31.3,
+   "gapPct": 30.8,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -366,9 +366,9 @@
    "mktCap": 475016921088,
    "name": "Tencent Holdings Limited",
    "price": 52.75,
-   "fair": 97.01,
+   "fair": 97.09,
    "fairLabel": "analyst target",
-   "gapPct": 83.9,
+   "gapPct": 84.1,
    "rec": {
     "buy": 3,
     "hold": 0,
@@ -489,7 +489,7 @@
    }
   },
   "pg.us": {
-   "mktCap": 370398429184,
+   "mktCap": 370117869568,
    "name": "The Procter & Gamble Company",
    "price": 159.35,
    "fair": 161.65,
@@ -511,9 +511,9 @@
    "mktCap": 364400869376,
    "name": "Roche Holding AG",
    "price": 457.35,
-   "fair": 503.88,
+   "fair": 503.31,
    "fairLabel": "analyst target",
-   "gapPct": 10.2,
+   "gapPct": 10,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 1,
@@ -719,18 +719,13 @@
    "name": "Shell plc",
    "price": 52.11
   },
-  "qh.us": {
-   "mktCap": 294895681536,
-   "name": "Quhuo Limited",
-   "price": 3.35
-  },
   "nflx.us": {
    "mktCap": 293682642944,
    "name": "Netflix, Inc.",
    "price": 70.53,
-   "fair": 91.39,
+   "fair": 91.13,
    "fairLabel": "analyst target",
-   "gapPct": 29.6,
+   "gapPct": 29.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 35,
@@ -808,9 +803,9 @@
    "mktCap": 273840226304,
    "name": "Royal Bank of Canada",
    "price": 197.8,
-   "fair": 211.36,
+   "fair": 211.65,
    "fairLabel": "analyst target",
-   "gapPct": 6.9,
+   "gapPct": 7,
    "ratingLabel": "buy",
    "rec": {
     "buy": 9,
@@ -827,9 +822,9 @@
    "mktCap": 271437856768,
    "name": "Alibaba Group Holding Limited",
    "price": 109.11,
-   "fair": 186.35,
+   "fair": 186.51,
    "fairLabel": "analyst target",
-   "gapPct": 70.8,
+   "gapPct": 70.9,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 39,
@@ -870,9 +865,9 @@
    "mktCap": 260051435520,
    "name": "Contemporary Amperex Technology Co., Limited",
    "price": 14.05,
-   "fair": 30.05,
+   "fair": 30.08,
    "fairLabel": "analyst target",
-   "gapPct": 113.9,
+   "gapPct": 114.1,
    "ratingLabel": "buy",
    "rec": {
     "buy": 1,
@@ -1036,7 +1031,7 @@
    }
   },
   "lrlcy.us": {
-   "mktCap": 241969692672,
+   "mktCap": 242089345024,
    "name": "L'Oréal S.A.",
    "price": 90.9,
    "fair": 103.17,
@@ -1050,7 +1045,7 @@
    }
   },
   "lrlcf.us": {
-   "mktCap": 241943068672,
+   "mktCap": 242062721024,
    "name": "L'Oréal S.A.",
    "price": 454.45
   },
@@ -1147,6 +1142,20 @@
     "sell": 0
    }
   },
+  "shop.us": {
+   "mktCap": 219978416128,
+   "name": "Shopify Inc.",
+   "price": 169.52,
+   "fair": 175.71,
+   "fairLabel": "analyst target",
+   "gapPct": 3.7,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 42,
+    "hold": 11,
+    "sell": 1
+   }
+  },
   "toyof.us": {
    "mktCap": 219072020480,
    "name": "Toyota Motor Corporation",
@@ -1164,20 +1173,6 @@
     "buy": 12,
     "hold": 11,
     "sell": 2
-   }
-  },
-  "shop.us": {
-   "mktCap": 218111885312,
-   "name": "Shopify Inc.",
-   "price": 169.52,
-   "fair": 175.71,
-   "fairLabel": "analyst target",
-   "gapPct": 3.7,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 42,
-    "hold": 11,
-    "sell": 1
    }
   },
   "lvmhf.us": {
@@ -1278,6 +1273,20 @@
    "mktCap": 201679405056,
    "name": "Banco Santander, S.A.",
    "price": 13.95
+  },
+  "tte.us": {
+   "mktCap": 201389064192,
+   "name": "TotalEnergies SE",
+   "price": 91.34,
+   "fair": 99.25,
+   "fairLabel": "analyst target",
+   "gapPct": 8.7,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 5,
+    "hold": 4,
+    "sell": 1
+   }
   }
  }
 }
