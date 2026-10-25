@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-10-24T08:18:08.065Z",
+ "updatedAt": "2026-10-25T08:36:02.664Z",
  "source": "yahoo",
  "bySymbol": {
   "nvda.us": {
@@ -118,9 +118,9 @@
    "mktCap": 1637078401024,
    "name": "Meta Platforms, Inc.",
    "price": 642.62,
-   "fair": 843.39,
+   "fair": 844.26,
    "fairLabel": "analyst target",
-   "gapPct": 31.2,
+   "gapPct": 31.4,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 55,
@@ -347,9 +347,9 @@
    "mktCap": 504759418880,
    "name": "AbbVie Inc.",
    "price": 285.64,
-   "fair": 284.79,
+   "fair": 284.96,
    "fairLabel": "analyst target",
-   "gapPct": -0.3,
+   "gapPct": -0.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 24,
@@ -501,6 +501,7 @@
    "fair": 503.58,
    "fairLabel": "analyst target",
    "gapPct": 4,
+   "ratingLabel": "strong buy",
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -564,7 +565,7 @@
    }
   },
   "bac.us": {
-   "mktCap": 353553383424,
+   "mktCap": 350011490304,
    "name": "Bank of America Corporation",
    "price": 50.56,
    "fair": 62.95,
@@ -658,7 +659,7 @@
    }
   },
   "shel.us": {
-   "mktCap": 307469647872,
+   "mktCap": 307385827328,
    "name": "Shell plc",
    "price": 108.18,
    "fair": 105.56,
@@ -672,7 +673,7 @@
    }
   },
   "rydaf.us": {
-   "mktCap": 304115843072,
+   "mktCap": 304032940032,
    "name": "Shell plc",
    "price": 53.5
   },
@@ -699,9 +700,9 @@
    "mktCap": 296369356800,
    "name": "GE Aerospace",
    "price": 285.64,
-   "fair": 382.81,
+   "fair": 378.9,
    "fairLabel": "analyst target",
-   "gapPct": 34,
+   "gapPct": 32.7,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 20,
@@ -737,8 +738,8 @@
    "gapPct": 58.2,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 29,
-    "hold": 5,
+    "buy": 30,
+    "hold": 4,
     "sell": 0
    }
   },
@@ -762,7 +763,7 @@
    "price": 149.81
   },
   "ms.us": {
-   "mktCap": 281900941312,
+   "mktCap": 280901844992,
    "name": "Morgan Stanley",
    "price": 179.49,
    "fair": 211.05,
@@ -855,9 +856,9 @@
    "mktCap": 263734902784,
    "name": "CrowdStrike Holdings, Inc.",
    "price": 257.57,
-   "fair": 246.65,
+   "fair": 247.25,
    "fairLabel": "analyst target",
-   "gapPct": -4.2,
+   "gapPct": -4,
    "ratingLabel": "buy",
    "rec": {
     "buy": 40,
@@ -938,7 +939,7 @@
    "fair": 1031.14,
    "fairLabel": "analyst target",
    "gapPct": 17.8,
-   "ratingLabel": "hold",
+   "ratingLabel": "buy",
    "rec": {
     "buy": 9,
     "hold": 15,
@@ -1156,11 +1157,6 @@
     "sell": 0
    }
   },
-  "ctatf.us": {
-   "mktCap": 214149103616,
-   "name": "Contemporary Amperex Technology Co., Limited",
-   "price": 46.28
-  },
   "lvmhf.us": {
    "mktCap": 213148303360,
    "name": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
@@ -1184,9 +1180,9 @@
    "mktCap": 211520536576,
    "name": "American Express Company",
    "price": 313.22,
-   "fair": 369.52,
+   "fair": 368.72,
    "fairLabel": "analyst target",
-   "gapPct": 18,
+   "gapPct": 17.7,
    "ratingLabel": "buy",
    "rec": {
     "buy": 15,
@@ -1201,7 +1197,6 @@
    "fair": 30.13,
    "fairLabel": "analyst target",
    "gapPct": 167.1,
-   "ratingLabel": "buy",
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -1263,8 +1258,13 @@
     "sell": 2
    }
   },
+  "ctatf.us": {
+   "mktCap": 202173792256,
+   "name": "Contemporary Amperex Technology Co., Limited",
+   "price": 43.69
+  },
   "c.us": {
-   "mktCap": 202332438528,
+   "mktCap": 199650230272,
    "name": "Citigroup Inc.",
    "price": 120.62,
    "fair": 150.71,
@@ -1284,7 +1284,6 @@
    "fair": 18.7,
    "fairLabel": "analyst target",
    "gapPct": 17.7,
-   "ratingLabel": "strong buy",
    "rec": {
     "buy": 1,
     "hold": 0,
