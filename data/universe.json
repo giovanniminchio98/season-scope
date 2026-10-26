@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-10-25T08:36:02.665Z",
+ "updatedAt": "2026-10-26T09:10:19.039Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -71,7 +71,7 @@
   {
    "t": "lly.us",
    "n": "Eli Lilly and Company",
-   "mktCap": 1135596929024
+   "mktCap": 1135107506176
   },
   {
    "t": "skhy.us",
@@ -86,7 +86,7 @@
   {
    "t": "wmt.us",
    "n": "Walmart Inc.",
-   "mktCap": 954094059520
+   "mktCap": 951176855552
   },
   {
    "t": "jpm.us",
@@ -266,12 +266,12 @@
   {
    "t": "shel.us",
    "n": "Shell plc",
-   "mktCap": 307385827328
+   "mktCap": 307298729984
   },
   {
    "t": "rydaf.us",
    "n": "Shell plc",
-   "mktCap": 304032940032
+   "mktCap": 303946792960
   },
   {
    "t": "hbcyf.us",
@@ -369,14 +369,14 @@
    "mktCap": 260334370816
   },
   {
-   "t": "lrlcy.us",
-   "n": "L'Oréal S.A.",
-   "mktCap": 260039639040
-  },
-  {
    "t": "txn.us",
    "n": "Texas Instruments Incorporated",
    "mktCap": 259992485888
+  },
+  {
+   "t": "lrlcy.us",
+   "n": "L'Oréal S.A.",
+   "mktCap": 259911122944
   },
   {
    "t": "rtx.us",
@@ -389,14 +389,19 @@
    "mktCap": 256373145600
   },
   {
-   "t": "lrlcf.us",
-   "n": "L'Oréal S.A.",
-   "mktCap": 255032721408
-  },
-  {
    "t": "gs.us",
    "n": "The Goldman Sachs Group, Inc.",
    "mktCap": 254972968960
+  },
+  {
+   "t": "lrlcf.us",
+   "n": "L'Oréal S.A.",
+   "mktCap": 254906662912
+  },
+  {
+   "t": "qh.us",
+   "n": "Quhuo Limited",
+   "mktCap": 254402543616
   },
   {
    "t": "tmo.us",
@@ -474,11 +479,6 @@
    "mktCap": 219237941248
   },
   {
-   "t": "shop.us",
-   "n": "Shopify Inc.",
-   "mktCap": 218888372224
-  },
-  {
    "t": "smawf.us",
    "n": "Siemens Aktiengesellschaft",
    "mktCap": 218550157312
@@ -494,14 +494,14 @@
    "mktCap": 217061867520
   },
   {
+   "t": "shop.us",
+   "n": "Shopify Inc.",
+   "mktCap": 217031098368
+  },
+  {
    "t": "lvmhf.us",
    "n": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
    "mktCap": 213148303360
-  },
-  {
-   "t": "lvmuy.us",
-   "n": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
-   "mktCap": 211556024320
   }
  ]
 }
