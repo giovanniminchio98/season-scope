@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-01T10:40:35.447Z",
+ "updatedAt": "2026-11-02T11:28:16.894Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -86,7 +86,7 @@
   {
    "t": "wmt.us",
    "n": "Walmart Inc.",
-   "mktCap": 979897024512
+   "mktCap": 982902374400
   },
   {
    "t": "jpm.us",
@@ -369,11 +369,6 @@
    "mktCap": 263498219520
   },
   {
-   "t": "qh.us",
-   "n": "Quhuo Limited",
-   "mktCap": 261444829184
-  },
-  {
    "t": "gs.us",
    "n": "The Goldman Sachs Group, Inc.",
    "mktCap": 260467359744
@@ -502,6 +497,11 @@
    "t": "anet.us",
    "n": "Arista Networks, Inc.",
    "mktCap": 212970405888
+  },
+  {
+   "t": "lvmuy.us",
+   "n": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
+   "mktCap": 212369424384
   }
  ]
 }
