@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-08T10:37:06.052Z",
+ "updatedAt": "2026-11-09T11:51:01.349Z",
  "source": "yahoo",
  "bySymbol": {
   "aapl.us": {
@@ -34,9 +34,9 @@
    "mktCap": 3940412817408,
    "name": "Microsoft Corporation",
    "price": 530.61,
-   "fair": 634.14,
+   "fair": 636.12,
    "fairLabel": "analyst target",
-   "gapPct": 19.5,
+   "gapPct": 19.9,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 53,
@@ -198,7 +198,7 @@
    }
   },
   "wmt.us": {
-   "mktCap": 998898073600,
+   "mktCap": 995843768320,
    "name": "Walmart Inc.",
    "price": 125.52,
    "fair": 127.47,
@@ -332,9 +332,9 @@
    "mktCap": 549123915776,
    "name": "ASML Holding N.V.",
    "price": 1424.75,
-   "fair": 2137.25,
+   "fair": 2147.3,
    "fairLabel": "analyst target",
-   "gapPct": 50,
+   "gapPct": 50.7,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -360,9 +360,9 @@
    "mktCap": 483187228672,
    "name": "Tencent Holdings Limited",
    "price": 53.66,
-   "fair": 88.2,
+   "fair": 88.34,
    "fairLabel": "analyst target",
-   "gapPct": 64.4,
+   "gapPct": 64.6,
    "ratingLabel": "buy",
    "rec": {
     "buy": 4,
@@ -483,9 +483,9 @@
    "mktCap": 376687001600,
    "name": "Roche Holding AG",
    "price": 472.77,
-   "fair": 506.09,
+   "fair": 507.13,
    "fairLabel": "analyst target",
-   "gapPct": 7,
+   "gapPct": 7.3,
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -593,10 +593,10 @@
    "fair": 378.43,
    "fairLabel": "analyst target",
    "gapPct": 17.1,
-   "ratingLabel": "strong buy",
+   "ratingLabel": "buy",
    "rec": {
-    "buy": 20,
-    "hold": 2,
+    "buy": 19,
+    "hold": 3,
     "sell": 1
    }
   },
@@ -727,9 +727,9 @@
    "mktCap": 278491922432,
    "name": "Royal Bank of Canada",
    "price": 201.16,
-   "fair": 211.05,
+   "fair": 211.7,
    "fairLabel": "analyst target",
-   "gapPct": 4.9,
+   "gapPct": 5.2,
    "ratingLabel": "buy",
    "rec": {
     "buy": 8,
@@ -746,9 +746,9 @@
    "mktCap": 272283680768,
    "name": "Alibaba Group Holding Limited",
    "price": 109.45,
-   "fair": 184.25,
+   "fair": 184.44,
    "fairLabel": "analyst target",
-   "gapPct": 68.3,
+   "gapPct": 68.5,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 39,
@@ -960,7 +960,7 @@
    "price": 21.3
   },
   "lrcx.us": {
-   "mktCap": 250835501056,
+   "mktCap": 250383826944,
    "name": "Lam Research Corporation",
    "price": 200.44,
    "fair": 364.03,
@@ -1011,6 +1011,11 @@
    "name": "Mitsubishi UFJ Financial Group, Inc.",
    "price": 21.17
   },
+  "qh.us": {
+   "mktCap": 237677117440,
+   "name": "Quhuo Limited",
+   "price": 2.7
+  },
   "lin.us": {
    "mktCap": 236542918656,
    "name": "Linde plc",
@@ -1059,30 +1064,17 @@
    "price": 50
   },
   "lvmhf.us": {
-   "mktCap": 225472430080,
+   "mktCap": 224404439040,
    "name": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
    "price": 457.38
-  },
-  "lvmuy.us": {
-   "mktCap": 224200572928,
-   "name": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
-   "price": 90.96,
-   "fair": 106.83,
-   "fairLabel": "analyst target",
-   "gapPct": 17.5,
-   "rec": {
-    "buy": 1,
-    "hold": 2,
-    "sell": 0
-   }
   },
   "cyaty.us": {
    "mktCap": 223403606016,
    "name": "Contemporary Amperex Technology Co., Limited",
    "price": 12.07,
-   "fair": 30.12,
+   "fair": 30.17,
    "fairLabel": "analyst target",
-   "gapPct": 149.6,
+   "gapPct": 149.9,
    "rec": {
     "buy": 1,
     "hold": 0,
@@ -1099,6 +1091,19 @@
    "rec": {
     "buy": 3,
     "hold": 1,
+    "sell": 0
+   }
+  },
+  "lvmuy.us": {
+   "mktCap": 223138611200,
+   "name": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
+   "price": 90.96,
+   "fair": 106.83,
+   "fairLabel": "analyst target",
+   "gapPct": 17.5,
+   "rec": {
+    "buy": 1,
+    "hold": 2,
     "sell": 0
    }
   },
@@ -1125,9 +1130,9 @@
    "mktCap": 215789125632,
    "name": "Arista Networks, Inc.",
    "price": 170.8,
-   "fair": 250,
+   "fair": 249.07,
    "fairLabel": "analyst target",
-   "gapPct": 46.4,
+   "gapPct": 45.8,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 29,
@@ -1240,9 +1245,9 @@
    "mktCap": 199881244672,
    "name": "The Toronto-Dominion Bank",
    "price": 122.4,
-   "fair": 120.5,
+   "fair": 120.86,
    "fairLabel": "analyst target",
-   "gapPct": -1.6,
+   "gapPct": -1.3,
    "ratingLabel": "buy",
    "rec": {
     "buy": 8,
@@ -1267,20 +1272,6 @@
     "buy": 18,
     "hold": 5,
     "sell": 0
-   }
-  },
-  "mcd.us": {
-   "mktCap": 195163602944,
-   "name": "McDonald's Corporation",
-   "price": 276.52,
-   "fair": 299.52,
-   "fairLabel": "analyst target",
-   "gapPct": 8.3,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 17,
-    "hold": 16,
-    "sell": 1
    }
   }
  }

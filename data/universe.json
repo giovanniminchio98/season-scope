@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-08T10:37:06.053Z",
+ "updatedAt": "2026-11-09T11:51:01.350Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -76,7 +76,7 @@
   {
    "t": "wmt.us",
    "n": "Walmart Inc.",
-   "mktCap": 998898073600
+   "mktCap": 995843768320
   },
   {
    "t": "skhy.us",
@@ -416,7 +416,7 @@
   {
    "t": "lrcx.us",
    "n": "Lam Research Corporation",
-   "mktCap": 250835501056
+   "mktCap": 250383826944
   },
   {
    "t": "gs.us",
@@ -437,6 +437,11 @@
    "t": "mbfjf.us",
    "n": "Mitsubishi UFJ Financial Group, Inc.",
    "mktCap": 238284537856
+  },
+  {
+   "t": "qh.us",
+   "n": "Quhuo Limited",
+   "mktCap": 237677117440
   },
   {
    "t": "lin.us",
@@ -461,12 +466,7 @@
   {
    "t": "lvmhf.us",
    "n": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
-   "mktCap": 225472430080
-  },
-  {
-   "t": "lvmuy.us",
-   "n": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
-   "mktCap": 224200572928
+   "mktCap": 224404439040
   },
   {
    "t": "cyaty.us",
@@ -477,6 +477,11 @@
    "t": "siegy.us",
    "n": "Siemens Aktiengesellschaft",
    "mktCap": 223211847680
+  },
+  {
+   "t": "lvmuy.us",
+   "n": "LVMH Moët Hennessy - Louis Vuitton, Société Européenne",
+   "mktCap": 223138611200
   },
   {
    "t": "smawf.us",
@@ -497,11 +502,6 @@
    "t": "axp.us",
    "n": "American Express Company",
    "mktCap": 215240474624
-  },
-  {
-   "t": "dell.us",
-   "n": "Dell Technologies Inc.",
-   "mktCap": 208883564544
   }
  ]
 }
