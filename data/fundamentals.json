@@ -1,14 +1,14 @@
 {
- "updatedAt": "2026-11-14T10:42:14.163Z",
+ "updatedAt": "2026-11-15T11:15:36.654Z",
  "source": "yahoo",
  "bySymbol": {
   "aapl.us": {
    "mktCap": 5177380175872,
    "name": "Apple Inc.",
    "price": 356.27,
-   "fair": 344.62,
+   "fair": 346.37,
    "fairLabel": "analyst target",
-   "gapPct": -3.3,
+   "gapPct": -2.8,
    "ratingLabel": "buy",
    "rec": {
     "buy": 26,
@@ -20,13 +20,13 @@
    "mktCap": 3932339044352,
    "name": "NVIDIA Corporation",
    "price": 162.85,
-   "fair": 283.31,
+   "fair": 278.31,
    "fairLabel": "analyst target",
-   "gapPct": 74,
+   "gapPct": 70.9,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 48,
-    "hold": 13,
+    "buy": 47,
+    "hold": 14,
     "sell": 0
    }
   },
@@ -76,9 +76,9 @@
    "mktCap": 2883431432192,
    "name": "Amazon.com, Inc.",
    "price": 266.66,
-   "fair": 326.72,
+   "fair": 326.29,
    "fairLabel": "analyst target",
-   "gapPct": 22.5,
+   "gapPct": 22.4,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 59,
@@ -129,7 +129,7 @@
    }
   },
   "meta.us": {
-   "mktCap": 1640694153216,
+   "mktCap": 1640314437632,
    "name": "Meta Platforms, Inc.",
    "price": 641.69,
    "fair": 850.1,
@@ -361,9 +361,9 @@
    "mktCap": 490194108416,
    "name": "Costco Wholesale Corporation",
    "price": 1106.21,
-   "fair": 1073.35,
+   "fair": 1078.05,
    "fairLabel": "analyst target",
-   "gapPct": -3,
+   "gapPct": -2.5,
    "ratingLabel": "buy",
    "rec": {
     "buy": 25,
@@ -508,16 +508,16 @@
    "price": 479.97
   },
   "csco.us": {
-   "mktCap": 377069010944,
+   "mktCap": 376532795392,
    "name": "Cisco Systems, Inc.",
    "price": 95.64,
-   "fair": 132.17,
+   "fair": 129.96,
    "fairLabel": "analyst target",
-   "gapPct": 38.2,
+   "gapPct": 35.9,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 17,
-    "hold": 11,
+    "buy": 18,
+    "hold": 10,
     "sell": 0
    }
   },
@@ -640,7 +640,7 @@
    "price": 21.97
   },
   "hsbc.us": {
-   "mktCap": 306371100672,
+   "mktCap": 306353176576,
    "name": "HSBC Holdings plc",
    "price": 89.62,
    "fair": 103.02,
@@ -691,7 +691,7 @@
    "price": 0.85
   },
   "hbcyf.us": {
-   "mktCap": 295363346432,
+   "mktCap": 295346077696,
    "name": "HSBC Holdings plc",
    "price": 17.28
   },
@@ -699,9 +699,9 @@
    "mktCap": 294027853824,
    "name": "Applied Materials, Inc.",
    "price": 370.5,
-   "fair": 588.61,
+   "fair": 576.39,
    "fairLabel": "analyst target",
-   "gapPct": 58.9,
+   "gapPct": 55.6,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 33,
@@ -737,20 +737,6 @@
     "sell": 0
    }
   },
-  "shel.us": {
-   "mktCap": 280164270080,
-   "name": "Shell plc",
-   "price": 99.08,
-   "fair": 110.87,
-   "fairLabel": "analyst target",
-   "gapPct": 11.9,
-   "ratingLabel": "buy",
-   "rec": {
-    "buy": 7,
-    "hold": 9,
-    "sell": 0
-   }
-  },
   "ry.us": {
    "mktCap": 280083988480,
    "name": "Royal Bank of Canada",
@@ -765,8 +751,22 @@
     "sell": 1
    }
   },
+  "shel.us": {
+   "mktCap": 280064360448,
+   "name": "Shell plc",
+   "price": 99.08,
+   "fair": 110.87,
+   "fairLabel": "analyst target",
+   "gapPct": 11.9,
+   "ratingLabel": "buy",
+   "rec": {
+    "buy": 7,
+    "hold": 9,
+    "sell": 0
+   }
+  },
   "rydaf.us": {
-   "mktCap": 278241443840,
+   "mktCap": 278142255104,
    "name": "Shell plc",
    "price": 49.2
   },
@@ -879,7 +879,7 @@
    }
   },
   "panw.us": {
-   "mktCap": 263735115776,
+   "mktCap": 263840972800,
    "name": "Palo Alto Networks, Inc.",
    "price": 322.24,
    "fair": 398.63,
@@ -969,7 +969,7 @@
    }
   },
   "tm.us": {
-   "mktCap": 250205306880,
+   "mktCap": 249308872704,
    "name": "Toyota Motor Corporation",
    "price": 212.43,
    "fair": 238.08,
@@ -981,11 +981,6 @@
     "hold": 2,
     "sell": 0
    }
-  },
-  "toyof.us": {
-   "mktCap": 249581076480,
-   "name": "Toyota Motor Corporation",
-   "price": 21.19
   },
   "anet.us": {
    "mktCap": 249256640512,
@@ -1001,13 +996,18 @@
     "sell": 0
    }
   },
+  "toyof.us": {
+   "mktCap": 248686870528,
+   "name": "Toyota Motor Corporation",
+   "price": 21.19
+  },
   "mbfjf.us": {
-   "mktCap": 246838935552,
+   "mktCap": 246899884032,
    "name": "Mitsubishi UFJ Financial Group, Inc.",
    "price": 21.93
   },
   "mufg.us": {
-   "mktCap": 245713354752,
+   "mktCap": 245774024704,
    "name": "Mitsubishi UFJ Financial Group, Inc.",
    "price": 21.83,
    "fair": 23.77,
@@ -1042,9 +1042,10 @@
    "mktCap": 235515707392,
    "name": "Siemens Aktiengesellschaft",
    "price": 154.09,
-   "fair": 179.1,
+   "fair": 181.1,
    "fairLabel": "analyst target",
-   "gapPct": 16.2,
+   "gapPct": 17.5,
+   "ratingLabel": "buy",
    "rec": {
     "buy": 3,
     "hold": 1,
@@ -1055,7 +1056,7 @@
    "mktCap": 234793369600,
    "name": "Alibaba Group Holding Limited",
    "price": 94.38,
-   "fair": 184.43,
+   "fair": 184.42,
    "fairLabel": "analyst target",
    "gapPct": 95.4,
    "ratingLabel": "strong buy",
@@ -1083,9 +1084,9 @@
    "mktCap": 232033878016,
    "name": "CrowdStrike Holdings, Inc.",
    "price": 226.61,
-   "fair": 249.68,
+   "fair": 250.18,
    "fairLabel": "analyst target",
-   "gapPct": 10.2,
+   "gapPct": 10.4,
    "ratingLabel": "buy",
    "rec": {
     "buy": 41,
@@ -1207,12 +1208,12 @@
    "mktCap": 205423935488,
    "name": "The Walt Disney Company",
    "price": 118.97,
-   "fair": 126.83,
+   "fair": 126.73,
    "fairLabel": "analyst target",
-   "gapPct": 6.6,
+   "gapPct": 6.5,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 28,
+    "buy": 27,
     "hold": 4,
     "sell": 1
    }

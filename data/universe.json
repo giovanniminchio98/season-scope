@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-14T10:42:14.164Z",
+ "updatedAt": "2026-11-15T11:15:36.655Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -51,7 +51,7 @@
   {
    "t": "meta.us",
    "n": "Meta Platforms, Inc.",
-   "mktCap": 1640694153216
+   "mktCap": 1640314437632
   },
   {
    "t": "tsla.us",
@@ -206,7 +206,7 @@
   {
    "t": "csco.us",
    "n": "Cisco Systems, Inc.",
-   "mktCap": 377069010944
+   "mktCap": 376532795392
   },
   {
    "t": "unh.us",
@@ -266,7 +266,7 @@
   {
    "t": "hsbc.us",
    "n": "HSBC Holdings plc",
-   "mktCap": 306371100672
+   "mktCap": 306353176576
   },
   {
    "t": "nvsef.us",
@@ -291,7 +291,7 @@
   {
    "t": "hbcyf.us",
    "n": "HSBC Holdings plc",
-   "mktCap": 295363346432
+   "mktCap": 295346077696
   },
   {
    "t": "amat.us",
@@ -309,19 +309,19 @@
    "mktCap": 282212696064
   },
   {
-   "t": "shel.us",
-   "n": "Shell plc",
-   "mktCap": 280164270080
-  },
-  {
    "t": "ry.us",
    "n": "Royal Bank of Canada",
    "mktCap": 280083988480
   },
   {
+   "t": "shel.us",
+   "n": "Shell plc",
+   "mktCap": 280064360448
+  },
+  {
    "t": "rydaf.us",
    "n": "Shell plc",
-   "mktCap": 278241443840
+   "mktCap": 278142255104
   },
   {
    "t": "txn.us",
@@ -371,7 +371,7 @@
   {
    "t": "panw.us",
    "n": "Palo Alto Networks, Inc.",
-   "mktCap": 263735115776
+   "mktCap": 263840972800
   },
   {
    "t": "nsrgf.us",
@@ -416,12 +416,7 @@
   {
    "t": "tm.us",
    "n": "Toyota Motor Corporation",
-   "mktCap": 250205306880
-  },
-  {
-   "t": "toyof.us",
-   "n": "Toyota Motor Corporation",
-   "mktCap": 249581076480
+   "mktCap": 249308872704
   },
   {
    "t": "anet.us",
@@ -429,14 +424,19 @@
    "mktCap": 249256640512
   },
   {
+   "t": "toyof.us",
+   "n": "Toyota Motor Corporation",
+   "mktCap": 248686870528
+  },
+  {
    "t": "mbfjf.us",
    "n": "Mitsubishi UFJ Financial Group, Inc.",
-   "mktCap": 246838935552
+   "mktCap": 246899884032
   },
   {
    "t": "mufg.us",
    "n": "Mitsubishi UFJ Financial Group, Inc.",
-   "mktCap": 245713354752
+   "mktCap": 245774024704
   },
   {
    "t": "lin.us",
