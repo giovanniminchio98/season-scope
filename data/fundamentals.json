@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-21T11:26:51.728Z",
+ "updatedAt": "2026-11-22T11:42:29.767Z",
  "source": "yahoo",
  "bySymbol": {
   "aapl.us": {
@@ -25,8 +25,8 @@
    "gapPct": 31.3,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 53,
-    "hold": 5,
+    "buy": 54,
+    "hold": 4,
     "sell": 0
    }
   },
@@ -48,9 +48,9 @@
    "mktCap": 3245615874048,
    "name": "Alphabet Inc.",
    "price": 264,
-   "fair": 388.43,
+   "fair": 389,
    "fairLabel": "analyst target",
-   "gapPct": 47.1,
+   "gapPct": 47.3,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 54,
@@ -163,7 +163,7 @@
    "fair": 564.67,
    "fairLabel": "analyst target",
    "gapPct": -0.9,
-   "ratingLabel": "buy",
+   "ratingLabel": "hold",
    "rec": {
     "buy": 1,
     "hold": 2,
@@ -199,16 +199,16 @@
    }
   },
   "wmt.us": {
-   "mktCap": 1018236174336,
+   "mktCap": 1015122821120,
    "name": "Walmart Inc.",
    "price": 127.95,
-   "fair": 135.76,
+   "fair": 135.9,
    "fairLabel": "analyst target",
-   "gapPct": 6.1,
-   "ratingLabel": "strong buy",
+   "gapPct": 6.2,
+   "ratingLabel": "buy",
    "rec": {
-    "buy": 39,
-    "hold": 4,
+    "buy": 38,
+    "hold": 5,
     "sell": 1
    }
   },
@@ -263,8 +263,8 @@
    "gapPct": 55,
    "ratingLabel": "strong buy",
    "rec": {
-    "buy": 47,
-    "hold": 7,
+    "buy": 48,
+    "hold": 6,
     "sell": 0
    }
   },
@@ -599,7 +599,7 @@
    "fair": 478.48,
    "fairLabel": "analyst target",
    "gapPct": 40.8,
-   "ratingLabel": "buy",
+   "ratingLabel": "strong buy",
    "rec": {
     "buy": 23,
     "hold": 3,
@@ -659,12 +659,12 @@
    }
   },
   "hbcyf.us": {
-   "mktCap": 276445659136,
+   "mktCap": 276429471744,
    "name": "HSBC Holdings plc",
    "price": 16.18
   },
   "hsbc.us": {
-   "mktCap": 273438572544,
+   "mktCap": 273422565376,
    "name": "HSBC Holdings plc",
    "price": 80.02,
    "fair": 103.02,
@@ -708,6 +708,11 @@
    "mktCap": 269486931968,
    "name": "Agricultural Bank of China Limited",
    "price": 0.77
+  },
+  "qh.us": {
+   "mktCap": 269367394304,
+   "name": "Quhuo Limited",
+   "price": 3.06
   },
   "cgxyy.us": {
    "mktCap": 264940552192,
@@ -902,12 +907,12 @@
    "mktCap": 235642683392,
    "name": "Amgen Inc.",
    "price": 435.64,
-   "fair": 437.01,
+   "fair": 440.78,
    "fairLabel": "analyst target",
-   "gapPct": 0.3,
+   "gapPct": 1.2,
    "ratingLabel": "hold",
    "rec": {
-    "buy": 11,
+    "buy": 12,
     "hold": 18,
     "sell": 5
    }
@@ -944,9 +949,9 @@
    "mktCap": 232951873536,
    "name": "Netflix, Inc.",
    "price": 56.73,
-   "fair": 84.76,
+   "fair": 84.55,
    "fairLabel": "analyst target",
-   "gapPct": 49.4,
+   "gapPct": 49,
    "ratingLabel": "buy",
    "rec": {
     "buy": 33,
@@ -1005,14 +1010,14 @@
    "mktCap": 228062347264,
    "name": "The Goldman Sachs Group, Inc.",
    "price": 790.69,
-   "fair": 1031.57,
+   "fair": 1030.71,
    "fairLabel": "analyst target",
-   "gapPct": 30.5,
+   "gapPct": 30.4,
    "ratingLabel": "buy",
    "rec": {
     "buy": 9,
-    "hold": 15,
-    "sell": 2
+    "hold": 16,
+    "sell": 1
    }
   },
   "ibm.us": {
@@ -1269,20 +1274,6 @@
    "mktCap": 185373982720,
    "name": "Allianz SE",
    "price": 495.66
-  },
-  "gev.us": {
-   "mktCap": 185096617984,
-   "name": "GE Vernova Inc.",
-   "price": 699.33,
-   "fair": 1167.13,
-   "fairLabel": "analyst target",
-   "gapPct": 66.9,
-   "ratingLabel": "strong buy",
-   "rec": {
-    "buy": 32,
-    "hold": 5,
-    "sell": 0
-   }
   }
  }
 }

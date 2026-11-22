@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-21T11:26:51.729Z",
+ "updatedAt": "2026-11-22T11:42:29.768Z",
  "source": "yahoo-screener",
  "ranked": true,
  "stocks": [
@@ -76,7 +76,7 @@
   {
    "t": "wmt.us",
    "n": "Walmart Inc.",
-   "mktCap": 1018236174336
+   "mktCap": 1015122821120
   },
   {
    "t": "jpm.us",
@@ -276,12 +276,12 @@
   {
    "t": "hbcyf.us",
    "n": "HSBC Holdings plc",
-   "mktCap": 276445659136
+   "mktCap": 276429471744
   },
   {
    "t": "hsbc.us",
    "n": "HSBC Holdings plc",
-   "mktCap": 273438572544
+   "mktCap": 273422565376
   },
   {
    "t": "intc.us",
@@ -297,6 +297,11 @@
    "t": "acgbf.us",
    "n": "Agricultural Bank of China Limited",
    "mktCap": 269486931968
+  },
+  {
+   "t": "qh.us",
+   "n": "Quhuo Limited",
+   "mktCap": 269367394304
   },
   {
    "t": "cgxyy.us",
@@ -497,11 +502,6 @@
    "t": "dis.us",
    "n": "The Walt Disney Company",
    "mktCap": 201513353216
-  },
-  {
-   "t": "ctatf.us",
-   "n": "Contemporary Amperex Technology Co., Limited",
-   "mktCap": 199573291008
   }
  ]
 }
