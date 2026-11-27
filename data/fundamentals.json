@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-11-26T12:54:20.953Z",
+ "updatedAt": "2026-11-27T12:47:54.848Z",
  "source": "yahoo",
  "bySymbol": {
   "aapl.us": {
@@ -327,12 +327,12 @@
    "mktCap": 520527642624,
    "name": "AbbVie Inc.",
    "price": 294.48,
-   "fair": 315.88,
+   "fair": 317.15,
    "fairLabel": "analyst target",
-   "gapPct": 7.3,
+   "gapPct": 7.7,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 23,
+    "buy": 24,
     "hold": 5,
     "sell": 1
    }
@@ -341,9 +341,9 @@
    "mktCap": 502230122496,
    "name": "ASML Holding N.V.",
    "price": 1303.08,
-   "fair": 2112.64,
+   "fair": 2135,
    "fairLabel": "analyst target",
-   "gapPct": 62.1,
+   "gapPct": 63.8,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -455,9 +455,9 @@
    "mktCap": 392690925568,
    "name": "Tencent Holdings Limited",
    "price": 43.61,
-   "fair": 83.97,
+   "fair": 84.07,
    "fairLabel": "analyst target",
-   "gapPct": 92.5,
+   "gapPct": 92.8,
    "ratingLabel": "buy",
    "rec": {
     "buy": 4,
@@ -483,7 +483,7 @@
    "mktCap": 384049119232,
    "name": "Roche Holding AG",
    "price": 482.01,
-   "fair": 497.41,
+   "fair": 497.42,
    "fairLabel": "analyst target",
    "gapPct": 3.2,
    "rec": {
@@ -691,7 +691,7 @@
    "price": 3.23
   },
   "hsbc.us": {
-   "mktCap": 279504781312,
+   "mktCap": 279501537280,
    "name": "HSBC Holdings plc",
    "price": 81.81,
    "fair": 103.02,
@@ -704,7 +704,7 @@
    }
   },
   "hbcyf.us": {
-   "mktCap": 274345869312,
+   "mktCap": 274342658048,
    "name": "HSBC Holdings plc",
    "price": 16.06
   },
@@ -733,7 +733,7 @@
    "price": 0.77
   },
   "shel.us": {
-   "mktCap": 265290874880,
+   "mktCap": 265191374848,
    "name": "Shell plc",
    "price": 94.13,
    "fair": 110.81,
@@ -766,7 +766,7 @@
    }
   },
   "rydaf.us": {
-   "mktCap": 262895288320,
+   "mktCap": 262796689408,
    "name": "Shell plc",
    "price": 46.64
   },
@@ -779,7 +779,7 @@
    "mktCap": 262238699520,
    "name": "Royal Bank of Canada",
    "price": 189.42,
-   "fair": 207.82,
+   "fair": 207.72,
    "fairLabel": "analyst target",
    "gapPct": 9.7,
    "ratingLabel": "buy",
@@ -862,7 +862,6 @@
    "fair": 238.08,
    "fairLabel": "analyst target",
    "gapPct": 10.3,
-   "ratingLabel": "buy",
    "rec": {
     "buy": 2,
     "hold": 2,
@@ -892,9 +891,9 @@
    "mktCap": 246951641088,
    "name": "Applied Materials, Inc.",
    "price": 311.18,
-   "fair": 556.06,
+   "fair": 557.37,
    "fairLabel": "analyst target",
-   "gapPct": 78.7,
+   "gapPct": 79.1,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 33,
@@ -911,8 +910,8 @@
    "gapPct": 25.7,
    "ratingLabel": "buy",
    "rec": {
-    "buy": 21,
-    "hold": 12,
+    "buy": 22,
+    "hold": 11,
     "sell": 2
    }
   },
@@ -967,9 +966,9 @@
    "mktCap": 240839933952,
    "name": "Linde plc",
    "price": 524.61,
-   "fair": 555.15,
+   "fair": 555.89,
    "fairLabel": "analyst target",
-   "gapPct": 5.8,
+   "gapPct": 6,
    "ratingLabel": "buy",
    "rec": {
     "buy": 24,
@@ -1065,9 +1064,9 @@
    "mktCap": 214592897024,
    "name": "Alibaba Group Holding Limited",
    "price": 86.26,
-   "fair": 157.9,
+   "fair": 158.08,
    "fairLabel": "analyst target",
-   "gapPct": 83.1,
+   "gapPct": 83.3,
    "ratingLabel": "strong buy",
    "rec": {
     "buy": 38,
@@ -1122,9 +1121,9 @@
    "mktCap": 211549945856,
    "name": "Siemens Aktiengesellschaft",
    "price": 138.41,
-   "fair": 181.1,
+   "fair": 178.35,
    "fairLabel": "analyst target",
-   "gapPct": 30.8,
+   "gapPct": 28.9,
    "ratingLabel": "buy",
    "rec": {
     "buy": 3,
@@ -1233,9 +1232,9 @@
    "mktCap": 189527916544,
    "name": "The Toronto-Dominion Bank",
    "price": 116.06,
-   "fair": 119.37,
+   "fair": 119.29,
    "fairLabel": "analyst target",
-   "gapPct": 2.9,
+   "gapPct": 2.8,
    "ratingLabel": "buy",
    "rec": {
     "buy": 8,
